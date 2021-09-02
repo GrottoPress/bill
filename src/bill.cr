@@ -1,0 +1,10 @@
+require "lucille"
+
+require "./bill/version"
+require "./config"
+require "./charms"
+require "./bill/operations/mixins/**"
+require "./bill/queries/mixins/**"
+require "./bill/models/mixins/**"
+require "./bill/utilities/mixins/**"
+require "./bill/**"

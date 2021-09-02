@@ -1,0 +1,34 @@
+{% skip_file unless Avram::Model.all_subclasses
+  .map(&.stringify)
+  .includes?("Invoice")
+%}
+
+include Bill::InvoiceStatus
+
+class User < BaseModel
+  include Bill::HasManyInvoices
+end
+
+class InvoiceQuery < Invoice::BaseQuery
+  include Bill::InvoiceQuery
+end
+
+class CreateInvoice < Invoice::SaveOperation
+  include Bill::CreateInvoice
+end
+
+class UpdateInvoice < Invoice::SaveOperation
+  include Bill::UpdateInvoice
+end
+
+class UpdateInvoiceStatus < Invoice::SaveOperation
+  include Bill::UpdateInvoiceStatus
+end
+
+class DeleteInvoice < Invoice::DeleteOperation
+  include Bill::DeleteInvoice
+end
+
+struct InvoiceState
+  include Bill::InvoiceState
+end

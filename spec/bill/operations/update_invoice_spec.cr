@@ -1,0 +1,113 @@
+require "../../spec_helper"
+
+describe Bill::UpdateInvoice do
+  it "updates invoice" do
+    user = UserFactory.create
+
+    invoice = InvoiceFactory.create &.user_id(user.id)
+      .description("New invoice")
+      .due_at(2.days.from_now.to_utc)
+      .notes("A note")
+
+    invoice_item = InvoiceItemFactory.create &.invoice_id(invoice.id).price(9)
+    invoice_item_2 = InvoiceItemFactory.create &.invoice_id(invoice.id).price(6)
+
+    new_user = UserFactory.create &.email("some@one.now")
+    new_description = "Another invoice"
+    new_due_at = 10.days.from_now.to_utc
+    new_notes = "Another note"
+
+    UpdateInvoice.update(
+      invoice,
+      params(
+        user_id: new_user.id,
+        description: new_description,
+        due_at: new_due_at,
+        notes: new_notes
+      ),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
+      operation.saved?.should be_true
+
+      updated_invoice.user_id.should eq(new_user.id)
+      updated_invoice.description.should eq(new_description)
+      updated_invoice.due_at.should eq(new_due_at.at_beginning_of_second)
+      updated_invoice.notes.should eq(new_notes)
+    end
+  end
+
+  it "updates invoice with line items" do
+    user = UserFactory.create
+
+    invoice = InvoiceFactory.create &.user_id(user.id)
+      .description("New invoice")
+      .due_at(2.days.from_now.to_utc)
+      .notes("A note")
+
+    invoice_item = InvoiceItemFactory.create &.invoice_id(invoice.id).price(9)
+    invoice_item_2 = InvoiceItemFactory.create &.invoice_id(invoice.id).price(6)
+
+    new_user = UserFactory.create &.email("some@one.now")
+    new_description = "Another invoice"
+    new_due_at = 10.days.from_now.to_utc
+    new_notes = "Another note"
+
+    UpdateInvoice.update(
+      invoice,
+      params(
+        user_id: new_user.id,
+        description: new_description,
+        due_at: new_due_at,
+        notes: new_notes
+      ),
+      line_items: [
+        {"id" => invoice_item.id.to_s, "price" => "12"},
+        {"id" => invoice_item_2.id.to_s, "delete" => ""},
+        {"description" => "Item 3", "quantity" => "2", "price" => "8"},
+        {"description" => "Item 4", "quantity" => "2", "price" => "6"}
+      ]
+    ) do |operation, updated_invoice|
+      operation.saved?.should be_true
+
+      updated_invoice.user_id.should eq(new_user.id)
+      updated_invoice.description.should eq(new_description)
+      updated_invoice.due_at.should eq(new_due_at.at_beginning_of_second)
+      updated_invoice.notes.should eq(new_notes)
+
+      invoice_items = updated_invoice.line_items!
+      invoice_items.size.should eq(3)
+      invoice_items[0].price.should eq(12)
+    end
+  end
+
+  it "does not update invoice status" do
+    status = InvoiceStatus.new(:draft)
+
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(status)
+
+    UpdateInvoice.update(
+      invoice,
+      params(status: :open),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
+      operation.saved?.should be_true
+      updated_invoice.status.should eq(status)
+    end
+  end
+
+  it "prevents modifying finalized invoices" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    UpdateInvoice.update(
+      invoice,
+      params(description: "Another invoice"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
+      operation.saved?.should be_false
+
+      assert_invalid(operation.id, "finalized")
+    end
+  end
+end
