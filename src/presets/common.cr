@@ -17,7 +17,3 @@ end
 struct FractionalMoney
   include Bill::FractionalMoney
 end
-
-struct UserCashAccount
-  include Bill::UserCashAccount
-end

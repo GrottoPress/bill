@@ -8,7 +8,7 @@ Find the complete documentation in the `docs/` directory of this repository.
 
 ## Todo
 
-- [ ] Ledger
+- [x] Ledger
 - [x] Invoices
 - [ ] Taxes
 - [ ] Discounts

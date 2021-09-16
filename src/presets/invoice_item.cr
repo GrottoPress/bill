@@ -3,10 +3,6 @@
   .includes?("InvoiceItem")
 %}
 
-class User < BaseModel
-  include Bill::UserInvoicesAccount
-end
-
 class Invoice < BaseModel
   include Bill::HasManyInvoiceItems
 end
@@ -37,8 +33,4 @@ end
 
 class DeleteInvoiceItem < InvoiceItem::DeleteOperation
   include Bill::DeleteInvoiceItem
-end
-
-struct UserCashAccount
-  include Bill::InvoicesCashAccount
 end
