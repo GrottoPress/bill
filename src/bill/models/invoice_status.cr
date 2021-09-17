@@ -27,12 +27,7 @@ module Bill::InvoiceStatus
     end
 
     struct InvoiceStatus
-      def self.now_finalized?(status : Avram::Attribute)
-        status.value.try do |value|
-          return false unless value.finalized?
-          !status.original_value || !status.original_value.try &.finalized?
-        end
-      end
+      extend Bill::StatusHelpers
     end
   end
 end

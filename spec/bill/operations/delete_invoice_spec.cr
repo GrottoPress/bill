@@ -11,17 +11,4 @@ describe Bill::DeleteInvoice do
 
     InvoiceQuery.new.id(invoice.id).any?.should be_false
   end
-
-  it "does not delete a finalized invoice" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
-
-    DeleteInvoice.delete(invoice) do |operation, _|
-      operation.deleted?.should be_false
-
-      assert_invalid(operation.id, "finalized")
-    end
-
-    InvoiceQuery.new.id(invoice.id).any?.should be_true
-  end
 end

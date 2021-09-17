@@ -1,8 +1,8 @@
 module Bill::ValidateInvoiceItem
   macro included
-    before_save do
-      set_default_quantity
+    include Bill::SetDefaultQuantity
 
+    before_save do
       validate_invoice_id_required
       validate_description_required
       validate_price_required
@@ -47,11 +47,6 @@ module Bill::ValidateInvoiceItem
     private def validate_invoice_exists
       return unless invoice_id.changed?
       validate_primary_key(invoice_id, query: InvoiceQuery)
-    end
-
-    private def set_default_quantity
-      return if quantity.value
-      quantity.value = 1
     end
   end
 end

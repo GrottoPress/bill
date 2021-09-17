@@ -40,5 +40,13 @@ module Bill::Invoice
     def amount_fm!
       FractionalMoney.new(amount!)
     end
+
+    def net_amount : Int32
+      amount
+    end
+
+    def net_amount! : Int32
+      amount!
+    end
   end
 end

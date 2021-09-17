@@ -5,7 +5,7 @@ module Bill::ValidateHasLineItems
     end
 
     private def validate_has_line_items
-      return unless InvoiceStatus.now_finalized?(status)
+      return unless {{ T }}Status.now_finalized?(status)
 
       unless record
         return unless responds_to?(:line_items_to_create) &&

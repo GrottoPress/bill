@@ -12,7 +12,7 @@ Find the complete documentation in the `docs/` directory of this repository.
 - [x] Invoices
 - [ ] Taxes
 - [ ] Discounts
-- [ ] Credit Notes
+- [x] Credit Notes
 - [ ] Receipts
 - [ ] Businesses
 

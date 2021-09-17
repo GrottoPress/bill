@@ -46,3 +46,24 @@ end
     include Bill::InvoicesLedger
   end
 {% end %}
+
+{% if Avram::Model.all_subclasses
+  .map(&.stringify)
+  .includes?("CreditNoteItem") %}
+
+  class User < BaseModel
+    include Bill::CreditNotesAmount
+  end
+
+  class CreateCreditNote < CreditNote::SaveOperation
+    include Bill::CreateFinalizedCreditNoteTransaction
+  end
+
+  class UpdateCreditNoteStatus < CreditNote::SaveOperation
+    include Bill::CreateFinalizedCreditNoteTransaction
+  end
+
+  struct Ledger
+    include Bill::CreditNotesLedger
+  end
+{% end %}

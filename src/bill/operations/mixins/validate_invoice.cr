@@ -5,10 +5,10 @@ module Bill::ValidateInvoice
       validate_due_at_required
       validate_status_required
       validate_user_id_required
-
-      validate_status_transition
       validate_user_exists
     end
+
+    include Bill::ValidateStatusTransition
 
     private def validate_description_required
       validate_required description
@@ -24,17 +24,6 @@ module Bill::ValidateInvoice
 
     private def validate_user_id_required
       validate_required user_id
-    end
-
-    private def validate_status_transition
-      return unless status.changed?
-      return unless value = status.value
-
-      status.original_value.try do |original_value|
-        unless InvoiceState.new(original_value).transition(value)
-          status.add_error("change to '#{value}' not allowed")
-        end
-      end
     end
 
     private def validate_user_exists
