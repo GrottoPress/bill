@@ -11,3 +11,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add transactions ledger
 - Add invoices
 - Add credit notes
+- Add receipts

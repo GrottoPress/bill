@@ -106,6 +106,19 @@ The ledger is immutable -- once transactions are recorded, they are never update
    end
    ```
 
+   ---
+   ```crystal
+   # ->>> src/operations/receive_direct_payment.cr
+
+   class ReceiveDirectPayment < Transaction::SaveOperation
+     # ...
+     include Bill::SendDirectReceiptEmail
+     # ...
+   end
+   ```
+
+   This operation allows you to receive payments directly as a recorded transaction, without setting up a `Receipt` model. It does not exist if `Receipt` model is set up.
+
 1. Set up actions:
 
    *Bill* records transactions **automaticalyy** whenever any business event occurs (eg: invoice issued or payment received). This reduces the possibility of errors.

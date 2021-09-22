@@ -67,3 +67,29 @@ end
     include Bill::CreditNotesLedger
   end
 {% end %}
+
+{% if Avram::Model.all_subclasses.map(&.stringify).includes?("Receipt") %}
+  class User < BaseModel
+    include Bill::ReceiptsAmount
+  end
+
+  class ReceivePayment < Receipt::SaveOperation
+    include Bill::CreateFinalizedReceiptTransaction
+  end
+
+  class RefundPayment < Transaction::SaveOperation
+    include Bill::RefundPayment
+  end
+
+  class UpdateReceiptStatus < Receipt::SaveOperation
+    include Bill::CreateFinalizedReceiptTransaction
+  end
+
+  struct Ledger
+    include Bill::ReceiptsLedger
+  end
+{% else %}
+  class ReceiveDirectPayment < Transaction::SaveOperation
+    include Bill::ReceiveDirectPayment
+  end
+{% end %}
