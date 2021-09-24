@@ -1,7 +1,12 @@
 require "../../../spec_helper"
 
 private class SaveReceipt < Receipt::SaveOperation
-  permit_columns :user_id, :amount, :description, :status
+  permit_columns :user_id,
+    :amount,
+    :business_details,
+    :description,
+    :status,
+    :user_details
 
   include Bill::SendFinalizedReceiptEmail
 end
@@ -10,9 +15,11 @@ describe Bill::SendFinalizedReceiptEmail do
   it "sends email for new receipts" do
     SaveReceipt.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       description: "New receipt",
       amount: 29,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_a(Receipt)
 

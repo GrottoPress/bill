@@ -21,9 +21,11 @@ See <https://en.wikipedia.org/wiki/Receipt>
    `Bill::Receipt` adds the following columns:
 
    - `amount : Int32`
+   - `business_details : String`
    - `description : String`
    - `notes : String?`
    - `status : ReceiptStatus` (enum)
+   - `user_details : String`
 
    You may add other columns and associations specific to your application.
 
@@ -37,6 +39,8 @@ See <https://en.wikipedia.org/wiki/Receipt>
      # ...
    end
    ```
+
+   Receipts require `#full_name : String` and `#full_address : String` defined on the `User` model. You may add these as database columns, or as regular methods.
 
 1. Set up migrations:
 
@@ -53,9 +57,11 @@ See <https://en.wikipedia.org/wiki/Receipt>
          add_belongs_to user : User, on_delete: :cascade
 
          add amount : Int32
+         add business_details : String
          add description : String
          add notes : String?
          add status : String
+         add user_details : String
          # ...
        end
      end

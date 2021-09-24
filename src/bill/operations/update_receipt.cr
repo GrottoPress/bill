@@ -4,6 +4,8 @@ module Bill::UpdateReceipt
 
     include Bill::SetAmountFromMu
     include Bill::SetFinalizedCreatedAt
+    include Bill::SetBusinessDetails
+    include Bill::SetUserDetails
     include Bill::ValidateReceipt
     include Bill::ValidateNotFinalized
   end

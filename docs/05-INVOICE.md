@@ -33,9 +33,11 @@ See <https://en.wikipedia.org/wiki/Invoice>
    `Bill::Invoice` adds the following columns:
 
    - `description : String`
+   - `business_details : String`
    - `due_at : Time`
    - `notes : String?`
    - `status : InvoiceStatus` (enum)
+   - `user_details : String`
 
    You may add other columns and associations specific to your application.
 
@@ -49,6 +51,8 @@ See <https://en.wikipedia.org/wiki/Invoice>
      # ...
    end
    ```
+
+   Invoices require `#full_name : String` and `#full_address : String` defined on the `User` model. You may add these as database columns, or as regular methods.
 
 1. Set up migrations:
 
@@ -64,10 +68,12 @@ See <https://en.wikipedia.org/wiki/Invoice>
          add_timestamps
          add_belongs_to user : User, on_delete: :cascade
 
+         add business_details : String
          add description : String
          add due_at : Time
          add notes : String?
          add status : String
+         add user_details : String
          # ...
        end
      end

@@ -8,6 +8,22 @@ module Bill::CreditNote
 
     delegate :draft?, :open?, :finalized?, to: status
 
+    def user_details
+      invoice.user_details
+    end
+
+    def user_details!
+      invoice!.user_details
+    end
+
+    def business_details
+      invoice.business_details
+    end
+
+    def business_details!
+      invoice!.business_details
+    end
+
     def amount : Int32
       0
     end

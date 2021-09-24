@@ -1,14 +1,24 @@
 require "../../../spec_helper"
 
 private class SpecCreateInvoice < Invoice::SaveOperation
-  permit_columns :user_id, :description, :due_at, :status
+  permit_columns :user_id,
+    :business_details,
+    :description,
+    :due_at,
+    :status,
+    :user_details
 
   include Bill::CreateInvoiceLineItems
   include Bill::CreateFinalizedInvoiceTransaction
 end
 
 private class SpecUpdateInvoice < Invoice::SaveOperation
-  permit_columns :user_id, :description, :due_at, :status
+  permit_columns :user_id,
+    :business_details,
+    :description,
+    :due_at,
+    :status,
+    :user_details
 
   include Bill::CreateFinalizedInvoiceTransaction
 end
@@ -20,9 +30,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     SpecCreateInvoice.create(
       params(
         user_id: user.id,
+        business_details: "ACME Inc",
         description: "New invoice",
         due_at: 3.days.from_now.to_utc,
-        status: :paid
+        status: :paid,
+        user_details: "Mary Smith"
       ),
       line_items: [{
         "description" => "Item 1",

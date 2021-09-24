@@ -1,7 +1,12 @@
 require "../../../spec_helper"
 
 private class SaveInvoice < Invoice::SaveOperation
-  permit_columns :user_id, :description, :due_at, :status
+  permit_columns :user_id,
+    :business_details,
+    :description,
+    :due_at,
+    :status,
+    :user_details
 
   include Bill::ValidateNotFinalized
 end

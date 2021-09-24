@@ -2,10 +2,12 @@ module Bill::Invoice
   macro included
     include Bill::BelongsToUser
 
+    column business_details : String
     column description : String
     column due_at : Time
     column notes : String?
     column status : InvoiceStatus
+    column user_details : String
 
     delegate :draft?, :open?, :paid?, :finalized?, to: status
 

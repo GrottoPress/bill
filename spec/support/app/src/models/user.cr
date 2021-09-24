@@ -10,6 +10,17 @@ class User < BaseModel
     column email : String
   end
 
+  def full_name
+    "User ##{id}"
+  end
+
+  def full_address
+    <<-TEXT
+    No #{id} Street,
+    Ghana.
+    TEXT
+  end
+
   def emailable : Carbon::Address
     Carbon::Address.new(email)
   end

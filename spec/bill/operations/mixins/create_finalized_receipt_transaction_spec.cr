@@ -1,13 +1,23 @@
 require "../../../spec_helper"
 
 private class SpecCreateReceipt < Receipt::SaveOperation
-  permit_columns :user_id, :amount, :description, :status
+  permit_columns :user_id,
+    :amount,
+    :business_details,
+    :description,
+    :status,
+    :user_details
 
   include Bill::CreateFinalizedReceiptTransaction
 end
 
 private class SpecUpdateReceipt < Receipt::SaveOperation
-  permit_columns :user_id, :amount, :description, :status
+  permit_columns :user_id,
+    :amount,
+    :business_details,
+    :description,
+    :status,
+    :user_details
 
   include Bill::CreateFinalizedReceiptTransaction
 end
@@ -18,9 +28,11 @@ describe Bill::CreateFinalizedReceiptTransaction do
 
     SpecCreateReceipt.create(params(
       user_id: user.id,
+      business_details: "ACME Inc",
       description: "New receipt",
       amount: 65,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith",
     )) do |_, receipt|
       receipt.should be_a(Receipt)
     end

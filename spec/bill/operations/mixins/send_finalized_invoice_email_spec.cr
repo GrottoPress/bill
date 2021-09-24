@@ -1,7 +1,12 @@
 require "../../../spec_helper"
 
 private class SaveInvoice < Invoice::SaveOperation
-  permit_columns :user_id, :description, :due_at, :status
+  permit_columns :user_id,
+    :business_details,
+    :description,
+    :due_at,
+    :status,
+    :user_details
 
   include Bill::SendFinalizedInvoiceEmail
 end
@@ -10,9 +15,11 @@ describe Bill::SendFinalizedInvoiceEmail do
   it "sends email for new invoices" do
     SaveInvoice.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       description: "New Invoice",
       due_at: 2.days.from_now,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, invoice|
       invoice.should be_a(Invoice)
 

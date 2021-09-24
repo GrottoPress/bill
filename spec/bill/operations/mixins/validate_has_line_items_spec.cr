@@ -1,7 +1,12 @@
 require "../../../spec_helper"
 
 private class SaveInvoice < Invoice::SaveOperation
-  permit_columns :user_id, :description, :due_at, :status
+  permit_columns :user_id,
+    :business_details,
+    :description,
+    :due_at,
+    :status,
+    :user_details
 
   include Bill::NeedsLineItems
   include Bill::ValidateHasLineItems
@@ -12,6 +17,7 @@ describe Bill::ValidateHasLineItems do
     SaveInvoice.create(
       params(
         user_id: UserFactory.create.id,
+        business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
         status: :open
@@ -56,9 +62,11 @@ describe Bill::ValidateHasLineItems do
     SaveInvoice.create(
       params(
         user_id: UserFactory.create.id,
+        business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
-        status: :draft
+        status: :draft,
+        user_details: "Mary Smith"
       ),
       line_items: Array(Hash(String, String)).new
     ) do |operation, invoice|

@@ -1,7 +1,12 @@
 require "../../../spec_helper"
 
 private class SaveReceipt < Receipt::SaveOperation
-  permit_columns :user_id, :amount, :description, :status
+  permit_columns :user_id,
+    :amount,
+    :business_details,
+    :description,
+    :status,
+    :user_details
 
   include Bill::ValidateReceipt
 end
@@ -9,9 +14,11 @@ end
 describe Bill::ValidateReceipt do
   it "requires user id" do
     SaveReceipt.create(params(
+      business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 
@@ -22,8 +29,10 @@ describe Bill::ValidateReceipt do
   it "requires description" do
     SaveReceipt.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       amount: 90,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 
@@ -34,8 +43,10 @@ describe Bill::ValidateReceipt do
   it "requires amount" do
     SaveReceipt.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       description: "New receipt",
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 
@@ -46,9 +57,11 @@ describe Bill::ValidateReceipt do
   it "ensures amount is greater than zero" do
     SaveReceipt.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       description: "New receipt",
       amount: 0,
       status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 
@@ -59,8 +72,10 @@ describe Bill::ValidateReceipt do
   it "requires status" do
     SaveReceipt.create(params(
       user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
       description: "New receipt",
-      amount: 90
+      amount: 90,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 
@@ -68,12 +83,42 @@ describe Bill::ValidateReceipt do
     end
   end
 
+  it "requires business details" do
+    SaveReceipt.create(params(
+      user_id: UserFactory.create.id,
+      description: "New receipt",
+      amount: 90,
+      status: :open,
+      user_details: "Mary Smith"
+    )) do |operation, receipt|
+      receipt.should be_nil
+
+      assert_invalid(operation.business_details, " required")
+    end
+  end
+
+  it "requires user details" do
+    SaveReceipt.create(params(
+      user_id: UserFactory.create.id,
+      business_details: "ACME Inc",
+      description: "New receipt",
+      amount: 90,
+      status: :draft
+    )) do |operation, receipt|
+      receipt.should be_nil
+
+      assert_invalid(operation.user_details, " required")
+    end
+  end
+
   it "requires existing user" do
     SaveReceipt.create(params(
       user_id: 2_i64,
+      business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
-      status: :open
+      status: :open,
+      user_details: "Mary Smith"
     )) do |operation, receipt|
       receipt.should be_nil
 

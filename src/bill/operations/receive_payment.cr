@@ -4,6 +4,8 @@ module Bill::ReceivePayment
 
     include Bill::SetDefaultStatus
     include Bill::SetAmountFromMu
+    include Bill::SetBusinessDetails
+    include Bill::SetUserDetails
     include Bill::ValidateReceipt
   end
 end

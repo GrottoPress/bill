@@ -3,6 +3,8 @@ module Bill::CreateInvoice
     permit_columns :user_id, :description, :due_at, :notes, :status
 
     include Bill::SetDefaultStatus
+    include Bill::SetBusinessDetails
+    include Bill::SetUserDetails
     include Bill::ValidateInvoice
   end
 end
