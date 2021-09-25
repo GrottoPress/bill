@@ -93,26 +93,6 @@ describe Bill::ValidateCreditNoteItem do
     end
   end
 
-  it "ensures credit note is not finalized" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id)
-
-    credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
-      .status(:open)
-
-    credit_note_item =
-      CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
-
-    SaveCreditNoteItem.update(
-      CreditNoteItemQuery.preload_credit_note(credit_note_item),
-      params(description: "Another credit note item")
-    ) do |operation, _|
-      operation.saved?.should be_false
-
-      assert_invalid(operation.credit_note_id, "finalized")
-    end
-  end
-
   it "ensures total credit would not exceed invoice amount" do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)

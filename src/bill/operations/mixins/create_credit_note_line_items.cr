@@ -7,11 +7,9 @@ module Bill::CreateCreditNoteLineItems
 
     private def create_line_items(credit_note : Bill::CreditNote)
       line_items_to_create.each do |line_item|
-        line_item["credit_note_id"] = credit_note.id.to_s
-
-        CreateCreditNoteItem.create!(
+        CreateCreditNoteItemForParent.create!(
           Avram::Params.new(line_item),
-          credit_note_id: credit_note.id
+          parent: self
         )
       end
     end

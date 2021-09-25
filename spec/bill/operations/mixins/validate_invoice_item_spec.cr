@@ -88,19 +88,4 @@ describe Bill::ValidateInvoiceItem do
       assert_invalid(operation.quantity, "greater than")
     end
   end
-
-  it "ensures invoice is not finalized" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:paid)
-    invoice_item = InvoiceItemFactory.create &.invoice_id(invoice.id)
-
-    SaveInvoiceItem.update(
-      InvoiceItemQuery.preload_invoice(invoice_item),
-      params(description: "New invoice item")
-    ) do |operation, _|
-      operation.saved?.should be_false
-
-      assert_invalid(operation.invoice_id, "finalized")
-    end
-  end
 end

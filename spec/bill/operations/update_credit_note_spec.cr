@@ -45,6 +45,7 @@ describe Bill::UpdateCreditNote do
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .description("New credit note")
       .notes("A note")
+      .status(:draft)
 
     credit_note_item =
       CreditNoteItemFactory.create &.credit_note_id(credit_note.id).price(9)
@@ -57,13 +58,15 @@ describe Bill::UpdateCreditNote do
 
     new_description = "Another credit note"
     new_notes = "Another note"
+    new_status = CreditNoteStatus.new(:open)
 
     UpdateCreditNote.update(
-      credit_note,
+      CreditNoteQuery.preload_line_items(credit_note),
       params(
         invoice_id: new_invoice.id,
         description: new_description,
-        notes: new_notes
+        notes: new_notes,
+        status: new_status
       ),
       line_items: [
         {"id" => credit_note_item.id.to_s, "price" => "12"},
@@ -77,6 +80,7 @@ describe Bill::UpdateCreditNote do
       updated_credit_note.invoice_id.should eq(new_invoice.id)
       updated_credit_note.description.should eq(new_description)
       updated_credit_note.notes.should eq(new_notes)
+      updated_credit_note.status.should eq(new_status)
 
       credit_note_items = updated_credit_note.line_items!
       credit_note_items.size.should eq(3)

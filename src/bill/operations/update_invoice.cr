@@ -1,8 +1,8 @@
 module Bill::UpdateInvoice
   macro included
-    permit_columns :user_id, :description, :due_at, :notes
+    permit_columns :user_id, :description, :due_at, :notes, :status
 
-    include Bill::RevertStatus
+    include Bill::SetFinalizedCreatedAt
     include Bill::SetBusinessDetails
     include Bill::SetUserDetails
     include Bill::ValidateInvoice

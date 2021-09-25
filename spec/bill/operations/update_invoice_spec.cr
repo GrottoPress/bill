@@ -43,6 +43,7 @@ describe Bill::UpdateInvoice do
       .description("New invoice")
       .due_at(2.days.from_now.to_utc)
       .notes("A note")
+      .status(:draft)
 
     invoice_item = InvoiceItemFactory.create &.invoice_id(invoice.id).price(9)
     invoice_item_2 = InvoiceItemFactory.create &.invoice_id(invoice.id).price(6)
@@ -51,14 +52,16 @@ describe Bill::UpdateInvoice do
     new_description = "Another invoice"
     new_due_at = 10.days.from_now.to_utc
     new_notes = "Another note"
+    new_status = InvoiceStatus.new(:open)
 
     UpdateInvoice.update(
-      invoice,
+      InvoiceQuery.preload_line_items(invoice),
       params(
         user_id: new_user.id,
         description: new_description,
         due_at: new_due_at,
-        notes: new_notes
+        notes: new_notes,
+        status: new_status
       ),
       line_items: [
         {"id" => invoice_item.id.to_s, "price" => "12"},
@@ -73,6 +76,7 @@ describe Bill::UpdateInvoice do
       updated_invoice.description.should eq(new_description)
       updated_invoice.due_at.should eq(new_due_at.at_beginning_of_second)
       updated_invoice.notes.should eq(new_notes)
+      updated_invoice.status.should eq(new_status)
 
       invoice_items = updated_invoice.line_items!
       invoice_items.size.should eq(3)

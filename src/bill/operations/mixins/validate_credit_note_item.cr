@@ -13,7 +13,6 @@ module Bill::ValidateCreditNoteItem
 
       validate_price_gt_zero
       validate_quantity_gt_zero
-      validate_not_finalized
 
       validate_credit_note_exists
       validate_credit_lte_invoice
@@ -40,13 +39,6 @@ module Bill::ValidateCreditNoteItem
     private def validate_quantity_gt_zero
       quantity.value.try do |value|
         quantity.add_error("must be greater than zero") if value <= 0
-      end
-    end
-
-    private def validate_not_finalized
-      record.try do |credit_note_item|
-        return unless credit_note_item.credit_note.finalized?
-        credit_note_id.add_error("is finalized")
       end
     end
 

@@ -27,10 +27,22 @@ class CreateInvoiceItem < InvoiceItem::SaveOperation
   include Bill::CreateInvoiceItem
 end
 
+class CreateInvoiceItemForParent < InvoiceItem::SaveOperation
+  include Bill::CreateInvoiceItemForParent
+end
+
 class UpdateInvoiceItem < InvoiceItem::SaveOperation
   include Bill::UpdateInvoiceItem
 end
 
+class UpdateInvoiceItemForParent < InvoiceItem::SaveOperation
+  include Bill::UpdateInvoiceItemForParent
+end
+
 class DeleteInvoiceItem < InvoiceItem::DeleteOperation
   include Bill::DeleteInvoiceItem
+end
+
+class DeleteInvoiceItemForParent < InvoiceItem::DeleteOperation
+  include Bill::DeleteInvoiceItemForParent
 end

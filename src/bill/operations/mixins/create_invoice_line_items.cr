@@ -7,11 +7,9 @@ module Bill::CreateInvoiceLineItems
 
     private def create_line_items(invoice : Bill::Invoice)
       line_items_to_create.each do |line_item|
-        line_item["invoice_id"] = invoice.id.to_s
-
-        CreateInvoiceItem.create!(
+        CreateInvoiceItemForParent.create!(
           Avram::Params.new(line_item),
-          invoice_id: invoice.id
+          parent: self
         )
       end
     end

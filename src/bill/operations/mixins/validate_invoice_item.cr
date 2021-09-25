@@ -9,7 +9,6 @@ module Bill::ValidateInvoiceItem
 
       validate_price_gt_zero
       validate_quantity_gt_zero
-      validate_not_finalized
       validate_invoice_exists
     end
 
@@ -34,13 +33,6 @@ module Bill::ValidateInvoiceItem
     private def validate_quantity_gt_zero
       quantity.value.try do |value|
         quantity.add_error("must be greater than zero") if value <= 0
-      end
-    end
-
-    private def validate_not_finalized
-      record.try do |invoice_item|
-        return unless invoice_item.invoice.finalized?
-        invoice_id.add_error("is finalized")
       end
     end
 
