@@ -21,8 +21,8 @@ class UpdateReceipt < Receipt::SaveOperation
   include Bill::UpdateReceipt
 end
 
-class UpdateReceiptStatus < Receipt::SaveOperation
-  include Bill::UpdateReceiptStatus
+class UpdateFinalizedReceipt < Receipt::SaveOperation
+  include Bill::UpdateFinalizedReceipt
 end
 
 class DeleteReceipt < Receipt::DeleteOperation

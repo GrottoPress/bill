@@ -8,6 +8,7 @@ describe Bill::Receipts::Update do
 
     receipt = ReceiptFactory.create &.user_id(user.id)
       .description("New receipt")
+      .status(:draft)
 
     response = ApiClient.exec(
       Receipts::Update.with(receipt_id: receipt.id),

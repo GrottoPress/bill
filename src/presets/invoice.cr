@@ -21,8 +21,8 @@ class UpdateInvoice < Invoice::SaveOperation
   include Bill::UpdateInvoice
 end
 
-class UpdateInvoiceStatus < Invoice::SaveOperation
-  include Bill::UpdateInvoiceStatus
+class UpdateFinalizedInvoice < Invoice::SaveOperation
+  include Bill::UpdateFinalizedInvoice
 end
 
 class DeleteInvoice < Invoice::DeleteOperation

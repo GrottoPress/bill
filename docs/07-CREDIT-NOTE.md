@@ -91,11 +91,9 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    ---
    ```crystal
-   # ->>> src/operations/update_credit_note_status.cr
+   # ->>> src/operations/update_finalized_credit_note.cr
 
-   class UpdateCreditNoteStatus < CreditNote::SaveOperation
-     # ...
-     include Bill::SendFinalizedCreditNoteEmail
+   class UpdateFinalizedCreditNote < CreditNote::SaveOperation
      # ...
    end
    ```
@@ -229,6 +227,64 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    ---
    ```crystal
+   # ->>> src/actions/finalized_credit_notes/edit.cr
+
+   class FinalizedCreditNotes::Edit < BrowserAction
+     # ...
+     include Bill::FinalizedCreditNotes::Edit
+
+     get "/credit-notes/:credit_note_id/finalized/edit" do
+       operation = UpdateFinalizedCreditNote.new(
+         credit_note,
+         # Uncomment after setting up credit note items
+         #line_items: Array(Hash(String, String)).new
+       )
+
+       html EditPage, operation: operation
+     end
+     # ...
+   end
+   ```
+
+   You may need to add `FinalizedCreditNotes::EditPage` in `src/pages/finalized_credit_notes/edit_page.cr`, containing your credit note edit form.
+
+   The form should be `POST`ed to `FinalizedCreditNotes::Update`, with the following parameters:
+
+   - `description : String`
+   - `notes : String?`
+   - `status : CreditNoteStatus` (enum)
+
+   You may skip this action if building an API.
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_credit_notes/update.cr
+
+   class FinalizedCreditNotes::Update < BrowserAction
+     # ...
+     include Bill::FinalizedCreditNotes::Update
+
+     patch "/credit-notes/:credit_note_id/finalized" do
+       run_operation
+     end
+
+     # What to do if `#run_operation` succeeds
+     #
+     #def do_run_operation_succeeded(operation, credit_note)
+     #  ...
+     #end
+
+     # What to do if `#run_operation` fails
+     #
+     #def do_run_operation_failed(operation)
+     #  ...
+     #end
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/actions/credit_notes/index.cr
 
    class CreditNotes::Index < BrowserAction
@@ -290,57 +346,6 @@ See <https://en.wikipedia.org/wiki/Credit_note>
    end
    ```
 
-   ---
-   ```crystal
-   # ->>> src/actions/credit_notes_status/edit.cr
-
-   class CreditNotesStatus::Edit < BrowserAction
-     # ...
-     include Bill::CreditNotesStatus::Edit
-
-     get "/credit-notes/:credit_note_id/status/edit" do
-       operation = UpdateCreditNoteStatus.new(credit_note)
-       html EditPage, operation: operation
-     end
-     # ...
-   end
-   ```
-
-   You may need to add `CreditNotesStatus::EditPage` in `src/pages/credit_notes_status/edit_page.cr`, containing your edit form.
-
-   The form should be `POST`ed to `CreditNotesStatus::Update`, with the following parameters:
-
-   - `status : CreditNoteStatus` (enum)
-
-   You may skip this action if building an API.
-
-   ---
-   ```crystal
-   # ->>> src/actions/credit_notes_status/update.cr
-
-   class CreditNotesStatus::Update < BrowserAction
-     # ...
-     include Bill::CreditNotesStatus::Update
-
-     patch "/credit-notes/:credit_note_id/status" do
-       run_operation
-     end
-
-     # What to do if `#run_operation` succeeds
-     #
-     #def do_run_operation_succeeded(operation, credit_note)
-     #  ...
-     #end
-
-     # What to do if `#run_operation` fails
-     #
-     #def do_run_operation_failed(operation)
-     #  ...
-     #end
-     # ...
-   end
-   ```
-
 1. Set up emails:
 
    ```crystal
@@ -374,3 +379,4 @@ See <https://en.wikipedia.org/wiki/Credit_note>
    - `Bill::Api::CreditNotes::Index`
    - `Bill::Api::CreditNotes::Show`
    - `Bill::Api::CreditNotes::Update`
+   - `Bill::Api::FinalizedCreditNotes::Update`

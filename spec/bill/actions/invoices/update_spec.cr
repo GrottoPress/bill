@@ -8,6 +8,7 @@ describe Bill::Invoices::Update do
 
     invoice = InvoiceFactory.create &.user_id(user.id)
       .description("New invoice")
+      .status(:draft)
 
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 

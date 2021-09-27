@@ -19,8 +19,8 @@ class UpdateInvoice < Invoice::SaveOperation
   include Bill::UpdateInvoiceLineItems
 end
 
-class UpdateInvoiceStatus < Invoice::SaveOperation
-  include Bill::ValidateHasLineItems
+class UpdateFinalizedInvoice < Invoice::SaveOperation
+  include Bill::UpdateFinalizedInvoiceLineItems
 end
 
 class CreateInvoiceItem < InvoiceItem::SaveOperation
@@ -33,6 +33,10 @@ end
 
 class UpdateInvoiceItem < InvoiceItem::SaveOperation
   include Bill::UpdateInvoiceItem
+end
+
+class UpdateFinalizedInvoiceItem < InvoiceItem::SaveOperation
+  include Bill::UpdateFinalizedInvoiceItem
 end
 
 class UpdateInvoiceItemForParent < InvoiceItem::SaveOperation

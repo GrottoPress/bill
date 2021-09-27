@@ -25,8 +25,8 @@ class UpdateCreditNote < CreditNote::SaveOperation
   include Bill::UpdateCreditNote
 end
 
-class UpdateCreditNoteStatus < CreditNote::SaveOperation
-  include Bill::UpdateCreditNoteStatus
+class UpdateFinalizedCreditNote < CreditNote::SaveOperation
+  include Bill::UpdateFinalizedCreditNote
 end
 
 class DeleteCreditNote < CreditNote::DeleteOperation

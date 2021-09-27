@@ -38,7 +38,7 @@ end
     include Bill::CreateFinalizedInvoiceTransaction
   end
 
-  class UpdateInvoiceStatus < Invoice::SaveOperation
+  class UpdateInvoice < Invoice::SaveOperation
     include Bill::CreateFinalizedInvoiceTransaction
   end
 
@@ -59,7 +59,7 @@ end
     include Bill::CreateFinalizedCreditNoteTransaction
   end
 
-  class UpdateCreditNoteStatus < CreditNote::SaveOperation
+  class UpdateCreditNote < CreditNote::SaveOperation
     include Bill::CreateFinalizedCreditNoteTransaction
   end
 
@@ -81,7 +81,7 @@ end
     include Bill::RefundPayment
   end
 
-  class UpdateReceiptStatus < Receipt::SaveOperation
+  class UpdateFinalizedReceipt < Receipt::SaveOperation
     include Bill::CreateFinalizedReceiptTransaction
   end
 

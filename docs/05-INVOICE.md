@@ -111,11 +111,9 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    ---
    ```crystal
-   # ->>> src/operations/update_invoice_status.cr
+   # ->>> src/operations/update_finalized_invoice.cr
 
-   class UpdateInvoiceStatus < Invoice::SaveOperation
-     # ...
-     include Bill::SendFinalizedInvoiceEmail
+   class UpdateFinalizedInvoice < Invoice::SaveOperation
      # ...
    end
    ```
@@ -250,6 +248,64 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    ---
    ```crystal
+   # ->>> src/actions/finalized_invoices/edit.cr
+
+   class FinalizedInvoices::Edit < BrowserAction
+     # ...
+     include Bill::FinalizedInvoices::Edit
+
+     get "/invoices/:invoice_id/finalized/edit" do
+       operation = UpdateFinalizedInvoice.new(
+         invoice,
+         # Uncomment after setting up invoice items
+         #line_items: Array(Hash(String, String)).new
+       )
+
+       html EditPage, operation: operation
+     end
+     # ...
+   end
+   ```
+
+   You may need to add `FinalizedInvoices::EditPage` in `src/pages/finalized_invoices/edit_page.cr`, containing your invoice edit form.
+
+   The form should be `POST`ed to `FinalizedInvoices::Update`, with the following parameters:
+
+   - `description : String`
+   - `due_at : Time`
+   - `notes : String?`
+
+   You may skip this action if building an API.
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_invoices/update.cr
+
+   class FinalizedInvoices::Update < BrowserAction
+     # ...
+     include Bill::FinalizedInvoices::Update
+
+     patch "/invoices/:invoice_id/finalized" do
+       run_operation
+     end
+
+     # What to do if `#run_operation` succeeds
+     #
+     #def do_run_operation_succeeded(operation, invoice)
+     #  ...
+     #end
+
+     # What to do if `#run_operation` fails
+     #
+     #def do_run_operation_failed(operation)
+     #  ...
+     #end
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/actions/invoices/index.cr
 
    class Invoices::Index < BrowserAction
@@ -311,57 +367,6 @@ See <https://en.wikipedia.org/wiki/Invoice>
    end
    ```
 
-   ---
-   ```crystal
-   # ->>> src/actions/invoices_status/edit.cr
-
-   class InvoicesStatus::Edit < BrowserAction
-     # ...
-     include Bill::InvoicesStatus::Edit
-
-     get "/invoices/:invoice_id/status/edit" do
-       operation = UpdateInvoiceStatus.new(invoice)
-       html EditPage, operation: operation
-     end
-     # ...
-   end
-   ```
-
-   You may need to add `InvoicesStatus::EditPage` in `src/pages/invoices_status/edit_page.cr`, containing your edit form.
-
-   The form should be `POST`ed to `InvoicesStatus::Update`, with the following parameters:
-
-   - `status : InvoiceStatus` (enum)
-
-   You may skip this action if building an API.
-
-   ---
-   ```crystal
-   # ->>> src/actions/invoices_status/update.cr
-
-   class InvoicesStatus::Update < BrowserAction
-     # ...
-     include Bill::InvoicesStatus::Update
-
-     patch "/invoices/:invoice_id/status" do
-       run_operation
-     end
-
-     # What to do if `#run_operation` succeeds
-     #
-     #def do_run_operation_succeeded(operation, invoice)
-     #  ...
-     #end
-
-     # What to do if `#run_operation` fails
-     #
-     #def do_run_operation_failed(operation)
-     #  ...
-     #end
-     # ...
-   end
-   ```
-
 1. Set up emails:
 
    ```crystal
@@ -390,6 +395,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
 1. API Actions:
 
+   - `Bill::Api::FinalizedInvoices::Update`
    - `Bill::Api::Invoices::Create`
    - `Bill::Api::Invoices::Delete`
    - `Bill::Api::Invoices::Index`

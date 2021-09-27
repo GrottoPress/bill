@@ -87,6 +87,15 @@
 
    ---
    ```crystal
+   # ->>> src/operations/update_finalized_credit_note_item.cr
+
+   class UpdateFinalizedCreditNoteItem < CreditNoteItem::SaveOperation
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/operations/delete_credit_note_item.cr
 
    class DeleteCreditNoteItem < CreditNoteItem::DeleteOperation

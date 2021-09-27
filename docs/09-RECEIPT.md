@@ -99,11 +99,9 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    ---
    ```crystal
-   # ->>> src/operations/update_receipt_status.cr
+   # ->>> src/operations/update_finalized_receipt.cr
 
-   class UpdateReceiptStatus < Receipt::SaveOperation
-     # ...
-     include Bill::SendFinalizedReceiptEmail
+   class UpdateFinalizedReceipt < Receipt::SaveOperation
      # ...
    end
    ```
@@ -206,6 +204,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    - `amount : Int32`
    - `description : String`
    - `notes : String?`
+   - `status : ReceiptStatus` (enum)
 
    You may skip this action if building an API.
 
@@ -218,6 +217,59 @@ See <https://en.wikipedia.org/wiki/Receipt>
      include Bill::Receipts::Update
 
      patch "/receipts/:receipt_id" do
+       run_operation
+     end
+
+     # What to do if `#run_operation` succeeds
+     #
+     #def do_run_operation_succeeded(operation, receipt)
+     #  ...
+     #end
+
+     # What to do if `#run_operation` fails
+     #
+     #def do_run_operation_failed(operation)
+     #  ...
+     #end
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_receipts/edit.cr
+
+   class FinalizedReceipts::Edit < BrowserAction
+     # ...
+     include Bill::FinalizedReceipts::Edit
+
+     get "/receipts/:receipt_id/finalized/edit" do
+       operation = UpdateReceipt.new(receipt)
+       html EditPage, operation: operation
+     end
+     # ...
+   end
+   ```
+
+   You may need to add `FinalizedReceipts::EditPage` in `src/pages/finalized_receipts/edit_page.cr`, containing your edit form.
+
+   The form should be `POST`ed to `FinalizedReceipts::Update`, with the following parameters:
+
+   - `description : String`
+   - `notes : String?`
+   - `status : ReceiptStatus` (enum)
+
+   You may skip this action if building an API.
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_receipts/update.cr
+
+   class FinalizedReceipts::Update < BrowserAction
+     # ...
+     include Bill::FinalizedReceipts::Update
+
+     patch "/receipts/:receipt_id/finalized" do
        run_operation
      end
 
@@ -287,57 +339,6 @@ See <https://en.wikipedia.org/wiki/Receipt>
      # What to do if `#run_operation` succeeds
      #
      #def do_run_operation_succeeded(operation, login)
-     #  ...
-     #end
-
-     # What to do if `#run_operation` fails
-     #
-     #def do_run_operation_failed(operation)
-     #  ...
-     #end
-     # ...
-   end
-   ```
-
-   ---
-   ```crystal
-   # ->>> src/actions/receipts_status/edit.cr
-
-   class ReceiptsStatus::Edit < BrowserAction
-     # ...
-     include Bill::ReceiptsStatus::Edit
-
-     get "/receipts/:receipt_id/status/edit" do
-       operation = UpdateReceiptStatus.new(receipt)
-       html EditPage, operation: operation
-     end
-     # ...
-   end
-   ```
-
-   You may need to add `ReceiptsStatus::EditPage` in `src/pages/receipts_status/edit_page.cr`, containing your edit form.
-
-   The form should be `POST`ed to `ReceiptsStatus::Update`, with the following parameters:
-
-   - `status : ReceiptStatus` (enum)
-
-   You may skip this action if building an API.
-
-   ---
-   ```crystal
-   # ->>> src/actions/receipts_status/update.cr
-
-   class ReceiptsStatus::Update < BrowserAction
-     # ...
-     include Bill::ReceiptsStatus::Update
-
-     patch "/receipts/:receipt_id/status" do
-       run_operation
-     end
-
-     # What to do if `#run_operation` succeeds
-     #
-     #def do_run_operation_succeeded(operation, receipt)
      #  ...
      #end
 
@@ -432,6 +433,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
 1. API Actions:
 
+   - `Bill::Api::FinalizedReceipts::Update`
    - `Bill::Api::Receipts::Create`
    - `Bill::Api::Receipts::Delete`
    - `Bill::Api::Receipts::Index`

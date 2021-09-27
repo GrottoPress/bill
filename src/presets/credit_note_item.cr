@@ -19,8 +19,8 @@ class UpdateCreditNote < CreditNote::SaveOperation
   include Bill::UpdateCreditNoteLineItems
 end
 
-class UpdateCreditNoteStatus < CreditNote::SaveOperation
-  include Bill::ValidateHasLineItems
+class UpdateFinalizedCreditNote < CreditNote::SaveOperation
+  include Bill::UpdateFinalizedCreditNoteLineItems
 end
 
 class CreateCreditNoteItem < CreditNoteItem::SaveOperation
@@ -33,6 +33,10 @@ end
 
 class UpdateCreditNoteItem < CreditNoteItem::SaveOperation
   include Bill::UpdateCreditNoteItem
+end
+
+class UpdateFinalizedCreditNoteItem < CreditNoteItem::SaveOperation
+  include Bill::UpdateFinalizedCreditNoteItem
 end
 
 class UpdateCreditNoteItemForParent < CreditNoteItem::SaveOperation

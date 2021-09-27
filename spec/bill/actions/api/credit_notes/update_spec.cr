@@ -9,6 +9,7 @@ describe Bill::Api::CreditNotes::Update do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .description("New credit note")
+      .status(:draft)
 
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 

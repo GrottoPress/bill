@@ -87,6 +87,15 @@
 
    ---
    ```crystal
+   # ->>> src/operations/update_finalized_invoice_item.cr
+
+   class UpdateFinalizedInvoiceItem < InvoiceItem::SaveOperation
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/operations/delete_invoice_item.cr
 
    class DeleteInvoiceItem < InvoiceItem::DeleteOperation
