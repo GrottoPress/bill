@@ -36,7 +36,7 @@ describe Bill::SendFinalizedInvoiceEmail do
 
     SaveInvoice.update(invoice, params(
       description: "New Invoice",
-      status: :paid
+      status: :open
     )) do |operation, updated_invoice|
       operation.saved?.should be_true
 
@@ -64,7 +64,7 @@ describe Bill::SendFinalizedInvoiceEmail do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
     SaveInvoice.update(invoice, params(
-      status: :paid
+      description: "Another invoice"
     )) do |operation, updated_invoice|
       operation.saved?.should be_true
 

@@ -17,8 +17,6 @@ module Bill::InvoiceState
       case @status
       when .draft?
         new_status.open?
-      when .open?
-        new_status.paid?
       else
         false
       end

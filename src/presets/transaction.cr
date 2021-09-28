@@ -42,6 +42,18 @@ end
     include Bill::CreateFinalizedInvoiceTransaction
   end
 
+  class CreateTransaction < Transaction::SaveOperation
+    include Bill::AutoMarkInvoicesAsPaid
+  end
+
+  class CreateCreditTransaction < Transaction::SaveOperation
+    include Bill::AutoMarkInvoicesAsPaid
+  end
+
+  class CreateDebitTransaction < Transaction::SaveOperation
+    include Bill::AutoMarkInvoicesAsPaid
+  end
+
   struct Ledger
     include Bill::InvoicesLedger
   end

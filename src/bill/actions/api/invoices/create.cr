@@ -34,6 +34,7 @@ module Bill::Api::Invoices::Create
     end
 
     private def reload(invoice)
+      invoice = invoice.open? ? invoice.reload : invoice
       InvoiceQuery.preload_line_items(invoice)
     end
   end

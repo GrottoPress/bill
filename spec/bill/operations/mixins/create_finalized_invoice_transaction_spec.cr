@@ -33,7 +33,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
         business_details: "ACME Inc",
         description: "New invoice",
         due_at: 3.days.from_now.to_utc,
-        status: :paid,
+        status: :open,
         user_details: "Mary Smith"
       ),
       line_items: [{
@@ -80,7 +80,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
     SpecUpdateInvoice.update(invoice, params(
-      status: :paid
+      description: "Another invoice"
     )) do |operation, updated_invoice|
       operation.saved?.should be_true
     end
