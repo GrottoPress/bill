@@ -53,7 +53,7 @@ module Bill::ValidateCreditNoteItem
       @credit_note.try do |credit_note|
         invoice = credit_note.invoice
 
-        invoice_amount = invoice.net_amount!
+        invoice_amount = invoice.net_amount
         current_credits = credit_note.amount!
         record.try { |record| current_credits -= record.amount }
 

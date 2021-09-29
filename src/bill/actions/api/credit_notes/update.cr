@@ -39,6 +39,7 @@ module Bill::Api::CreditNotes::Update
     end
 
     private def reload(credit_note)
+      credit_note = credit_note.finalized? ? credit_note.reload : credit_note
       CreditNoteQuery.preload_line_items(credit_note)
     end
   end

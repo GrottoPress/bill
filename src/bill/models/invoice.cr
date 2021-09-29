@@ -7,6 +7,7 @@ module Bill::Invoice
     column due_at : Time
     column notes : String?
     column status : InvoiceStatus
+    column totals : InvoiceTotals?, serialize: true
     column user_details : String
 
     delegate :draft?, :open?, :paid?, :finalized?, to: status

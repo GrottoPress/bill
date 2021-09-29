@@ -35,9 +35,19 @@ describe Bill::CreateCreditNote do
     notes = "A note"
     status = CreditNoteStatus.new(:open)
 
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
-    InvoiceItemFactory.create &.invoice_id(invoice.id).price(999)
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
 
     CreateCreditNote.create(
       params(

@@ -23,6 +23,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
    - `description : String`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
+   - `totals : CreditNoteTotals` (JSON::Serializable)
 
    You may add other columns and associations specific to your application.
 
@@ -54,6 +55,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
          add description : String
          add notes : String?
          add status : String
+         add totals : JSON::Any?
          # ...
        end
      end

@@ -39,7 +39,7 @@ module Bill::Api::Invoices::Update
     end
 
     private def reload(invoice)
-      invoice = invoice.open? ? invoice.reload : invoice
+      invoice = invoice.finalized? ? invoice.reload : invoice
       InvoiceQuery.preload_line_items(invoice)
     end
   end

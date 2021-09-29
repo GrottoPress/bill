@@ -11,7 +11,12 @@ module Bill::HasManyCreditNotes
     end
 
     def credit_notes_amount : Int32
-      credit_notes.select(&.finalized?).sum &.amount
+      if responds_to?(:totals)
+        self.totals.try(&.credit_notes) ||
+          credit_notes.select(&.finalized?).sum &.amount
+      else
+        credit_notes.select(&.finalized?).sum &.amount
+      end
     end
 
     def credit_notes_amount! : Int32

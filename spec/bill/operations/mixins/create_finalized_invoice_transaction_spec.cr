@@ -1,33 +1,10 @@
 require "../../../spec_helper"
 
-private class SpecCreateInvoice < Invoice::SaveOperation
-  permit_columns :user_id,
-    :business_details,
-    :description,
-    :due_at,
-    :status,
-    :user_details
-
-  include Bill::CreateInvoiceLineItems
-  include Bill::CreateFinalizedInvoiceTransaction
-end
-
-private class SpecUpdateInvoice < Invoice::SaveOperation
-  permit_columns :user_id,
-    :business_details,
-    :description,
-    :due_at,
-    :status,
-    :user_details
-
-  include Bill::CreateFinalizedInvoiceTransaction
-end
-
 describe Bill::CreateFinalizedInvoiceTransaction do
   it "creates transaction for new invoice" do
     user = UserFactory.create
 
-    SpecCreateInvoice.create(
+    CreateInvoice.create(
       params(
         user_id: user.id,
         business_details: "ACME Inc",
@@ -53,7 +30,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
-    SpecUpdateInvoice.update(invoice, params(status: :open)) do |operation, _|
+    UpdateInvoice.update(
+      InvoiceQuery.preload_line_items(invoice),
+      params(status: :open),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, _|
       operation.saved?.should be_true
     end
 
@@ -65,9 +46,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
-    SpecUpdateInvoice.update(invoice, params(
-      description: "Another invoice",
-    )) do |operation, updated_invoice|
+    UpdateInvoice.update(
+      invoice,
+      params(description: "Another invoice"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
       operation.saved?.should be_true
     end
 
@@ -79,9 +62,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
-    SpecUpdateInvoice.update(invoice, params(
-      description: "Another invoice"
-    )) do |operation, updated_invoice|
+    UpdateFinalizedInvoice.update(
+      invoice,
+      params(description: "Another invoice"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
       operation.saved?.should be_true
     end
 

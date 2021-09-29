@@ -5,6 +5,7 @@ module Bill::CreditNote
     column description : String
     column notes : String?
     column status : CreditNoteStatus
+    column totals : CreditNoteTotals?, serialize: true
 
     delegate :draft?, :open?, :finalized?, to: status
 

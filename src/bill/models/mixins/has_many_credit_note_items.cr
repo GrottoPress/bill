@@ -11,7 +11,11 @@ module Bill::HasManyCreditNoteItems
     end
 
     def line_items_amount : Int32
-      line_items.sum &.amount
+      if responds_to?(:totals)
+        self.totals.try(&.line_items) || line_items.sum(&.amount)
+      else
+        line_items.sum &.amount
+      end
     end
 
     def line_items_amount! : Int32

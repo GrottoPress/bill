@@ -1,25 +1,24 @@
 require "../../../spec_helper"
 
-private class SpecCreateCreditNote < CreditNote::SaveOperation
-  permit_columns :invoice_id, :description, :status
-
-  include Bill::CreateCreditNoteLineItems
-  include Bill::CreateFinalizedCreditNoteTransaction
-end
-
-private class SpecUpdateCreditNote < CreditNote::SaveOperation
-  permit_columns :invoice_id, :description, :status
-
-  include Bill::CreateFinalizedCreditNoteTransaction
-end
-
 describe Bill::CreateFinalizedCreditNoteTransaction do
   it "creates transaction for new credit note" do
     user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
-    InvoiceItemFactory.create &.invoice_id(invoice.id).price(999)
 
-    SpecCreateCreditNote.create(
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
+
+    CreateCreditNote.create(
       params(
         invoice_id: invoice.id,
         description: "New credit note",
@@ -43,9 +42,10 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
-    SpecUpdateCreditNote.update(
-      credit_note,
-      params(status: :open)
+    UpdateCreditNote.update(
+      CreditNoteQuery.preload_line_items(credit_note),
+      params(status: :open),
+      line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_true
     end
@@ -61,9 +61,11 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
       .status(:draft)
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
-    SpecUpdateCreditNote.update(credit_note, params(
-      description: "Another credit note",
-    )) do |operation, updated_credit_note|
+    UpdateCreditNote.update(
+      credit_note,
+      params(description: "Another credit note"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_credit_note|
       operation.saved?.should be_true
     end
 
@@ -76,11 +78,14 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .status(:open)
+
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
-    SpecUpdateCreditNote.update(credit_note, params(
-      description: "Another credit note",
-    )) do |operation, updated_credit_note|
+    UpdateFinalizedCreditNote.update(
+      credit_note,
+      params(description: "Another credit note"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_credit_note|
       operation.saved?.should be_true
     end
 

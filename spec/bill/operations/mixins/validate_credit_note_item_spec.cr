@@ -31,8 +31,20 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires description" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id)
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
+
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
     SaveCreditNoteItem.create(params(
@@ -61,8 +73,20 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires price to be greater than 0" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id)
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
+
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
     SaveCreditNoteItem.create(params(
@@ -77,8 +101,20 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires quantity to be greater than 0" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id)
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
+
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
     SaveCreditNoteItem.create(params(
@@ -94,9 +130,20 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "ensures total credit would not exceed invoice amount" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id)
-    InvoiceItemFactory.create &.invoice_id(invoice.id).quantity(2).price(2)
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "2",
+        "price" => "2"
+      }]
+    )
+
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
     SaveCreditNoteItem.create(params(

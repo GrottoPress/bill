@@ -13,10 +13,12 @@ end
 
 class CreateInvoice < Invoice::SaveOperation
   include Bill::CreateInvoiceLineItems
+  include Bill::FinalizeInvoiceTotals
 end
 
 class UpdateInvoice < Invoice::SaveOperation
   include Bill::UpdateInvoiceLineItems
+  include Bill::FinalizeInvoiceTotals
 end
 
 class UpdateFinalizedInvoice < Invoice::SaveOperation

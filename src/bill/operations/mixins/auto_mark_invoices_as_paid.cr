@@ -19,11 +19,7 @@ module Bill::AutoMarkInvoicesAsPaid
     # Net zero invoices are paid first. The rest follow based on
     # due date; the earliest due are paid first.
     private def mark_for_debit(user, balance)
-      invoices = unpaid_invoices(user).preload_line_items
-        .preload_credit_notes(CreditNoteQuery.new.preload_line_items)
-        .due_at.desc_order
-        .results
-
+      invoices = unpaid_invoices(user).due_at.desc_order.results
       invoices = mark_net_zero_invoices(invoices)
       mark_debit_net_invoices(invoices, balance)
     end

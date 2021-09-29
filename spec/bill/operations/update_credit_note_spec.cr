@@ -40,7 +40,20 @@ describe Bill::UpdateCreditNote do
 
   it "updates credit note with line items" do
     user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .description("New credit note")
@@ -53,8 +66,19 @@ describe Bill::UpdateCreditNote do
     credit_note_item_2 =
       CreditNoteItemFactory.create &.credit_note_id(credit_note.id).price(6)
 
-    new_invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
-    InvoiceItemFactory.create &.invoice_id(new_invoice.id).price(999)
+    new_invoice = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
 
     new_description = "Another credit note"
     new_notes = "Another note"

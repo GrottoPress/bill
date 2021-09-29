@@ -25,10 +25,18 @@ class UpdateFinalizedInvoice < Invoice::SaveOperation
   include Bill::UpdateFinalizedInvoice
 end
 
+class UpdateInvoiceTotals < Invoice::SaveOperation
+  include Bill::UpdateInvoiceTotals
+end
+
 class DeleteInvoice < Invoice::DeleteOperation
   include Bill::DeleteInvoice
 end
 
 struct InvoiceState
   include Bill::InvoiceState
+end
+
+class InvoiceTotals
+  include Bill::InvoiceTotals
 end

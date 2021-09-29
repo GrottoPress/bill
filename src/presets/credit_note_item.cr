@@ -13,10 +13,12 @@ end
 
 class CreateCreditNote < CreditNote::SaveOperation
   include Bill::CreateCreditNoteLineItems
+  include Bill::FinalizeCreditNoteTotals
 end
 
 class UpdateCreditNote < CreditNote::SaveOperation
   include Bill::UpdateCreditNoteLineItems
+  include Bill::FinalizeCreditNoteTotals
 end
 
 class UpdateFinalizedCreditNote < CreditNote::SaveOperation

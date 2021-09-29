@@ -29,10 +29,22 @@ class UpdateFinalizedCreditNote < CreditNote::SaveOperation
   include Bill::UpdateFinalizedCreditNote
 end
 
+class UpdateCreditNoteTotals < CreditNote::SaveOperation
+  include Bill::UpdateCreditNoteTotals
+end
+
+class UpdateInvoiceTotalCreditNotes < Invoice::SaveOperation
+  include Bill::UpdateInvoiceTotalCreditNotes
+end
+
 class DeleteCreditNote < CreditNote::DeleteOperation
   include Bill::DeleteCreditNote
 end
 
 struct CreditNoteState
   include Bill::CreditNoteState
+end
+
+class CreditNoteTotals
+  include Bill::CreditNoteTotals
 end
