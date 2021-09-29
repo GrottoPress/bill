@@ -2,6 +2,10 @@
 
 **Bill** is an Accounts Receivable automation system for *Lucky* framework. It includes tools for creating and tracking invoices, credit notes, receipts and more.
 
+*Bill* keeps an immutable ledger of transactions from which balances can be efficiently computed. Whenever a business event occurs, a record is kept in this ledger.
+
+*Bill* is designed for use cases where a self-service application charges users for products or services, or for online marketplaces where businesses charge registered users for same.
+
 ## Documentation
 
 Find the complete documentation in the `docs/` directory of this repository.
