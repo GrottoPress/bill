@@ -47,6 +47,26 @@ module Bill::InvoicesLedger
         balance if @ledger.class.debit?(balance)
       end
 
+      def soft_owing?(user)
+        balance = owing?(user)
+        balance if balance.try(&.<= max_debt)
+      end
+
+      def soft_owing!(user)
+        balance = owing!(user)
+        balance if balance.try(&.<= max_debt)
+      end
+
+      def hard_owing?(user)
+        balance = owing?(user)
+        balance if balance.try(&.> max_debt)
+      end
+
+      def hard_owing!(user)
+        balance = owing!(user)
+        balance if balance.try(&.> max_debt)
+      end
+
       # Does user still owe if you do not factor in underdue
       # and due invoices?
       def over_owing?(user)
@@ -58,6 +78,26 @@ module Bill::InvoicesLedger
       def over_owing!(user)
         balance = @ledger.balance!(user) - amount_not_overdue!(user)
         balance if @ledger.class.debit?(balance)
+      end
+
+      def over_soft_owing?(user)
+        balance = over_owing?(user)
+        balance if balance.try(&.<= max_debt)
+      end
+
+      def over_soft_owing!(user)
+        balance = over_owing!(user)
+        balance if balance.try(&.<= max_debt)
+      end
+
+      def over_hard_owing?(user)
+        balance = over_owing?(user)
+        balance if balance.try(&.> max_debt)
+      end
+
+      def over_hard_owing!(user)
+        balance = over_owing!(user)
+        balance if balance.try(&.> max_debt)
       end
 
       private def amount_not_overdue(user)
@@ -73,6 +113,10 @@ module Bill::InvoicesLedger
           .is_not_overdue
           .results
           .sum(&.net_amount)
+      end
+
+      private def max_debt
+        Bill.settings.max_debt_allowed
       end
     end
   end
