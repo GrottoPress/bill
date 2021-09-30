@@ -97,7 +97,7 @@ module Bill::Ledger
       balance == 0
     end
 
-    private def foreign_key(record)
+    protected def foreign_key(record)
       "#{record.class.name.underscore.split("::").last}_id"
     end
 

@@ -61,4 +61,92 @@ describe Bill::InvoicesLedger do
         .should(eq -21)
     end
   end
+
+  describe "#owing?" do
+    it "returns amount owing" do
+      user = UserFactory.create
+
+      invoice = CreateInvoice.create!(
+        params(
+          user_id: user.id,
+          description: "New invoice",
+          due_at: 3.days.from_now,
+          status: :open
+        ),
+        line_items: [{
+          "description" => "Item 1",
+          "quantity" => "1",
+          "price" => "500"
+        }]
+      )
+
+      ReceivePayment.create(params(
+        user_id: user.id,
+        description: "New receipt",
+        amount: 200,
+        status: :open
+      )) do |_, receipt|
+        receipt.should be_a(Receipt)
+      end
+
+      user = UserQuery.preload_transactions(user)
+      user = UserQuery.preload_invoices(user)
+
+      user.owes?.should eq(500 * 1 - 200)
+      user.owes!.should eq(500 * 1 - 200)
+
+      user.over_owes?.should be_nil
+      user.over_owes!.should be_nil
+
+      CreateCreditNote.create(
+        params(
+          invoice_id: invoice.id,
+          description: "New credit note",
+          status: :open
+        ),
+        line_items: [{
+          "description" => "Item 1",
+          "quantity" => "1",
+          "price" => "100"
+        }]
+      ) do |_, credit_note|
+        credit_note.should be_a(CreditNote)
+      end
+
+      user = UserQuery.preload_transactions(user)
+      user = UserQuery.preload_invoices(user)
+
+      user.owes?.should eq(500 * 1 - 200 - 100 * 1)
+      user.owes!.should eq(500 * 1 - 200 - 100 * 1)
+
+      user.over_owes?.should be_nil
+      user.over_owes!.should be_nil
+
+      CreateInvoice.create(
+        params(
+          user_id: user.id,
+          description: "New invoice",
+          due_at: 2.days.ago,
+          status: :open
+        ),
+        created_at: 3.days.ago,
+        line_items: [{
+          "description" => "Item 1",
+          "quantity" => "1",
+          "price" => "700"
+        }]
+      ) do |_, invoice|
+        invoice.should be_a(Invoice)
+      end
+
+      user = UserQuery.preload_transactions(user)
+      user = UserQuery.preload_invoices(user)
+
+      user.owes?.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
+      user.owes!.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
+
+      user.over_owes?.should eq(700 * 1 - 200)
+      user.over_owes!.should eq(700 * 1 - 200)
+    end
+  end
 end
