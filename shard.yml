@@ -6,6 +6,8 @@ authors:
   - GrottoPress <info@grottopress.com>
   - N Atta Kusi Adusei
 
+license: MIT
+
 crystal: ~> 1.1
 
 dependencies:
