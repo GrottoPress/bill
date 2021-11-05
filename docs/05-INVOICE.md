@@ -37,7 +37,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
    - `due_at : Time`
    - `notes : String?`
    - `status : InvoiceStatus` (enum)
-   - `totals : InvoiceTotals` (JSON::Serializable)
+   - `totals : InvoiceTotals?` (JSON::Serializable)
    - `user_details : String`
 
    You may add other columns and associations specific to your application.
