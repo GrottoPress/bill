@@ -11,7 +11,9 @@ module Bill::CreateFinalizedCreditNoteTransaction
         description: credit_note.description,
         type: TransactionType.new(:credit_note),
         amount: amount,
-        metadata: JSON.parse({credit_note_id: credit_note.id}.to_json)
+        metadata: TransactionMetadata.from_json({
+          credit_note_id: credit_note.id
+        }.to_json)
       )
     end
   end

@@ -6,7 +6,7 @@ describe Bill::CreateDebitTransaction do
     amount = 43
     type = TransactionType.new(:invoice)
     user = UserFactory.create
-    meta_id = 4
+    invoice_id = 4
 
     CreateDebitTransaction.create(
       params(
@@ -15,7 +15,7 @@ describe Bill::CreateDebitTransaction do
         amount: amount,
         type: :invoice
       ),
-      metadata: JSON.parse({id: meta_id}.to_json)
+      metadata: TransactionMetadata.from_json({invoice_id: invoice_id}.to_json)
     ) do |operation, transaction|
       transaction.should be_a(Transaction)
 
@@ -25,10 +25,10 @@ describe Bill::CreateDebitTransaction do
         transaction.type.should eq(type)
         transaction.amount.should eq(amount)
 
-        transaction.metadata.should be_a(JSON::Any)
+        transaction.metadata.should be_a(TransactionMetadata)
 
         transaction.metadata.try do |metadata|
-          metadata["id"]?.should eq(meta_id)
+          metadata.invoice_id.should eq(invoice_id)
         end
       end
     end

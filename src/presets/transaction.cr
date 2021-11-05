@@ -25,6 +25,10 @@ class CreateDebitTransaction < Transaction::SaveOperation
   include Bill::CreateDebitTransaction
 end
 
+class TransactionMetadata
+  include Bill::TransactionMetadata
+end
+
 struct Ledger
   include Bill::Ledger
 end

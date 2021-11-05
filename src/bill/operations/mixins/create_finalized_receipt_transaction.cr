@@ -11,7 +11,9 @@ module Bill::CreateFinalizedReceiptTransaction
         description: receipt.description,
         type: TransactionType.new(:receipt),
         amount: receipt.amount,
-        metadata: JSON.parse({receipt_id: receipt.id}.to_json)
+        metadata: TransactionMetadata.from_json({
+          receipt_id: receipt.id
+        }.to_json)
       )
     end
   end

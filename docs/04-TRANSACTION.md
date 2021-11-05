@@ -30,7 +30,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    - `amount : Int32`
    - `description : String`
-   - `metadata : JSON::Any?`
+   - `metadata : TransactionMetadata?` (JSON::Serializable)
    - `type : TransactionType` (enum)
 
    You may add other columns and associations specific to your application.
@@ -147,7 +147,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `user_id : Int64`
    - `amount : Int32` (or `amount_mu : Float64`)
    - `description : String`
-   - `metadata : JSON::Any?` (may be generated from other parameters)
+   - `metadata : TransactionMetadata?` (may be generated from other parameters)
    - `type : TransactionType` (enum)
 
    You may skip this action if building an API.
@@ -202,7 +202,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `user_id : Int64`
    - `amount : Int32` (or `amount_mu : Float64`)
    - `description : String`
-   - `metadata : JSON::Any?` (may be crafted from other parameters)
+   - `metadata : TransactionMetadata?` (may be crafted from other parameters)
    - `type : TransactionType` (enum)
 
    You may skip this action if building an API.

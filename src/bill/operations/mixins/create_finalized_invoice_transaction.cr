@@ -11,7 +11,9 @@ module Bill::CreateFinalizedInvoiceTransaction
         description: invoice.description,
         type: TransactionType.new(:invoice),
         amount: amount,
-        metadata: JSON.parse({invoice_id: invoice.id}.to_json)
+        metadata: TransactionMetadata.from_json({
+          invoice_id: invoice.id
+        }.to_json)
       )
     end
   end

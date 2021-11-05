@@ -374,7 +374,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    - `user_id : Int64`
    - `amount : Int32`
    - `description : String`
-   - `metadata : JSON::Any?` (may be crafted from other parameters)
+   - `metadata : TransactionMetadata?` (may be crafted from other parameters)
 
    You may skip this action if building an API.
 

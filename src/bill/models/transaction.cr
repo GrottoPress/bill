@@ -1,10 +1,10 @@
 module Bill::Transaction
   macro included
     include Bill::BelongsToUser
-    include Bill::MetadataColumn
 
     column amount : Int32
     column description : String
+    column metadata : TransactionMetadata?, serialize: true
     column type : TransactionType
 
     def amount_fm
