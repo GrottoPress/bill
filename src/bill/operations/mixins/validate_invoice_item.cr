@@ -38,7 +38,7 @@ module Bill::ValidateInvoiceItem
 
     private def validate_invoice_exists
       return unless invoice_id.changed?
-      validate_primary_key(invoice_id, query: InvoiceQuery)
+      validate_foreign_key(invoice_id, query: InvoiceQuery)
     end
   end
 end
