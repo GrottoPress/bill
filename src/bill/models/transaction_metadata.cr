@@ -1,6 +1,6 @@
 module Bill::TransactionMetadata
   macro included
-    include Bill::Metadata
+    include Lucille::JSON
 
     property credit_note_id : Int64?
     property invoice_id : Int64?
