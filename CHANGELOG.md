@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add support for *Lucky* v0.29
+
 ### Changed
 - Remove `Lucky::Env` module in favour of [`LuckyEnv`](https://github.com/luckyframework/lucky_env)
+
+### Removed
+- Remove support for *Lucky* v0.28
 
 ## [0.1.0] - 2021-11-22
 
