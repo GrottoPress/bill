@@ -1,3 +1,3 @@
 Lucky::ForceSSLHandler.configure do |settings|
-  settings.enabled = Lucky::Env.production?
+  settings.enabled = LuckyEnv.production?
 end

@@ -22,15 +22,13 @@ Find the complete documentation in the `docs/` directory of this repository.
 
 ## Development
 
-Create a `.env.sh` file:
+Create a `.env` file:
 
-```bash
-#!/bin/bash
-
-export DATABASE_URL='postgres://postgres:password@localhost:5432/bill_spec'
+```env
+DATABASE_URL=postgres://postgres:password@localhost:5432/bill_spec
 ```
 
-Update the file with your own details. Then run tests with `source .env.sh && crystal spec`.
+Update the file with your own details. Then run tests with `crystal spec`.
 
 ## Contributing
 
