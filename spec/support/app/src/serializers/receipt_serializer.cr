@@ -1,4 +1,4 @@
-class ReceiptSerializer < BaseSerializer
+struct ReceiptSerializer < BaseSerializer
   def initialize(@receipt : Receipt)
   end
 

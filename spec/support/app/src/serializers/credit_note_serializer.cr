@@ -1,4 +1,4 @@
-class CreditNoteSerializer < BaseSerializer
+struct CreditNoteSerializer < BaseSerializer
   def initialize(@credit_note : CreditNote)
   end
 

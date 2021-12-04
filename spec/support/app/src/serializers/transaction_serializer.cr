@@ -1,4 +1,4 @@
-class TransactionSerializer < BaseSerializer
+struct TransactionSerializer < BaseSerializer
   def initialize(@transaction : Transaction)
   end
 

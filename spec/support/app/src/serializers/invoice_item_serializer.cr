@@ -1,4 +1,4 @@
-class InvoiceItemSerializer < BaseSerializer
+struct InvoiceItemSerializer < BaseSerializer
   def initialize(@invoice_item : InvoiceItem)
   end
 
