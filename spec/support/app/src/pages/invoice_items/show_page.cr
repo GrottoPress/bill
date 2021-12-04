@@ -1,4 +1,4 @@
-class InvoiceItems::ShowPage < MainLayout
+struct InvoiceItems::ShowPage < MainLayout
   needs invoice_item : InvoiceItem
 
   def content

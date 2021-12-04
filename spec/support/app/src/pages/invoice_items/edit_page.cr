@@ -1,4 +1,4 @@
-class InvoiceItems::EditPage < MainLayout
+struct InvoiceItems::EditPage < MainLayout
   needs operation : UpdateInvoiceItem
 
   def content

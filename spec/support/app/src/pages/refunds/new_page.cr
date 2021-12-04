@@ -1,4 +1,4 @@
-class Refunds::NewPage < MainLayout
+struct Refunds::NewPage < MainLayout
   needs operation : RefundPayment
 
   def content

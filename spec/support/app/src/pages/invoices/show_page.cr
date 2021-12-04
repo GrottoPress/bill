@@ -1,4 +1,4 @@
-class Invoices::ShowPage < MainLayout
+struct Invoices::ShowPage < MainLayout
   needs invoice : Invoice
 
   def content

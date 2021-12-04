@@ -1,4 +1,4 @@
-class CreditNotes::ShowPage < MainLayout
+struct CreditNotes::ShowPage < MainLayout
   needs credit_note : CreditNote
 
   def content

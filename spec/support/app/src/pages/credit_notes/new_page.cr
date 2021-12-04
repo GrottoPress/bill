@@ -1,4 +1,4 @@
-class CreditNotes::NewPage < MainLayout
+struct CreditNotes::NewPage < MainLayout
   needs operation : CreateCreditNote
 
   def content

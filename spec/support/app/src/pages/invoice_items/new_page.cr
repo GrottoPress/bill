@@ -1,4 +1,4 @@
-class InvoiceItems::NewPage < MainLayout
+struct InvoiceItems::NewPage < MainLayout
   needs operation : CreateInvoiceItem
 
   def content

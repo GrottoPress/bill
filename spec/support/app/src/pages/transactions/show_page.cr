@@ -1,4 +1,4 @@
-class Transactions::ShowPage < MainLayout
+struct Transactions::ShowPage < MainLayout
   needs transaction : Transaction
 
   def content

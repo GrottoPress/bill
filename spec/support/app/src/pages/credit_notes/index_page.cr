@@ -1,4 +1,4 @@
-class CreditNotes::IndexPage < MainLayout
+struct CreditNotes::IndexPage < MainLayout
   needs credit_notes : Array(CreditNote)
   needs pages : Lucky::Paginator
 

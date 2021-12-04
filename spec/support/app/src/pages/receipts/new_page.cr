@@ -1,4 +1,4 @@
-class Receipts::NewPage < MainLayout
+struct Receipts::NewPage < MainLayout
   needs operation : ReceivePayment
 
   def content

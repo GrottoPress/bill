@@ -1,4 +1,4 @@
-class Receipts::IndexPage < MainLayout
+struct Receipts::IndexPage < MainLayout
   needs receipts : Array(Receipt)
   needs pages : Lucky::Paginator
 

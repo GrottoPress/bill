@@ -1,4 +1,4 @@
-class CreditTransactions::NewPage < MainLayout
+struct CreditTransactions::NewPage < MainLayout
   needs operation : CreateCreditTransaction
 
   def content

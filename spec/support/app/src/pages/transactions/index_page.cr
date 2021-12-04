@@ -1,4 +1,4 @@
-class Transactions::IndexPage < MainLayout
+struct Transactions::IndexPage < MainLayout
   needs transactions : Array(Transaction)
   needs pages : Lucky::Paginator
 

@@ -1,4 +1,4 @@
-class CreditNotes::EditPage < MainLayout
+struct CreditNotes::EditPage < MainLayout
   needs operation : UpdateCreditNote
 
   def content

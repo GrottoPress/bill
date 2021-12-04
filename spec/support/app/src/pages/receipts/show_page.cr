@@ -1,4 +1,4 @@
-class Receipts::ShowPage < MainLayout
+struct Receipts::ShowPage < MainLayout
   needs receipt : Receipt
 
   def content

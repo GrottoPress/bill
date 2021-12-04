@@ -1,4 +1,4 @@
-class DebitTransactions::NewPage < MainLayout
+struct DebitTransactions::NewPage < MainLayout
   needs operation : CreateDebitTransaction
 
   def content

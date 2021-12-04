@@ -1,4 +1,4 @@
-class Receipts::EditPage < MainLayout
+struct Receipts::EditPage < MainLayout
   needs operation : UpdateReceipt
 
   def content
