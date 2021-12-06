@@ -32,9 +32,6 @@ describe Bill::Api::CreditNotes::Create do
     CreditNoteQuery.new.any?.should be_true
     CreditNoteItemQuery.new.any?.should be_true
 
-    response.should send_json(
-      200,
-      data: {credit_note: {type: "CreditNoteSerializer"}}
-    )
+    response.should send_json(200, message: "action.credit_note.create.success")
   end
 end

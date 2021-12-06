@@ -18,12 +18,12 @@ module Bill::Invoices::Create
     end
 
     def do_run_operation_succeeded(operation, invoice)
-      flash.success = "Invoice created successfully"
+      flash.success = Rex.t(:"action.invoice.create.success")
       redirect to: Show.with(invoice_id: invoice.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not create invoice"
+      flash.failure = Rex.t(:"action.invoice.create.failure")
       html NewPage, operation: operation
     end
   end

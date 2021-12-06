@@ -15,7 +15,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      assert_invalid(operation.user_id, " required")
+      assert_invalid(operation.user_id, "operation.error.user_id_required")
     end
   end
 
@@ -27,7 +27,10 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      assert_invalid(operation.description, " required")
+      assert_invalid(
+        operation.description,
+        "operation.error.description_required"
+      )
     end
   end
 
@@ -39,7 +42,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      assert_invalid(operation.amount, " required")
+      assert_invalid(operation.amount, "operation.error.amount_required")
     end
   end
 
@@ -52,7 +55,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      assert_invalid(operation.amount, " zero")
+      assert_invalid(operation.amount, "operation.error.amount_zero")
     end
   end
 
@@ -65,7 +68,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      assert_invalid(operation.user_id, "not exist")
+      assert_invalid(operation.user_id, "operation.error.user_not_found")
     end
   end
 
@@ -80,7 +83,10 @@ describe Bill::ValidateTransaction do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      assert_invalid(operation.id, "not allowed")
+      assert_invalid(
+        operation.id,
+        "operation.error.transaction_update_forbidden"
+      )
     end
   end
 end

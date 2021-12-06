@@ -111,4 +111,22 @@ describe Bill::UpdateCreditNote do
       credit_note_items[0].price.should eq(12)
     end
   end
+
+  it "prevents modifying finalized credit note" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
+      .status(:open)
+
+    UpdateCreditNote.update(
+      credit_note,
+      params(description: "Another credit note"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, _|
+      operation.saved?.should be_false
+
+      assert_invalid(operation.status, "operation.error.credit_note_finalized")
+    end
+  end
 end

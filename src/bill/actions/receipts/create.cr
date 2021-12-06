@@ -15,12 +15,12 @@ module Bill::Receipts::Create
     end
 
     def do_run_operation_succeeded(operation, receipt)
-      flash.success = "Receipt created successfully"
+      flash.success = Rex.t(:"action.receipt.create.success")
       redirect to: Show.with(receipt_id: receipt.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not create receipt"
+      flash.failure = Rex.t(:"action.receipt.create.failure")
       html NewPage, operation: operation
     end
   end

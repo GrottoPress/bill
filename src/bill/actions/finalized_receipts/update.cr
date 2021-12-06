@@ -22,12 +22,12 @@ module Bill::FinalizedReceipts::Update
     end
 
     def do_run_operation_succeeded(operation, receipt)
-      flash.success = "Receipt updated successfully"
+      flash.success = Rex.t(:"action.receipt.update.success")
       redirect to: Receipts::Show.with(receipt_id: receipt.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not update receipt"
+      flash.failure = Rex.t(:"action.receipt.update.failure")
       html EditPage, operation: operation
     end
   end

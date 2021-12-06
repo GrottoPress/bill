@@ -11,4 +11,15 @@ describe Bill::DeleteReceipt do
 
     ReceiptQuery.new.id(receipt.id).any?.should be_false
   end
+
+  it "prevents deleting finalized receipt" do
+    user = UserFactory.create
+    receipt = ReceiptFactory.create &.user_id(user.id).status(:open)
+
+    DeleteReceipt.delete(receipt) do |operation, _|
+      operation.deleted?.should be_false
+
+      assert_invalid(operation.status, "operation.error.receipt_finalized")
+    end
+  end
 end

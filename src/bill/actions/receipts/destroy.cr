@@ -19,12 +19,12 @@ module Bill::Receipts::Destroy
     end
 
     def do_run_operation_succeeded(operation, receipt)
-      flash.success = "Receipt deleted successfully"
+      flash.success = Rex.t(:"action.receipt.destroy.success")
       redirect to: Index
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not delete receipt"
+      flash.failure = Rex.t(:"action.receipt.destroy.failure")
       redirect_back fallback: Index
     end
   end

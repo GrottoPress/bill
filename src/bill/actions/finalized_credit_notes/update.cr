@@ -23,12 +23,12 @@ module Bill::FinalizedCreditNotes::Update
     end
 
     def do_run_operation_succeeded(operation, credit_note)
-      flash.success = "Credit note updated successfully"
+      flash.success = Rex.t(:"action.credit_note.update.success")
       redirect to: CreditNotes::Show.with(credit_note_id: credit_note.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not update credit note"
+      flash.failure = Rex.t(:"action.credit_note.update.failure")
       html EditPage, operation: operation
     end
   end

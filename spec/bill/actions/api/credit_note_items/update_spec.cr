@@ -23,7 +23,7 @@ describe Bill::Api::CreditNoteItems::Update do
 
     response.should send_json(
       200,
-      data: {credit_note: {type: "CreditNoteSerializer"}}
+      message: "action.credit_note_item.update.success"
     )
   end
 end

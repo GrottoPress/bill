@@ -18,12 +18,12 @@ module Bill::CreditNotes::Create
     end
 
     def do_run_operation_succeeded(operation, credit_note)
-      flash.success = "Credit note created successfully"
+      flash.success =  Rex.t(:"action.credit_note.create.success")
       redirect to: Show.with(credit_note_id: credit_note.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not create credit note"
+      flash.failure = Rex.t(:"action.credit_note.create.failure")
       html NewPage, operation: operation
     end
   end

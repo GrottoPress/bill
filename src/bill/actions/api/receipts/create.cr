@@ -17,7 +17,7 @@ module Bill::Api::Receipts::Create
     def do_run_operation_succeeded(operation, receipt)
       json({
         status: "success",
-        message: "Receipt created successfully",
+        message: Rex.t(:"action.receipt.create.success"),
         data: {receipt: ReceiptSerializer.new(receipt)}
       })
     end
@@ -25,7 +25,7 @@ module Bill::Api::Receipts::Create
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not create receipt",
+        message: Rex.t(:"action.receipt.create.failure"),
         data: {errors: operation.errors}
       })
     end

@@ -15,9 +15,6 @@ describe Bill::Api::FinalizedInvoices::Update do
 
     invoice.reload.description.should eq(new_description)
 
-    response.should send_json(
-      200,
-      data: {invoice: {type: "InvoiceSerializer"}}
-    )
+    response.should send_json(200, message: "action.invoice.update.success")
   end
 end

@@ -10,6 +10,6 @@ describe Bill::Api::Receipts::Delete do
     ))
 
     ReceiptQuery.new.id(receipt.id).any?.should be_false
-    response.should send_json(200, data: {receipt: {type: "ReceiptSerializer"}})
+    response.should send_json(200, message: "action.receipt.destroy.success")
   end
 end

@@ -15,12 +15,12 @@ module Bill::CreditTransactions::Create
     end
 
     def do_run_operation_succeeded(operation, transaction)
-      flash.success = "Transaction created successfully"
+      flash.success = Rex.t(:"action.transaction.create.success")
       redirect to: Transactions::Show.with(transaction_id: transaction.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not create transaction"
+      flash.failure = Rex.t(:"action.transaction.create.failure")
       html NewPage, operation: operation
     end
   end

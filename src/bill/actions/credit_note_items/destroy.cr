@@ -21,7 +21,7 @@ module Bill::CreditNoteItems::Destroy
     end
 
     def do_run_operation_succeeded(operation, credit_note_item)
-      flash.success = "Credit note item deleted successfully"
+      flash.success = Rex.t(:"action.credit_note_item.destroy.success")
 
       redirect to: CreditNotes::Show.with(
         credit_note_id: credit_note_item.credit_note_id
@@ -29,7 +29,7 @@ module Bill::CreditNoteItems::Destroy
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not delete credit note item"
+      flash.failure = Rex.t(:"action.credit_note_item.destroy.failure")
 
       redirect_back fallback: Index.with(
         credit_note_id: credit_note_item.credit_note_id

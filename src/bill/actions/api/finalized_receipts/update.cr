@@ -24,7 +24,7 @@ module Bill::Api::FinalizedReceipts::Update
     def do_run_operation_succeeded(operation, receipt)
       json({
         status: "success",
-        message: "Receipt updated successfully",
+        message: Rex.t(:"action.receipt.update.success"),
         data: {receipt: ReceiptSerializer.new(receipt)}
       })
     end
@@ -32,7 +32,7 @@ module Bill::Api::FinalizedReceipts::Update
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not update receipt",
+        message: Rex.t(:"action.receipt.update.failure"),
         data: {errors: operation.errors}
       })
     end

@@ -20,7 +20,7 @@ module Bill::Api::CreditNotes::Create
     def do_run_operation_succeeded(operation, credit_note)
       json({
         status: "success",
-        message: "Credit note created successfully",
+        message: Rex.t(:"action.credit_note.create.success"),
         data: {credit_note: CreditNoteSerializer.new(credit_note)}
       })
     end
@@ -28,7 +28,7 @@ module Bill::Api::CreditNotes::Create
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not create credit note",
+        message: Rex.t(:"action.credit_note.create.failure"),
         data: {errors: operation.errors}
       })
     end

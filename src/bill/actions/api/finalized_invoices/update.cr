@@ -27,7 +27,7 @@ module Bill::Api::FinalizedInvoices::Update
 
       json({
         status: "success",
-        message: "Invoice updated successfully",
+        message: Rex.t(:"action.invoice.update.success"),
         data: {invoice: InvoiceSerializer.new(invoice)}
       })
     end
@@ -35,7 +35,7 @@ module Bill::Api::FinalizedInvoices::Update
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not update invoice",
+        message: Rex.t(:"action.invoice.update.failure"),
         data: {errors: operation.errors}
       })
     end

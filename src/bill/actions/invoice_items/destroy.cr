@@ -21,12 +21,12 @@ module Bill::InvoiceItems::Destroy
     end
 
     def do_run_operation_succeeded(operation, invoice_item)
-      flash.success = "Invoice item deleted successfully"
+      flash.success = Rex.t(:"action.invoice_item.destroy.success")
       redirect to: Invoices::Show.with(invoice_id: invoice_item.invoice_id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not delete invoice item"
+      flash.failure = Rex.t(:"action.invoice_item.destroy.failure")
       redirect_back fallback: Index.with(invoice_id: invoice_item.invoice_id)
     end
   end

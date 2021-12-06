@@ -19,31 +19,47 @@ module Bill::ValidateCreditNoteItem
     end
 
     private def validate_credit_note_id_required
-      validate_required credit_note_id
+      validate_required credit_note_id,
+        message: Rex.t(:"operation.error.credit_note_id_required")
     end
 
     private def validate_description_required
-      validate_required description
+      validate_required description,
+        message: Rex.t(:"operation.error.description_required")
     end
 
     private def validate_price_required
-      validate_required price
+      validate_required price,
+        message: Rex.t(:"operation.error.price_required")
     end
 
     private def validate_price_gt_zero
       price.value.try do |value|
-        price.add_error("must be greater than zero") if value <= 0
+        return if value > 0
+        price.add_error Rex.t(:"operation.error.price_lte_zero", price: value)
       end
     end
 
     private def validate_quantity_gt_zero
       quantity.value.try do |value|
-        quantity.add_error("must be greater than zero") if value <= 0
+        return if value > 0
+
+        quantity.add_error Rex.t(
+          :"operation.error.quantity_lte_zero",
+          quantity: value
+        )
       end
     end
 
     private def validate_credit_note_exists
-      credit_note_id.add_error("does not exist") unless @credit_note
+      credit_note_id.value.try do |value|
+        return if @credit_note
+
+        credit_note_id.add_error Rex.t(
+          :"operation.error.credit_note_not_found",
+          credit_note_id: value
+        )
+      end
     end
 
     private def validate_credit_lte_invoice
@@ -60,7 +76,13 @@ module Bill::ValidateCreditNoteItem
             balance = invoice_amount - current_credits
 
             if current_item_amount > balance
-              id.add_error("amount cannot exceed #{balance}")
+              id.add_error Rex.t(
+                :"operation.error.credit_exceeds_invoice",
+                amount: current_item_amount,
+                amount_mu: FractionalMoney.new(current_item_amount).amount_mu,
+                balance: balance,
+                balance_mu: FractionalMoney.new(balance).amount_mu
+              )
             end
           end
         end

@@ -19,12 +19,12 @@ module Bill::Refunds::Create
     end
 
     def do_run_operation_succeeded(operation, transaction)
-      flash.success = "Payment refunded successfully"
+      flash.success = Rex.t(:"action.refund.create.success")
       redirect to: Transactions::Show.with(transaction_id: transaction.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not refund payment"
+      flash.failure = Rex.t(:"action.refund.create.failure")
       html NewPage, operation: operation
     end
   end

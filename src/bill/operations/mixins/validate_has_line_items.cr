@@ -19,7 +19,7 @@ module Bill::ValidateHasLineItems
           self.line_items_to_save.empty?
       end
 
-      id.add_error("has no line items")
+      id.add_error Rex.t(:"operation.error.{{ T.name.underscore }}_items_empty")
     end
   end
 end

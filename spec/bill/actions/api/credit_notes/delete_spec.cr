@@ -12,10 +12,6 @@ describe Bill::Api::CreditNotes::Delete do
     )
 
     CreditNoteQuery.new.id(credit_note.id).any?.should be_false
-
-    response.should send_json(
-      200,
-      data: {credit_note: {type: "CreditNoteSerializer"}}
-    )
+    response.should send_json(200, message: "action.credit_note.destroy.success")
   end
 end

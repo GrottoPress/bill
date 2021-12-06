@@ -21,4 +21,25 @@ describe Bill::UpdateFinalizedCreditNote do
       updated_credit_note.description.should eq(new_description)
     end
   end
+
+  it "requires finalized credit note" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+    credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
+
+    CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
+
+    UpdateFinalizedCreditNote.update(
+      CreditNoteQuery.preload_line_items(credit_note),
+      params(description: "Another credit note"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_credit_note|
+      operation.saved?.should be_false
+
+      assert_invalid(
+        operation.status,
+        "operation.error.credit_note_not_finalized"
+      )
+    end
+  end
 end

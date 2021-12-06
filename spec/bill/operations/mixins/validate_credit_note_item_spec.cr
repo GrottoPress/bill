@@ -14,7 +14,10 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.credit_note_id, " required")
+      assert_invalid(
+        operation.credit_note_id,
+        "operation.error.credit_note_id_required"
+      )
     end
   end
 
@@ -26,7 +29,10 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.credit_note_id, "not exist")
+      assert_invalid(
+        operation.credit_note_id,
+        "operation.error.credit_note_not_found"
+      )
     end
   end
 
@@ -53,7 +59,10 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.description, " required")
+      assert_invalid(
+        operation.description,
+        "operation.error.description_required"
+      )
     end
   end
 
@@ -68,7 +77,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.price, " required")
+      assert_invalid(operation.price, "operation.error.price_required")
     end
   end
 
@@ -96,7 +105,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.price, "greater than")
+      assert_invalid(operation.price, "operation.error.price_lte_zero")
     end
   end
 
@@ -125,7 +134,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      assert_invalid(operation.quantity, "greater than")
+      assert_invalid(operation.quantity, "operation.error.quantity_lte_zero")
     end
   end
 
@@ -154,7 +163,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      assert_invalid(operation.id, "cannot exceed 4")
+      assert_invalid(operation.id, "operation.error.credit_exceeds_invoice")
     end
 
     credit_note_item =
@@ -168,7 +177,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      assert_invalid(operation.id, "cannot exceed 4")
+      assert_invalid(operation.id, "operation.error.credit_exceeds_invoice")
     end
 
     CreditNoteFactory.create &.invoice_id(invoice.id)
@@ -183,7 +192,16 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      assert_invalid(operation.id, "cannot exceed 3")
+      assert_invalid(operation.id, "operation.error.credit_exceeds_invoice")
+    end
+
+    SaveCreditNoteItem.update(credit_note_item, params(
+      quantity: 1,
+      price: 3
+    )) do |operation, _|
+      operation.saved?.should be_true
+
+      assert_valid(operation.id)
     end
   end
 end

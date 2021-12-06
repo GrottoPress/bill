@@ -17,7 +17,7 @@ module Bill::Api::CreditTransactions::Create
     def do_run_operation_succeeded(operation, transaction)
       json({
         status: "success",
-        message: "Transaction created successfully",
+        message: Rex.t(:"action.transaction.create.success"),
         data: {transaction: TransactionSerializer.new(transaction)}
       })
     end
@@ -25,7 +25,7 @@ module Bill::Api::CreditTransactions::Create
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not create transaction",
+        message: Rex.t(:"action.transaction.create.failure"),
         data: {errors: operation.errors}
       })
     end

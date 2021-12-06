@@ -27,7 +27,7 @@ module Bill::Api::CreditNoteItems::Destroy
 
       json({
         status: "success",
-        message: "Credit note item deleted successfully",
+        message: Rex.t(:"action.credit_note_item.destroy.success"),
         data: {credit_note: CreditNoteSerializer.new(credit_note)}
       })
     end
@@ -35,7 +35,7 @@ module Bill::Api::CreditNoteItems::Destroy
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not delete credit note item",
+        message: Rex.t(:"action.credit_note_item.destroy.failure"),
         data: {errors: operation.errors}
       })
     end

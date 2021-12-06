@@ -14,7 +14,7 @@ describe Bill::Api::Refunds::Create do
 
     response.should send_json(
       200,
-      data: {transaction: {type: "TransactionSerializer"}}
+      message: "action.refund.create.success"
     )
   end
 end

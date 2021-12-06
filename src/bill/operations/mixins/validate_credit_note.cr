@@ -15,24 +15,39 @@ module Bill::ValidateCreditNote
     include Bill::ValidateStatusTransition
 
     private def validate_description_required
-      validate_required description
+      validate_required description,
+        message: Rex.t(:"operation.error.description_required")
     end
 
     private def validate_status_required
-      validate_required status
+      validate_required status,
+        message: Rex.t(:"operation.error.status_required")
     end
 
     private def validate_invoice_id_required
-      validate_required invoice_id
+      validate_required invoice_id,
+        message: Rex.t(:"operation.error.invoice_id_required")
     end
 
     private def validate_invoice_exists
-      invoice_id.add_error("does not exist") unless @invoice
+      invoice_id.value.try do |value|
+        return if @invoice
+
+        invoice_id.add_error Rex.t(
+          :"operation.error.invoice_not_found",
+          invoice_id: value
+        )
+      end
     end
 
     private def validate_invoice_finalized
       @invoice.try do |invoice|
-        invoice_id.add_error("is not finalized") unless invoice.finalized?
+        return if invoice.finalized?
+
+        invoice_id.add_error Rex.t(
+          :"operation.error.invoice_not_finalized",
+          invoice_id: invoice.id
+        )
       end
     end
 

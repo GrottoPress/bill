@@ -23,7 +23,7 @@ module Bill::Api::Invoices::Destroy
 
       json({
         status: "success",
-        message: "Invoice deleted successfully",
+        message: Rex.t(:"action.invoice.destroy.success"),
         data: {invoice: InvoiceSerializer.new(invoice)}
       })
     end
@@ -31,7 +31,7 @@ module Bill::Api::Invoices::Destroy
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not delete invoice",
+        message: Rex.t(:"action.invoice.destroy.failure"),
         data: {errors: operation.errors}
       })
     end

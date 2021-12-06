@@ -32,7 +32,11 @@ module Bill::ValidateParentOperation
 
       parent.record.try do |parent|
         return if parent.id == {{ assoc[:foreign_key].id }}.value
-        {{ assoc[:foreign_key].id }}.add_error("is invalid")
+
+        {{ assoc[:foreign_key].id }}.add_error Rex.t(
+          :"operation.error.{{ assoc[:foreign_key].id }}_invalid",
+          {{ assoc[:foreign_key].id }}: {{ assoc[:foreign_key].id }}.value
+        )
       end
     end
 
@@ -41,7 +45,12 @@ module Bill::ValidateParentOperation
 
       return parent.record.try do |parent|
         return unless parent.finalized?
-        {{ assoc[:foreign_key].id }}.add_error("is finalized")
+
+        {{ assoc[:foreign_key].id }}.add_error Rex.t(
+          :"operation.error.{{ parent_model.underscore }}_finalized",
+          {{ assoc[:foreign_key].id }}: parent.id,
+          status: parent.status.to_s
+        )
       end
     end
   end

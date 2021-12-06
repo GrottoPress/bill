@@ -27,7 +27,7 @@ module Bill::Api::FinalizedCreditNotes::Update
 
       json({
         status: "success",
-        message: "Credit note updated successfully",
+        message: Rex.t(:"action.credit_note.update.success"),
         data: {credit_note: CreditNoteSerializer.new(credit_note)}
       })
     end
@@ -35,7 +35,7 @@ module Bill::Api::FinalizedCreditNotes::Update
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not update credit note",
+        message: Rex.t(:"action.credit_note.update.failure"),
         data: {errors: operation.errors}
       })
     end

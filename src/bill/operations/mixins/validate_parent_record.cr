@@ -20,7 +20,12 @@ module Bill::ValidateParentRecord
     private def validate_parent_not_finalized
       record.try do |record|
         return unless record.{{ assoc[:assoc_name].id }}.finalized?
-        {{ assoc[:foreign_key].id }}.add_error("is finalized")
+
+        {{ assoc[:foreign_key].id }}.add_error Rex.t(
+          :"operation.error.{{ parent_model.underscore }}_finalized",
+          {{ assoc[:foreign_key].id }}: record.id,
+          status: record.{{ assoc[:assoc_name].id }}.status.to_s
+        )
       end
     end
   end

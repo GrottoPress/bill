@@ -22,7 +22,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.user_id, " required")
+      assert_invalid(operation.user_id, "operation.error.user_id_required")
     end
   end
 
@@ -36,7 +36,10 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.description, " required")
+      assert_invalid(
+        operation.description,
+        "operation.error.description_required"
+      )
     end
   end
 
@@ -49,7 +52,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.due_at, " required")
+      assert_invalid(operation.due_at, "operation.error.due_at_required")
     end
   end
 
@@ -62,7 +65,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.status, " required")
+      assert_invalid(operation.status, "operation.error.status_required")
     end
   end
 
@@ -75,7 +78,10 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.business_details, " required")
+      assert_invalid(
+        operation.business_details,
+        "operation.error.business_details_required"
+      )
     end
   end
 
@@ -88,7 +94,10 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.user_details, " required")
+      assert_invalid(
+        operation.user_details,
+        "operation.error.user_details_required"
+      )
     end
   end
 
@@ -103,7 +112,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      assert_invalid(operation.user_id, "not exist")
+      assert_invalid(operation.user_id, "operation.error.user_not_found")
     end
   end
 
@@ -117,7 +126,10 @@ describe Bill::ValidateInvoice do
     ) do |operation, updated_invoice|
       operation.saved?.should be_false
 
-      assert_invalid(operation.status, "change")
+      assert_invalid(
+        operation.status,
+        "operation.error.status_transition_invalid"
+      )
     end
   end
 end

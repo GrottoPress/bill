@@ -14,6 +14,9 @@ describe Bill::Api::InvoiceItems::Create do
     )
 
     InvoiceItemQuery.new.any?.should be_true
-    response.should send_json(200, data: {invoice: {type: "InvoiceSerializer"}})
+
+    response.should send_json(
+      200,
+      message: "action.invoice_item.create.success")
   end
 end

@@ -19,10 +19,6 @@ describe Bill::Api::FinalizedCreditNotes::Update do
     )
 
     credit_note.reload.description.should eq(new_description)
-
-    response.should send_json(
-      200,
-      data: {credit_note: {type: "CreditNoteSerializer"}}
-    )
+    response.should send_json(200, message: "action.credit_note.update.success")
   end
 end

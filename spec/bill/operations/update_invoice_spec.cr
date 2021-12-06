@@ -83,4 +83,19 @@ describe Bill::UpdateInvoice do
       invoice_items[0].price.should eq(12)
     end
   end
+
+  it "prevents modifying finalized invoice" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    UpdateInvoice.update(
+      invoice,
+      params(description: "Another invoice"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, _|
+      operation.saved?.should be_false
+
+      assert_invalid(operation.status, "operation.error.invoice_finalized")
+    end
+  end
 end

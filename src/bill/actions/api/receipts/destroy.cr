@@ -21,7 +21,7 @@ module Bill::Api::Receipts::Destroy
     def do_run_operation_succeeded(operation, receipt)
       json({
         status: "success",
-        message: "Receipt deleted successfully",
+        message: Rex.t(:"action.receipt.destroy.success"),
         data: {receipt: ReceiptSerializer.new(receipt)}
       })
     end
@@ -29,7 +29,7 @@ module Bill::Api::Receipts::Destroy
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not delete receipt",
+        message: Rex.t(:"action.receipt.destroy.failure"),
         data: {errors: operation.errors}
       })
     end

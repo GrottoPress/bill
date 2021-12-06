@@ -18,7 +18,10 @@ describe Bill::ValidateParentFinalized do
     ) do |operation, _|
       operation.saved?.should be_false
 
-      assert_invalid(operation.invoice_id, "not finalized")
+      assert_invalid(
+        operation.invoice_id,
+        "operation.error.invoice_not_finalized"
+      )
     end
   end
 end

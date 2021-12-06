@@ -21,7 +21,7 @@ module Bill::Api::Refunds::Create
     def do_run_operation_succeeded(operation, transaction)
       json({
         status: "success",
-        message: "Payment refunded successfully",
+        message: Rex.t(:"action.refund.create.success"),
         data: {transaction: TransactionSerializer.new(transaction)}
       })
     end
@@ -29,7 +29,7 @@ module Bill::Api::Refunds::Create
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not refund payment",
+        message: Rex.t(:"action.refund.create.failure"),
         data: {errors: operation.errors}
       })
     end

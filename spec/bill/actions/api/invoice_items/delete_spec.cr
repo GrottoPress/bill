@@ -11,6 +11,10 @@ describe Bill::Api::InvoiceItems::Delete do
     ))
 
     InvoiceItemQuery.new.id(invoice.id).any?.should be_false
-    response.should send_json(200, data: {invoice: {type: "InvoiceSerializer"}})
+
+    response.should send_json(
+      200,
+      message: "action.invoice_item.destroy.success"
+    )
   end
 end

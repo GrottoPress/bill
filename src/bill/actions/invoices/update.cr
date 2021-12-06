@@ -23,12 +23,12 @@ module Bill::Invoices::Update
     end
 
     def do_run_operation_succeeded(operation, invoice)
-      flash.success = "Invoice updated successfully"
+      flash.success = Rex.t(:"action.invoice.update.success")
       redirect to: Show.with(invoice_id: invoice.id)
     end
 
     def do_run_operation_failed(operation)
-      flash.failure = "Could not update invoice"
+      flash.failure = Rex.t(:"action.invoice.update.failure")
       html EditPage, operation: operation
     end
   end

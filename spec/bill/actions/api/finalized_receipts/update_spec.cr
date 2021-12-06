@@ -13,6 +13,6 @@ describe Bill::Api::FinalizedReceipts::Update do
     )
 
     receipt.reload.description.should eq(new_description)
-    response.should send_json(200, data: {receipt: {type: "ReceiptSerializer"}})
+    response.should send_json(200, message: "action.receipt.update.success")
   end
 end

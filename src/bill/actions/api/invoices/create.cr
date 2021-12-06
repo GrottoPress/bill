@@ -20,7 +20,7 @@ module Bill::Api::Invoices::Create
     def do_run_operation_succeeded(operation, invoice)
       json({
         status: "success",
-        message: "Invoice created successfully",
+        message: Rex.t(:"action.invoice.create.success"),
         data: {invoice: InvoiceSerializer.new(invoice)}
       })
     end
@@ -28,7 +28,7 @@ module Bill::Api::Invoices::Create
     def do_run_operation_failed(operation)
       json({
         status: "failure",
-        message: "Could not create invoice",
+        message: Rex.t(:"action.invoice.create.failure"),
         data: {errors: operation.errors}
       })
     end

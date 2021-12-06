@@ -9,6 +9,6 @@ describe Bill::Api::Receipts::Create do
     })
 
     ReceiptQuery.new.any?.should be_true
-    response.should send_json(200, data: {receipt: {type: "ReceiptSerializer"}})
+    response.should send_json(200, message: "action.receipt.create.success")
   end
 end

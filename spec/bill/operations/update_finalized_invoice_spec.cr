@@ -17,4 +17,20 @@ describe Bill::UpdateFinalizedInvoice do
       updated_invoice.description.should eq(new_description)
     end
   end
+
+  it "requires finalized invoice" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
+    InvoiceItemFactory.create &.invoice_id(invoice.id)
+
+    UpdateFinalizedInvoice.update(
+      invoice,
+      params(description: "Another invoice"),
+      line_items: Array(Hash(String, String)).new
+    ) do |operation, updated_invoice|
+      operation.saved?.should be_false
+
+      assert_invalid(operation.status, "operation.error.invoice_not_finalized")
+    end
+  end
 end

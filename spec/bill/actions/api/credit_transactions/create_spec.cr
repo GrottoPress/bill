@@ -13,10 +13,6 @@ describe Bill::Api::CreditTransactions::Create do
     )
 
     TransactionQuery.new.any?.should be_true
-
-    response.should send_json(
-      200,
-      data: {transaction: {type: "TransactionSerializer"}}
-    )
+    response.should send_json(200, message: "action.transaction.create.success")
   end
 end

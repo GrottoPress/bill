@@ -22,7 +22,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.user_id, " required")
+      assert_invalid(operation.user_id, "operation.error.user_id_required")
     end
   end
 
@@ -36,7 +36,10 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.description, " required")
+      assert_invalid(
+        operation.description,
+        "operation.error.description_required"
+      )
     end
   end
 
@@ -50,7 +53,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.amount, " required")
+      assert_invalid(operation.amount, "operation.error.amount_required")
     end
   end
 
@@ -65,7 +68,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.amount, "greater than")
+      assert_invalid(operation.amount, "operation.error.amount_lte_zero")
     end
   end
 
@@ -79,7 +82,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.status, " required")
+      assert_invalid(operation.status, "operation.error.status_required")
     end
   end
 
@@ -93,7 +96,10 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.business_details, " required")
+      assert_invalid(
+        operation.business_details,
+        "operation.error.business_details_required"
+      )
     end
   end
 
@@ -107,7 +113,10 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.user_details, " required")
+      assert_invalid(
+        operation.user_details,
+        "operation.error.user_details_required"
+      )
     end
   end
 
@@ -122,7 +131,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      assert_invalid(operation.user_id, "not exist")
+      assert_invalid(operation.user_id, "operation.error.user_not_found")
     end
   end
 
@@ -136,7 +145,10 @@ describe Bill::ValidateReceipt do
     ) do |operation, updated_receipt|
       operation.saved?.should be_false
 
-      assert_invalid(operation.status, "change")
+      assert_invalid(
+        operation.status,
+        "operation.error.status_transition_invalid"
+      )
     end
   end
 end
