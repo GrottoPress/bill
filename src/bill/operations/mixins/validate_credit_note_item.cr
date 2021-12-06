@@ -47,21 +47,22 @@ module Bill::ValidateCreditNoteItem
     end
 
     private def validate_credit_lte_invoice
-      return unless quantity.value && price.value
-      return unless quantity.changed? || price.changed?
+      quantity.value.try do |_quantity|
+        price.value.try do |_price|
+          return unless quantity.changed? || price.changed?
 
-      @credit_note.try do |credit_note|
-        invoice = credit_note.invoice
+          @credit_note.try do |credit_note|
+            invoice_amount = credit_note.invoice.net_amount
+            current_credits = credit_note.amount!
+            record.try { |record| current_credits -= record.amount }
 
-        invoice_amount = invoice.net_amount
-        current_credits = credit_note.amount!
-        record.try { |record| current_credits -= record.amount }
+            current_item_amount = _quantity * _price
+            balance = invoice_amount - current_credits
 
-        current_item_amount = quantity.value.not_nil! * price.value.not_nil!
-        balance = invoice_amount - current_credits
-
-        if current_item_amount > balance
-          id.add_error("amount cannot exceed #{balance}")
+            if current_item_amount > balance
+              id.add_error("amount cannot exceed #{balance}")
+            end
+          end
         end
       end
     end
