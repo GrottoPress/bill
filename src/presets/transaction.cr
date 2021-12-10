@@ -25,7 +25,7 @@ class CreateDebitTransaction < Transaction::SaveOperation
   include Bill::CreateDebitTransaction
 end
 
-class TransactionMetadata
+struct TransactionMetadata
   include Bill::TransactionMetadata
 end
 

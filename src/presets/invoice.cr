@@ -37,6 +37,6 @@ struct InvoiceState
   include Bill::InvoiceState
 end
 
-class InvoiceTotals
+struct InvoiceTotals
   include Bill::InvoiceTotals
 end

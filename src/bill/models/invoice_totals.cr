@@ -1,8 +1,8 @@
 module Bill::InvoiceTotals
   macro included
-    include JSON::Serializable
+    include Lucille::JSON
 
-    property credit_notes : Int32 = 0
-    property line_items : Int32 = 0
+    getter credit_notes : Int32 = 0
+    getter line_items : Int32 = 0
   end
 end

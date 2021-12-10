@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Remove `Lucky::Env` module in favour of [`LuckyEnv`](https://github.com/luckyframework/lucky_env)
+- Convert `CreditNoteTotals` to a struct
+- Convert `InvoiceTotals` to a struct
+- Convert `TransactionMetadata` to a struct
 
 ### Removed
 - Remove support for *Lucky* v0.28

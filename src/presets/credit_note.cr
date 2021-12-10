@@ -45,6 +45,6 @@ struct CreditNoteState
   include Bill::CreditNoteState
 end
 
-class CreditNoteTotals
+struct CreditNoteTotals
   include Bill::CreditNoteTotals
 end
