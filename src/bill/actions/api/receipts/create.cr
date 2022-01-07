@@ -6,7 +6,7 @@ module Bill::Api::Receipts::Create
 
     def run_operation
       ReceivePayment.create(params) do |operation, receipt|
-        if receipt
+        if operation.saved?
           do_run_operation_succeeded(operation, receipt.not_nil!)
         else
           do_run_operation_failed(operation)

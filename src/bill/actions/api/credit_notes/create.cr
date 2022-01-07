@@ -9,7 +9,7 @@ module Bill::Api::CreditNotes::Create
         params,
         line_items: params.many_nested?(:line_items)
       ) do |operation, credit_note|
-        if credit_note
+        if operation.saved?
           do_run_operation_succeeded(operation, reload(credit_note.not_nil!))
         else
           do_run_operation_failed(operation)

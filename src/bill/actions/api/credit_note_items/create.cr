@@ -9,7 +9,7 @@ module Bill::Api::CreditNoteItems::Create
         params,
         credit_note_id: credit_note_id.to_i64
       ) do |operation, credit_note_item|
-        if credit_note_item
+        if operation.saved?
           do_run_operation_succeeded(operation, credit_note_item.not_nil!)
         else
           do_run_operation_failed(operation)

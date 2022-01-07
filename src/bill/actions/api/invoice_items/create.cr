@@ -9,7 +9,7 @@ module Bill::Api::InvoiceItems::Create
         params,
         invoice_id: invoice_id.to_i64
       ) do |operation, invoice_item|
-        if invoice_item
+        if operation.saved?
           do_run_operation_succeeded(operation, invoice_item.not_nil!)
         else
           do_run_operation_failed(operation)
