@@ -6,15 +6,13 @@ module Bill::UpdateInvoiceTotalCreditNotes
 
     private def set_total_credit_notes
       record.try do |invoice|
+        values = {credit_notes: invoice.credit_notes_amount!}
+
         totals.value.try do |value|
-          return totals.value = value.merge(
-            credit_notes: invoice.credit_notes_amount!
-          )
+          return totals.value = value.merge(**values)
         end
 
-        totals.value = InvoiceTotals.from_json({
-          credit_notes: invoice.credit_notes_amount!
-        }.to_json)
+        totals.value = InvoiceTotals.from_json(values.to_json)
       end
     end
   end

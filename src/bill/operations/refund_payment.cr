@@ -30,13 +30,13 @@ module Bill::RefundPayment
 
     private def set_metadata
       receipt.try do |receipt|
+        values = {receipt_id: receipt.id}
+
         metadata.value.try do |value|
-          return metadata.value = value.merge(receipt_id: receipt.id)
+          return metadata.value = value.merge(**values)
         end
 
-        metadata.value = TransactionMetadata.from_json({
-          receipt_id: receipt.id,
-        }.to_json)
+        metadata.value = TransactionMetadata.from_json(values.to_json)
       end
     end
 
