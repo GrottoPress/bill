@@ -12,6 +12,7 @@ module Bill::Api::CreditNotes::Create
         if operation.saved?
           do_run_operation_succeeded(operation, reload(credit_note.not_nil!))
         else
+          response.status_code = 400
           do_run_operation_failed(operation)
         end
       end

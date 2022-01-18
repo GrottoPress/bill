@@ -16,6 +16,7 @@ module Bill::Api::InvoiceItems::Delete
             deleted_invoice_item.not_nil!
           )
         else
+          response.status_code = 400
           do_run_operation_failed(operation)
         end
       end

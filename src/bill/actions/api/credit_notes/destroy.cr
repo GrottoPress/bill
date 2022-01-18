@@ -11,6 +11,7 @@ module Bill::Api::CreditNotes::Destroy
     #     if operation.saved?
     #       do_run_operation_succeeded(operation, updated_credit_note)
     #     else
+    #       response.status_code = 400
     #       do_run_operation_failed(operation)
     #     end
     #   end
