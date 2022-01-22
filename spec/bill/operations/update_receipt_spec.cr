@@ -43,7 +43,7 @@ describe Bill::UpdateReceipt do
     ) do |operation, _|
       operation.saved?.should be_false
 
-      operation.status.should_not be_valid("operation.error.receipt_finalized")
+      operation.status.should have_error("operation.error.receipt_finalized")
     end
   end
 end

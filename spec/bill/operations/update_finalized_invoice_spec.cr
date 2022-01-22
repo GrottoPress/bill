@@ -31,7 +31,7 @@ describe Bill::UpdateFinalizedInvoice do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.invoice_not_finalized")
+        .should have_error("operation.error.invoice_not_finalized")
     end
   end
 end

@@ -26,7 +26,7 @@ describe Bill::DeleteInvoiceItem do
       operation.deleted?.should be_false
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_finalized")
+        .should have_error("operation.error.invoice_finalized")
     end
 
     InvoiceItemQuery.new.id(invoice_item.id).any?.should be_true

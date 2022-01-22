@@ -35,7 +35,7 @@ describe Bill::ValidateParentOperation do
         operation.saved?.should be_false
 
         operation.invoice_id
-          .should_not be_valid("operation.error.invoice_finalized")
+          .should have_error("operation.error.invoice_finalized")
       end
     end
   end
@@ -60,7 +60,7 @@ describe Bill::ValidateParentOperation do
         operation.saved?.should be_false
 
         operation.invoice_id
-          .should_not be_valid("operation.error.invoice_id_invalid")
+          .should have_error("operation.error.invoice_id_invalid")
       end
     end
   end

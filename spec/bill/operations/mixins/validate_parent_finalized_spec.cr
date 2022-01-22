@@ -19,7 +19,7 @@ describe Bill::ValidateParentFinalized do
       operation.saved?.should be_false
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_not_finalized")
+        .should have_error("operation.error.invoice_not_finalized")
     end
   end
 end

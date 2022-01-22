@@ -28,7 +28,7 @@ describe Bill::UpdateFinalizedReceipt do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.receipt_not_finalized")
+        .should have_error("operation.error.receipt_not_finalized")
     end
   end
 end

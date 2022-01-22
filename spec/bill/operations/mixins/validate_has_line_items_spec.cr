@@ -26,7 +26,7 @@ describe Bill::ValidateHasLineItems do
     ) do |operation, invoice|
       invoice.should be_nil
 
-      operation.id.should_not be_valid("operation.error.invoice_items_empty")
+      operation.id.should have_error("operation.error.invoice_items_empty")
     end
   end
 
@@ -40,7 +40,7 @@ describe Bill::ValidateHasLineItems do
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_false
-      operation.id.should_not be_valid("operation.error.invoice_items_empty")
+      operation.id.should have_error("operation.error.invoice_items_empty")
     end
   end
 

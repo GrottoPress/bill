@@ -22,7 +22,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_id_required")
+      operation.user_id.should have_error("operation.error.user_id_required")
     end
   end
 
@@ -37,7 +37,7 @@ describe Bill::ValidateInvoice do
       invoice.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -50,7 +50,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      operation.due_at.should_not be_valid("operation.error.due_at_required")
+      operation.due_at.should have_error("operation.error.due_at_required")
     end
   end
 
@@ -63,7 +63,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      operation.status.should_not be_valid("operation.error.status_required")
+      operation.status.should have_error("operation.error.status_required")
     end
   end
 
@@ -77,7 +77,7 @@ describe Bill::ValidateInvoice do
       invoice.should be_nil
 
       operation.business_details
-        .should_not be_valid("operation.error.business_details_required")
+        .should have_error("operation.error.business_details_required")
     end
   end
 
@@ -91,7 +91,7 @@ describe Bill::ValidateInvoice do
       invoice.should be_nil
 
       operation.user_details
-        .should_not be_valid("operation.error.user_details_required")
+        .should have_error("operation.error.user_details_required")
     end
   end
 
@@ -106,7 +106,7 @@ describe Bill::ValidateInvoice do
     )) do |operation, invoice|
       invoice.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_not_found")
+      operation.user_id.should have_error("operation.error.user_not_found")
     end
   end
 
@@ -121,7 +121,7 @@ describe Bill::ValidateInvoice do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.status_transition_invalid")
+        .should have_error("operation.error.status_transition_invalid")
     end
   end
 end

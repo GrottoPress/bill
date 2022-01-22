@@ -15,7 +15,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_id_required")
+      operation.user_id.should have_error("operation.error.user_id_required")
     end
   end
 
@@ -28,7 +28,7 @@ describe Bill::ValidateTransaction do
       transaction.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -40,7 +40,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      operation.amount.should_not be_valid("operation.error.amount_required")
+      operation.amount.should have_error("operation.error.amount_required")
     end
   end
 
@@ -53,7 +53,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      operation.amount.should_not be_valid("operation.error.amount_zero")
+      operation.amount.should have_error("operation.error.amount_zero")
     end
   end
 
@@ -66,7 +66,7 @@ describe Bill::ValidateTransaction do
     )) do |operation, transaction|
       transaction.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_not_found")
+      operation.user_id.should have_error("operation.error.user_not_found")
     end
   end
 
@@ -82,7 +82,7 @@ describe Bill::ValidateTransaction do
       operation.saved?.should be_false
 
       operation.id
-        .should_not be_valid("operation.error.transaction_update_forbidden")
+        .should have_error("operation.error.transaction_update_forbidden")
     end
   end
 end

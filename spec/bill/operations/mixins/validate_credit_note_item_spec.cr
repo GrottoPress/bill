@@ -15,7 +15,7 @@ describe Bill::ValidateCreditNoteItem do
       credit_note_item.should be_nil
 
       operation.credit_note_id
-        .should_not be_valid("operation.error.credit_note_id_required")
+        .should have_error("operation.error.credit_note_id_required")
     end
   end
 
@@ -28,7 +28,7 @@ describe Bill::ValidateCreditNoteItem do
       credit_note_item.should be_nil
 
       operation.credit_note_id
-        .should_not be_valid("operation.error.credit_note_not_found")
+        .should have_error("operation.error.credit_note_not_found")
     end
   end
 
@@ -56,7 +56,7 @@ describe Bill::ValidateCreditNoteItem do
       credit_note_item.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -71,7 +71,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      operation.price.should_not be_valid("operation.error.price_required")
+      operation.price.should have_error("operation.error.price_required")
     end
   end
 
@@ -99,7 +99,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
-      operation.price.should_not be_valid("operation.error.price_lte_zero")
+      operation.price.should have_error("operation.error.price_lte_zero")
     end
   end
 
@@ -129,7 +129,7 @@ describe Bill::ValidateCreditNoteItem do
       credit_note_item.should be_nil
 
       operation.quantity
-        .should_not be_valid("operation.error.quantity_lte_zero")
+        .should have_error("operation.error.quantity_lte_zero")
     end
   end
 
@@ -158,7 +158,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      operation.id.should_not be_valid("operation.error.credit_exceeds_invoice")
+      operation.id.should have_error("operation.error.credit_exceeds_invoice")
     end
 
     credit_note_item =
@@ -172,7 +172,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      operation.id.should_not be_valid("operation.error.credit_exceeds_invoice")
+      operation.id.should have_error("operation.error.credit_exceeds_invoice")
     end
 
     CreditNoteFactory.create &.invoice_id(invoice.id)
@@ -187,7 +187,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_false
 
-      operation.id.should_not be_valid("operation.error.credit_exceeds_invoice")
+      operation.id.should have_error("operation.error.credit_exceeds_invoice")
     end
 
     SaveCreditNoteItem.update(credit_note_item, params(
@@ -196,7 +196,7 @@ describe Bill::ValidateCreditNoteItem do
     )) do |operation, _|
       operation.saved?.should be_true
 
-      operation.id.should be_valid
+      operation.id.should_not have_error
     end
   end
 end

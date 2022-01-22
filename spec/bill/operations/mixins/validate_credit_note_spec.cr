@@ -15,7 +15,7 @@ describe Bill::ValidateCreditNote do
       credit_note.should be_nil
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_id_required")
+        .should have_error("operation.error.invoice_id_required")
     end
   end
 
@@ -30,7 +30,7 @@ describe Bill::ValidateCreditNote do
       credit_note.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -44,7 +44,7 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      operation.status.should_not be_valid("operation.error.status_required")
+      operation.status.should have_error("operation.error.status_required")
     end
   end
 
@@ -57,7 +57,7 @@ describe Bill::ValidateCreditNote do
       credit_note.should be_nil
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_not_found")
+        .should have_error("operation.error.invoice_not_found")
     end
   end
 
@@ -73,7 +73,7 @@ describe Bill::ValidateCreditNote do
       credit_note.should be_nil
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_not_finalized")
+        .should have_error("operation.error.invoice_not_finalized")
     end
   end
 
@@ -91,7 +91,7 @@ describe Bill::ValidateCreditNote do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.status_transition_invalid")
+        .should have_error("operation.error.status_transition_invalid")
     end
   end
 end

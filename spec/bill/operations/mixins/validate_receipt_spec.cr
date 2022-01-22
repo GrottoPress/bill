@@ -22,7 +22,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_id_required")
+      operation.user_id.should have_error("operation.error.user_id_required")
     end
   end
 
@@ -37,7 +37,7 @@ describe Bill::ValidateReceipt do
       receipt.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -51,7 +51,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      operation.amount.should_not be_valid("operation.error.amount_required")
+      operation.amount.should have_error("operation.error.amount_required")
     end
   end
 
@@ -66,7 +66,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      operation.amount.should_not be_valid("operation.error.amount_lte_zero")
+      operation.amount.should have_error("operation.error.amount_lte_zero")
     end
   end
 
@@ -80,7 +80,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      operation.status.should_not be_valid("operation.error.status_required")
+      operation.status.should have_error("operation.error.status_required")
     end
   end
 
@@ -95,7 +95,7 @@ describe Bill::ValidateReceipt do
       receipt.should be_nil
 
       operation.business_details
-        .should_not be_valid("operation.error.business_details_required")
+        .should have_error("operation.error.business_details_required")
     end
   end
 
@@ -110,7 +110,7 @@ describe Bill::ValidateReceipt do
       receipt.should be_nil
 
       operation.user_details
-        .should_not be_valid("operation.error.user_details_required")
+        .should have_error("operation.error.user_details_required")
     end
   end
 
@@ -125,7 +125,7 @@ describe Bill::ValidateReceipt do
     )) do |operation, receipt|
       receipt.should be_nil
 
-      operation.user_id.should_not be_valid("operation.error.user_not_found")
+      operation.user_id.should have_error("operation.error.user_not_found")
     end
   end
 
@@ -140,7 +140,7 @@ describe Bill::ValidateReceipt do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.status_transition_invalid")
+        .should have_error("operation.error.status_transition_invalid")
     end
   end
 end

@@ -127,7 +127,7 @@ describe Bill::UpdateCreditNote do
       operation.saved?.should be_false
 
       operation.status
-        .should_not be_valid("operation.error.credit_note_finalized")
+        .should have_error("operation.error.credit_note_finalized")
     end
   end
 end

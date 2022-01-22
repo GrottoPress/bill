@@ -58,7 +58,7 @@ describe Bill::RefundPayment do
         operation.saved?.should be_false
 
         operation.type
-          .should_not be_valid("operation.error.receipt_not_finalized")
+          .should have_error("operation.error.receipt_not_finalized")
       end
     end
 
@@ -76,7 +76,7 @@ describe Bill::RefundPayment do
         operation.saved?.should be_false
 
         operation.amount
-          .should_not be_valid("operation.error.refund_exceeds_receipt")
+          .should have_error("operation.error.refund_exceeds_receipt")
       end
     end
   end

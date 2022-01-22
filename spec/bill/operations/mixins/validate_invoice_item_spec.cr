@@ -15,7 +15,7 @@ describe Bill::ValidateInvoiceItem do
       invoice_item.should be_nil
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_id_required")
+        .should have_error("operation.error.invoice_id_required")
     end
   end
 
@@ -28,7 +28,7 @@ describe Bill::ValidateInvoiceItem do
       invoice_item.should be_nil
 
       operation.invoice_id
-        .should_not be_valid("operation.error.invoice_not_found")
+        .should have_error("operation.error.invoice_not_found")
     end
   end
 
@@ -43,7 +43,7 @@ describe Bill::ValidateInvoiceItem do
       invoice_item.should be_nil
 
       operation.description
-        .should_not be_valid("operation.error.description_required")
+        .should have_error("operation.error.description_required")
     end
   end
 
@@ -57,7 +57,7 @@ describe Bill::ValidateInvoiceItem do
     )) do |operation, invoice_item|
       invoice_item.should be_nil
 
-      operation.price.should_not be_valid("operation.error.price_required")
+      operation.price.should have_error("operation.error.price_required")
     end
   end
 
@@ -72,7 +72,7 @@ describe Bill::ValidateInvoiceItem do
     )) do |operation, invoice_item|
       invoice_item.should be_nil
 
-      operation.price.should_not be_valid("operation.error.price_lte_zero")
+      operation.price.should have_error("operation.error.price_lte_zero")
     end
   end
 
@@ -89,7 +89,7 @@ describe Bill::ValidateInvoiceItem do
       invoice_item.should be_nil
 
       operation.quantity
-        .should_not be_valid("operation.error.quantity_lte_zero")
+        .should have_error("operation.error.quantity_lte_zero")
     end
   end
 end

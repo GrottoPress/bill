@@ -95,7 +95,7 @@ describe Bill::UpdateInvoice do
     ) do |operation, _|
       operation.saved?.should be_false
 
-      operation.status.should_not be_valid("operation.error.invoice_finalized")
+      operation.status.should have_error("operation.error.invoice_finalized")
     end
   end
 end
