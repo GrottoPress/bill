@@ -30,7 +30,8 @@ describe Bill::UpdateFinalizedInvoice do
     ) do |operation, updated_invoice|
       operation.saved?.should be_false
 
-      assert_invalid(operation.status, "operation.error.invoice_not_finalized")
+      operation.status
+        .should_not be_valid("operation.error.invoice_not_finalized")
     end
   end
 end

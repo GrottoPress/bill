@@ -19,7 +19,7 @@ describe Bill::DeleteInvoice do
     DeleteInvoice.delete(invoice) do |operation, _|
       operation.deleted?.should be_false
 
-      assert_invalid(operation.status, "operation.error.invoice_finalized")
+      operation.status.should_not be_valid("operation.error.invoice_finalized")
     end
   end
 end

@@ -36,10 +36,8 @@ describe Bill::UpdateFinalizedCreditNote do
     ) do |operation, updated_credit_note|
       operation.saved?.should be_false
 
-      assert_invalid(
-        operation.status,
-        "operation.error.credit_note_not_finalized"
-      )
+      operation.status
+        .should_not be_valid("operation.error.credit_note_not_finalized")
     end
   end
 end

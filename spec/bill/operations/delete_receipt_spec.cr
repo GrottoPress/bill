@@ -19,7 +19,7 @@ describe Bill::DeleteReceipt do
     DeleteReceipt.delete(receipt) do |operation, _|
       operation.deleted?.should be_false
 
-      assert_invalid(operation.status, "operation.error.receipt_finalized")
+      operation.status.should_not be_valid("operation.error.receipt_finalized")
     end
   end
 end

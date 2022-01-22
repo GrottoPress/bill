@@ -24,7 +24,9 @@ describe Bill::DeleteInvoiceItem do
       InvoiceItemQuery.preload_invoice(invoice_item)
     ) do |operation, _|
       operation.deleted?.should be_false
-      assert_invalid(operation.invoice_id, "operation.error.invoice_finalized")
+
+      operation.invoice_id
+        .should_not be_valid("operation.error.invoice_finalized")
     end
 
     InvoiceItemQuery.new.id(invoice_item.id).any?.should be_true

@@ -14,10 +14,8 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      assert_invalid(
-        operation.invoice_id,
-        "operation.error.invoice_id_required"
-      )
+      operation.invoice_id
+        .should_not be_valid("operation.error.invoice_id_required")
     end
   end
 
@@ -31,10 +29,8 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      assert_invalid(
-        operation.description,
-        "operation.error.description_required"
-      )
+      operation.description
+        .should_not be_valid("operation.error.description_required")
     end
   end
 
@@ -48,7 +44,7 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      assert_invalid(operation.status, "operation.error.status_required")
+      operation.status.should_not be_valid("operation.error.status_required")
     end
   end
 
@@ -60,7 +56,8 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      assert_invalid(operation.invoice_id, "operation.error.invoice_not_found")
+      operation.invoice_id
+        .should_not be_valid("operation.error.invoice_not_found")
     end
   end
 
@@ -75,10 +72,8 @@ describe Bill::ValidateCreditNote do
     )) do |operation, credit_note|
       credit_note.should be_nil
 
-      assert_invalid(
-        operation.invoice_id,
-        "operation.error.invoice_not_finalized"
-      )
+      operation.invoice_id
+        .should_not be_valid("operation.error.invoice_not_finalized")
     end
   end
 
@@ -95,10 +90,8 @@ describe Bill::ValidateCreditNote do
     ) do |operation, updated_credit_note|
       operation.saved?.should be_false
 
-      assert_invalid(
-        operation.status,
-        "operation.error.status_transition_invalid"
-      )
+      operation.status
+        .should_not be_valid("operation.error.status_transition_invalid")
     end
   end
 end

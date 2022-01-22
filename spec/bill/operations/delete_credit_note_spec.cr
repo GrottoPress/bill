@@ -23,7 +23,8 @@ describe Bill::DeleteCreditNote do
     DeleteCreditNote.delete(credit_note) do |operation, _|
       operation.deleted?.should be_false
 
-      assert_invalid(operation.status, "operation.error.credit_note_finalized")
+      operation.status
+        .should_not be_valid("operation.error.credit_note_finalized")
     end
   end
 end

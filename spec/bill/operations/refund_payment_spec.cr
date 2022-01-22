@@ -56,7 +56,9 @@ describe Bill::RefundPayment do
 
       RefundPayment.create(receipt: receipt) do |operation, _|
         operation.saved?.should be_false
-        assert_invalid(operation.type, "operation.error.receipt_not_finalized")
+
+        operation.type
+          .should_not be_valid("operation.error.receipt_not_finalized")
       end
     end
 
@@ -73,10 +75,8 @@ describe Bill::RefundPayment do
       ) do |operation, _|
         operation.saved?.should be_false
 
-        assert_invalid(
-          operation.amount,
-          "operation.error.refund_exceeds_receipt"
-        )
+        operation.amount
+          .should_not be_valid("operation.error.refund_exceeds_receipt")
       end
     end
   end
