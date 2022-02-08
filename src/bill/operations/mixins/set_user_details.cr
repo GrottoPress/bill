@@ -12,7 +12,7 @@ module Bill::SetUserDetails
       @user.try do |user|
         user_details.value = <<-TEXT
           #{user.full_name}
-          #{user.full_address}
+          #{user.billing_address}
           TEXT
       end
     end
