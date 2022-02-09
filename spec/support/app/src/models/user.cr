@@ -14,8 +14,10 @@ class User < BaseModel
     "User ##{id}"
   end
 
-  def billing_address
+  def billing_details
     <<-TEXT
+    #{full_name}
+    <#{email}>
     No #{id} Street,
     Ghana.
     TEXT

@@ -10,10 +10,7 @@ module Bill::SetUserDetails
       return if record.try(&.finalized?)
 
       @user.try do |user|
-        user_details.value = <<-TEXT
-          #{user.full_name}
-          #{user.billing_address}
-          TEXT
+        user_details.value = user.billing_details
       end
     end
   end

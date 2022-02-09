@@ -53,7 +53,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
    end
    ```
 
-   Invoices require `#full_name : String` and `#billing_address : String` defined on the `User` model. You may add these as database columns, or as regular methods.
+   Invoices require `#billing_details : String` defined on the `User` model. This should return customer details such as full name (or company name) and billing address, for use on invoices.
 
 1. Set up migrations:
 
