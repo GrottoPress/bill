@@ -16,6 +16,7 @@ describe Bill::SendDirectReceiptEmail do
     )) do |operation, transaction|
       transaction.should be_a(Transaction)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       transaction.try do |transaction|
         transaction = TransactionQuery.preload_user(transaction)
         NewDirectReceiptEmail.new(operation, transaction).should be_delivered
@@ -32,6 +33,7 @@ describe Bill::SendDirectReceiptEmail do
     )) do |operation, transaction|
       transaction.should be_a(Transaction)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       transaction.try do |transaction|
         transaction = TransactionQuery.preload_user(transaction)
 

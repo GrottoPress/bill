@@ -3,9 +3,6 @@ require "../../../spec_helper"
 describe Bill::HasManyCreditNoteItems do
   describe "#line_items_amount!" do
     it "returns the correct amount" do
-      description = "New invoice"
-      notes = "A note"
-
       user = UserFactory.create
       invoice = InvoiceFactory.create &.user_id(user.id)
       credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)

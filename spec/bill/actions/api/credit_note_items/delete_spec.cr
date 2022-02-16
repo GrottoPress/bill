@@ -13,6 +13,7 @@ describe Bill::Api::CreditNoteItems::Delete do
       credit_note_item_id: credit_note_item.id
     ))
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.id(credit_note.id).any?.should be_false
 
     response.should send_json(

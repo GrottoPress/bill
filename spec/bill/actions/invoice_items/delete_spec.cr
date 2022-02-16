@@ -10,7 +10,9 @@ describe Bill::InvoiceItems::Delete do
       invoice_item_id: invoice_item.id
     ))
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.id(invoice.id).any?.should be_false
+
     response.status.should eq(HTTP::Status::FOUND)
   end
 end

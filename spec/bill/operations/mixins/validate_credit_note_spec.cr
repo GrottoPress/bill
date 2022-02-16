@@ -87,7 +87,7 @@ describe Bill::ValidateCreditNote do
     SaveCreditNote.update(
       credit_note,
       params(status: :draft)
-    ) do |operation, updated_credit_note|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

@@ -15,6 +15,7 @@ describe Bill::RefundPayment do
     ) do |_, transaction|
       transaction.should be_a(Transaction)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       transaction.try do |transaction|
         transaction.user_id.should eq(user.id)
         transaction.description.should eq(description)
@@ -41,6 +42,7 @@ describe Bill::RefundPayment do
       ) do |_, transaction|
         transaction.should be_a(Transaction)
 
+        # ameba:disable Lint/ShadowingOuterLocalVar
         transaction.try do |transaction|
           transaction.user_id.should eq(user.id)
           transaction.description.should eq(description)

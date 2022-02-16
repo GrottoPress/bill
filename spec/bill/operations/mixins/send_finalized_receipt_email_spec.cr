@@ -23,6 +23,7 @@ describe Bill::SendFinalizedReceiptEmail do
     )) do |operation, receipt|
       receipt.should be_a(Receipt)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       receipt.try do |receipt|
         receipt = ReceiptQuery.preload_user(receipt)
         NewReceiptEmail.new(operation, receipt).should be_delivered

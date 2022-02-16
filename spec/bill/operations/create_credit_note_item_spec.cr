@@ -30,6 +30,7 @@ describe Bill::CreateCreditNoteItem do
     )) do |_, credit_note_item|
       credit_note_item.should be_a(CreditNoteItem)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       credit_note_item.try do |credit_note_item|
         credit_note_item.credit_note_id.should eq(credit_note.id)
         credit_note_item.description.should eq(description)

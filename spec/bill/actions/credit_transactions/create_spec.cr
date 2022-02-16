@@ -12,7 +12,9 @@ describe Bill::CreditTransactions::Create do
       }
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.any?.should be_true
+
     response.status.should eq(HTTP::Status::FOUND)
   end
 end

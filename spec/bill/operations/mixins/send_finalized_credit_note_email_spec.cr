@@ -18,6 +18,7 @@ describe Bill::SendFinalizedCreditNoteEmail do
     )) do |operation, credit_note|
       credit_note.should be_a(CreditNote)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       credit_note.try do |credit_note|
         credit_note = CreditNoteQuery.preload_invoice(
           credit_note,

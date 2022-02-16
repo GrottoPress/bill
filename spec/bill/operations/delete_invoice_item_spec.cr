@@ -12,6 +12,7 @@ describe Bill::DeleteInvoiceItem do
       operation.deleted?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.id(invoice_item.id).any?.should be_false
   end
 
@@ -29,6 +30,7 @@ describe Bill::DeleteInvoiceItem do
         .should have_error("operation.error.invoice_finalized")
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.id(invoice_item.id).any?.should be_true
   end
 end

@@ -7,6 +7,7 @@ describe Bill::Invoices::Delete do
 
     response = ApiClient.exec(Invoices::Delete.with(invoice_id: invoice.id))
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceQuery.new.id(invoice.id).any?.should be_false
 
     response.status.should eq(HTTP::Status::FOUND)

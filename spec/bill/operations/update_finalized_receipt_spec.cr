@@ -24,7 +24,7 @@ describe Bill::UpdateFinalizedReceipt do
     UpdateFinalizedReceipt.update(
       receipt,
       params(description: "Another receipt")
-    ) do |operation, updated_receipt|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

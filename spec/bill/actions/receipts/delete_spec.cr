@@ -7,7 +7,9 @@ describe Bill::Receipts::Delete do
 
     response = ApiClient.exec(Receipts::Delete.with(receipt_id: receipt.id))
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     ReceiptQuery.new.id(receipt.id).any?.should be_false
+
     response.status.should eq(HTTP::Status::FOUND)
   end
 end

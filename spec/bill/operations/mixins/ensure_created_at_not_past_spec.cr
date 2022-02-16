@@ -17,6 +17,7 @@ describe Bill::EnsureCreatedAtNotPast do
     )) do |_, transaction|
       transaction.should be_a(Transaction)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       transaction.try do |transaction|
         transaction.created_at.should be_close(Time.utc, 2.seconds)
       end

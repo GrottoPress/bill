@@ -22,6 +22,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
       invoice.should be_a(Invoice)
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -38,6 +39,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -50,10 +52,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
       invoice,
       params(description: "Another invoice"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 
@@ -66,10 +69,11 @@ describe Bill::CreateFinalizedInvoiceTransaction do
       invoice,
       params(description: "Another invoice"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 end

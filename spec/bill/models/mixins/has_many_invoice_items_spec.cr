@@ -3,10 +3,6 @@ require "../../../spec_helper"
 describe Bill::HasManyInvoiceItems do
   describe "#line_items_amount!" do
     it "returns the correct amount" do
-      description = "New invoice"
-      due_at = 3.days.from_now.to_utc
-      notes = "A note"
-
       user = UserFactory.create
       invoice = InvoiceFactory.create &.user_id(user.id)
 

@@ -11,7 +11,12 @@ describe Bill::Api::CreditNotes::Delete do
       Api::CreditNotes::Delete.with(credit_note_id: credit_note.id)
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteQuery.new.id(credit_note.id).any?.should be_false
-    response.should send_json(200, message: "action.credit_note.destroy.success")
+
+    response.should send_json(
+      200,
+      message: "action.credit_note.destroy.success"
+    )
   end
 end

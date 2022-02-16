@@ -21,6 +21,7 @@ describe Bill::CreateInvoice do
     ) do |_, invoice|
       invoice.should be_a(Invoice)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       invoice.try do |invoice|
         invoice.user_id.should eq(user.id)
         invoice.description.should eq(description)
@@ -55,6 +56,7 @@ describe Bill::CreateInvoice do
     ) do |_, invoice|
       invoice.should be_a(Invoice)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       invoice.try do |invoice|
         invoice.user_id.should eq(user.id)
         invoice.description.should eq(description)

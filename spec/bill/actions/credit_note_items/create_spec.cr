@@ -26,7 +26,9 @@ describe Bill::CreditNoteItems::Create do
       }
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.any?.should be_true
+
     response.status.should eq(HTTP::Status::FOUND)
   end
 end

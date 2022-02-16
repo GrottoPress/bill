@@ -9,7 +9,9 @@ describe Bill::Api::Invoices::Delete do
       Api::Invoices::Delete.with(invoice_id: invoice.id)
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceQuery.new.id(invoice.id).any?.should be_false
+
     response.should send_json(200, message: "action.invoice.destroy.success")
   end
 end

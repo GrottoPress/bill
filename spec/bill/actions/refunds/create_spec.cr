@@ -10,6 +10,7 @@ describe Bill::Refunds::Create do
       transaction: {amount: 10}
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.any?.should be_true
     response.status.should eq(HTTP::Status::FOUND)
   end

@@ -12,7 +12,9 @@ describe Bill::Api::CreditTransactions::Create do
       }
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.any?.should be_true
+
     response.should send_json(200, message: "action.transaction.create.success")
   end
 end

@@ -21,6 +21,7 @@ describe Bill::CreateCreditNote do
     ) do |_, credit_note|
       credit_note.should be_a(CreditNote)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       credit_note.try do |credit_note|
         credit_note.invoice_id.should eq(invoice.id)
         credit_note.description.should eq(description)
@@ -64,6 +65,7 @@ describe Bill::CreateCreditNote do
     ) do |_, credit_note|
       credit_note.should be_a(CreditNote)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       credit_note.try do |credit_note|
         credit_note.invoice_id.should eq(invoice.id)
         credit_note.description.should eq(description)

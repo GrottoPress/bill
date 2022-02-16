@@ -18,7 +18,7 @@ describe Bill::ReceivePayment do
     )) do |_, receipt|
       receipt.should be_a(Receipt)
 
-      receipt.try do |receipt|
+      receipt.try do |receipt| # ameba:disable Lint/ShadowingOuterLocalVar
         receipt.user_id.should eq(user.id)
         receipt.description.should eq(description)
         receipt.amount.should eq(amount)

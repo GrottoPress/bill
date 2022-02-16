@@ -24,17 +24,17 @@ describe Bill::ValidateParentOperation do
     SaveInvoice.update(
       invoice,
       params(description: "Another invoice")
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_true
 
       SaveInvoiceItem.update(
         invoice_item,
         params(description: "Another invoice item"),
         parent: operation
-      ) do |operation, _|
-        operation.saved?.should be_false
+      ) do |_operation, _|
+        _operation.saved?.should be_false
 
-        operation.invoice_id
+        _operation.invoice_id
           .should have_error("operation.error.invoice_finalized")
       end
     end
@@ -49,17 +49,17 @@ describe Bill::ValidateParentOperation do
     SaveInvoice.update(
       invoice,
       params(description: "Another invoice")
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_true
 
       SaveInvoiceItem.update(
         invoice_item,
         params(description: "Another invoice item"),
         parent: operation
-      ) do |operation, _|
-        operation.saved?.should be_false
+      ) do |_operation, _|
+        _operation.saved?.should be_false
 
-        operation.invoice_id
+        _operation.invoice_id
           .should have_error("operation.error.invoice_id_invalid")
       end
     end

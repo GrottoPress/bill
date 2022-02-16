@@ -8,6 +8,7 @@ describe Bill::Receipts::Create do
       amount: 90
     })
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     ReceiptQuery.new.any?.should be_true
     response.status.should eq(HTTP::Status::FOUND)
   end

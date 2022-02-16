@@ -37,6 +37,7 @@ describe Bill::CreateFinalizedReceiptTransaction do
       receipt.should be_a(Receipt)
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -48,6 +49,7 @@ describe Bill::CreateFinalizedReceiptTransaction do
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -57,10 +59,11 @@ describe Bill::CreateFinalizedReceiptTransaction do
 
     SpecUpdateReceipt.update(receipt, params(
       description: "Another receipt",
-    )) do |operation, updated_receipt|
+    )) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 
@@ -70,10 +73,11 @@ describe Bill::CreateFinalizedReceiptTransaction do
 
     SpecUpdateReceipt.update(receipt, params(
       description: "Another receipt",
-    )) do |operation, updated_receipt|
+    )) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 end

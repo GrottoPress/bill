@@ -117,7 +117,7 @@ describe Bill::ValidateInvoice do
     SaveInvoice.update(
       invoice,
       params(status: :draft)
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

@@ -16,9 +16,10 @@ describe Bill::CreateCreditTransaction do
         type: :receipt
       ),
       metadata: TransactionMetadata.from_json({receipt_id: receipt_id}.to_json)
-    ) do |operation, transaction|
+    ) do |_, transaction|
       transaction.should be_a(Transaction)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       transaction.try do |transaction|
         transaction.user_id.should eq(user.id)
         transaction.description.should eq(description)

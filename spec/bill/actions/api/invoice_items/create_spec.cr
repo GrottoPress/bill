@@ -13,6 +13,7 @@ describe Bill::Api::InvoiceItems::Create do
       }
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.any?.should be_true
 
     response.should send_json(

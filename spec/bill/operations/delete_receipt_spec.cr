@@ -9,6 +9,7 @@ describe Bill::DeleteReceipt do
       operation.deleted?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     ReceiptQuery.new.id(receipt.id).any?.should be_false
   end
 

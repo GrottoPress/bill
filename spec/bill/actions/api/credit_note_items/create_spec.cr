@@ -26,6 +26,7 @@ describe Bill::Api::CreditNoteItems::Create do
       }
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.any?.should be_true
 
     response.should send_json(

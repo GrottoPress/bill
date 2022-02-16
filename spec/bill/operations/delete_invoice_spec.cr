@@ -9,6 +9,7 @@ describe Bill::DeleteInvoice do
       operation.deleted?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceQuery.new.id(invoice.id).any?.should be_false
   end
 

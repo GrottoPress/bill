@@ -16,7 +16,10 @@ describe Bill::Api::Invoices::Create do
       }]
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceQuery.new.any?.should be_true
+
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.any?.should be_true
 
     response.should send_json(200, message: "action.invoice.create.success")

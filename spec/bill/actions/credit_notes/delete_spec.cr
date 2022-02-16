@@ -11,7 +11,9 @@ describe Bill::CreditNotes::Delete do
       CreditNotes::Delete.with(credit_note_id: credit_note.id)
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteQuery.new.id(credit_note.id).any?.should be_false
+
     response.status.should eq(HTTP::Status::FOUND)
   end
 end

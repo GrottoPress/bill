@@ -33,6 +33,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
       credit_note.should be_a(CreditNote)
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -50,6 +51,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_true
   end
 
@@ -65,10 +67,11 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
       credit_note,
       params(description: "Another credit note"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_credit_note|
+    ) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 
@@ -85,10 +88,11 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
       credit_note,
       params(description: "Another credit note"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_credit_note|
+    ) do |operation, _|
       operation.saved?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     TransactionQuery.new.user_id(user.id).any?.should be_false
   end
 end

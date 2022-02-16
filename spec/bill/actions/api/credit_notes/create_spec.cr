@@ -29,7 +29,10 @@ describe Bill::Api::CreditNotes::Create do
       }]
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteQuery.new.any?.should be_true
+
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.any?.should be_true
 
     response.should send_json(200, message: "action.credit_note.create.success")

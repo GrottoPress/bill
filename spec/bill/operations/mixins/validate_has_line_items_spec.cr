@@ -69,7 +69,7 @@ describe Bill::ValidateHasLineItems do
         user_details: "Mary Smith"
       ),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, invoice|
+    ) do |_, invoice|
       invoice.should be_a(Invoice)
     end
   end

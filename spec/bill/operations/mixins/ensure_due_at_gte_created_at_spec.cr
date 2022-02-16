@@ -23,6 +23,7 @@ describe Bill::EnsureDueAtGteCreatedAt do
     )) do |_, invoice|
       invoice.should be_a(Invoice)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       invoice.try do |invoice|
         invoice.due_at.>=(invoice.created_at).should be_true
       end

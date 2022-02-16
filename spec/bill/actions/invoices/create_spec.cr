@@ -16,7 +16,10 @@ describe Bill::Invoices::Create do
       }]
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceQuery.new.any?.should be_true
+
+    # ameba:disable Performance/AnyInsteadOfEmpty
     InvoiceItemQuery.new.any?.should be_true
 
     response.status.should eq(HTTP::Status::FOUND)

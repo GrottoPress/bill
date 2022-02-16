@@ -15,6 +15,7 @@ describe Bill::DeleteCreditNoteItem do
       operation.deleted?.should be_true
     end
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.id(credit_note_item.id).any?.should be_false
   end
 end

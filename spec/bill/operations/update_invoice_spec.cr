@@ -9,8 +9,8 @@ describe Bill::UpdateInvoice do
       .due_at(2.days.from_now.to_utc)
       .notes("A note")
 
-    invoice_item = InvoiceItemFactory.create &.invoice_id(invoice.id).price(9)
-    invoice_item_2 = InvoiceItemFactory.create &.invoice_id(invoice.id).price(6)
+    InvoiceItemFactory.create &.invoice_id(invoice.id).price(9)
+    InvoiceItemFactory.create &.invoice_id(invoice.id).price(6)
 
     new_user = UserFactory.create &.email("some@one.now")
     new_description = "Another invoice"

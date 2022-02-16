@@ -33,7 +33,7 @@ describe Bill::UpdateFinalizedCreditNote do
       CreditNoteQuery.preload_line_items(credit_note),
       params(description: "Another credit note"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_credit_note|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

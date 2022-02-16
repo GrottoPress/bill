@@ -159,8 +159,8 @@ describe Bill::InvoicesLedger do
           "quantity" => "1",
           "price" => "700"
         }]
-      ) do |_, invoice|
-        invoice.should be_a(Invoice)
+      ) do |_, _invoice|
+        _invoice.should be_a(Invoice)
       end
 
       user = UserQuery.preload_transactions(user)

@@ -23,6 +23,7 @@ describe Bill::SendFinalizedInvoiceEmail do
     )) do |operation, invoice|
       invoice.should be_a(Invoice)
 
+      # ameba:disable Lint/ShadowingOuterLocalVar
       invoice.try do |invoice|
         invoice = InvoiceQuery.preload_user(invoice)
         NewInvoiceEmail.new(operation, invoice).should be_delivered

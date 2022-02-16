@@ -9,7 +9,9 @@ describe Bill::Api::Receipts::Delete do
       receipt_id: receipt.id
     ))
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     ReceiptQuery.new.id(receipt.id).any?.should be_false
+
     response.should send_json(200, message: "action.receipt.destroy.success")
   end
 end

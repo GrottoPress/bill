@@ -136,7 +136,7 @@ describe Bill::ValidateReceipt do
     SaveReceipt.update(
       receipt,
       params(status: :draft)
-    ) do |operation, updated_receipt|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

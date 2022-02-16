@@ -27,7 +27,7 @@ describe Bill::UpdateFinalizedInvoice do
       invoice,
       params(description: "Another invoice"),
       line_items: Array(Hash(String, String)).new
-    ) do |operation, updated_invoice|
+    ) do |operation, _|
       operation.saved?.should be_false
 
       operation.status

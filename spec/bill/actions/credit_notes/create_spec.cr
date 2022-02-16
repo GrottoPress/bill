@@ -29,7 +29,10 @@ describe Bill::CreditNotes::Create do
       }]
     )
 
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteQuery.new.any?.should be_true
+
+    # ameba:disable Performance/AnyInsteadOfEmpty
     CreditNoteItemQuery.new.any?.should be_true
 
     response.status.should eq(HTTP::Status::FOUND)
