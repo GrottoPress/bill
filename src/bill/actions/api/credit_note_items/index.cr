@@ -8,10 +8,7 @@ module Bill::Api::CreditNoteItems::Index
     #     data: {credit_note_items: CreditNoteItemSerializer.for_collection(
     #       credit_note_items
     #     )},
-    #     pages: {
-    #       current: page,
-    #       total: pages.total
-    #     }
+    #     pages: PaginationSerializer.new(pages)
     #   })
     # end
 

@@ -9,10 +9,7 @@ class Api::InvoiceItems::Index < ApiAction
       data: {
         invoice_items: InvoiceItemSerializer.for_collection(invoice_items)
       },
-      pages: {
-        current: page,
-        total: pages.total
-      }
+      pages: PaginationSerializer.new(pages)
     })
   end
 end

@@ -9,10 +9,7 @@ class Api::Transactions::Index < ApiAction
       data: {
         transactions: TransactionSerializer.for_collection(transactions)
       },
-      pages: {
-        current: page,
-        total: pages.total
-      }
+      pages: PaginationSerializer.new(pages)
     })
   end
 end

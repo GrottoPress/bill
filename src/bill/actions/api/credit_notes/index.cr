@@ -6,10 +6,7 @@ module Bill::Api::CreditNotes::Index
     #   json({
     #     status: "success",
     #     data: {credit_notes: CreditNoteSerializer.for_collection(credit_notes)},
-    #     pages: {
-    #       current: page,
-    #       total: pages.total
-    #     }
+    #     pages: PaginationSerializer.new(pages)
     #   })
     # end
 

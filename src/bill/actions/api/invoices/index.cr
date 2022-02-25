@@ -6,10 +6,7 @@ module Bill::Api::Invoices::Index
     #   json({
     #     status: "success",
     #     data: {invoices: InvoiceSerializer.for_collection(invoices)},
-    #     pages: {
-    #       current: page,
-    #       total: pages.total
-    #     }
+    #     pages: PaginationSerializer.new(pages)
     #   })
     # end
 

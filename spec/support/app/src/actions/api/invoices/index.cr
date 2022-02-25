@@ -7,10 +7,7 @@ class Api::Invoices::Index < ApiAction
     json({
       status: "success",
       data: {invoices: InvoiceSerializer.for_collection(invoices)},
-      pages: {
-        current: page,
-        total: pages.total
-      }
+      pages: PaginationSerializer.new(pages)
     })
   end
 end
