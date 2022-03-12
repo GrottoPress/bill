@@ -22,19 +22,17 @@ module Bill::Api::Invoices::Destroy
     def do_run_operation_succeeded(operation, invoice)
       invoice = InvoiceQuery.preload_line_items(invoice)
 
-      json({
-        status: "success",
-        message: Rex.t(:"action.invoice.destroy.success"),
-        data: {invoice: InvoiceSerializer.new(invoice)}
-      })
+      json ItemResponse.new(
+        invoice: invoice,
+        message: Rex.t(:"action.invoice.destroy.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.invoice.destroy.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.invoice.destroy.failure")
+      )
     end
   end
 end

@@ -27,19 +27,17 @@ module Bill::Api::InvoiceItems::Update
         .preload_line_items
         .find(invoice_item.invoice_id)
 
-      json({
-        status: "success",
-        message: Rex.t(:"action.invoice_item.update.success"),
-        data: {invoice: InvoiceSerializer.new(invoice)}
-      })
+      json ItemResponse.new(
+        invoice: invoice,
+        message: Rex.t(:"action.invoice_item.update.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.invoice_item.update.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.invoice_item.update.failure")
+      )
     end
   end
 end

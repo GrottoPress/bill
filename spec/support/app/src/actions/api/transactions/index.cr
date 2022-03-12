@@ -4,12 +4,6 @@ class Api::Transactions::Index < ApiAction
   param page : Int32 = 1
 
   get "/transactions" do
-    json({
-      status: "success",
-      data: {
-        transactions: TransactionSerializer.for_collection(transactions)
-      },
-      pages: PaginationSerializer.new(pages)
-    })
+    json ListResponse.new(transactions: transactions, pages: pages)
   end
 end

@@ -19,19 +19,17 @@ module Bill::Api::Invoices::Create
     end
 
     def do_run_operation_succeeded(operation, invoice)
-      json({
-        status: "success",
-        message: Rex.t(:"action.invoice.create.success"),
-        data: {invoice: InvoiceSerializer.new(invoice)}
-      })
+      json ItemResponse.new(
+        invoice: invoice,
+        message: Rex.t(:"action.invoice.create.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.invoice.create.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.invoice.create.failure")
+      )
     end
 
     private def reload(invoice)

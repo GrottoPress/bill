@@ -16,19 +16,17 @@ module Bill::Api::DebitTransactions::Create
     end
 
     def do_run_operation_succeeded(operation, transaction)
-      json({
-        status: "success",
-        message: Rex.t(:"action.transaction.create.success"),
-        data: {transaction: TransactionSerializer.new(transaction)}
-      })
+      json ItemResponse.new(
+        transaction: transaction,
+        message: Rex.t(:"action.transaction.create.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.transaction.create.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.transaction.create.failure")
+      )
     end
   end
 end

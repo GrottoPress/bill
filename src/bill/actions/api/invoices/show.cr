@@ -1,10 +1,7 @@
 module Bill::Api::Invoices::Show
   macro included
     # get "/invoices/:invoice_id" do
-    #   json({
-    #     status: "success",
-    #     data: {invoice: InvoiceSerializer.new(invoice)}
-    #   })
+    #   json ItemResponse.new(invoice: invoice)
     # end
 
     getter invoice : Invoice do

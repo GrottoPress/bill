@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use saved status to determine status of create operations
 - Respond with HTTP status code `400` in actions if operation failed
 - Rename `User#full_address` to `#billing_details`
+- Replace `NamedTuple` responses in API with response serializers
 
 ## [0.2.0] - 2022-01-03
 

@@ -1,10 +1,7 @@
 module Bill::Api::Receipts::Show
   macro included
     # get "/receipts/:receipt_id" do
-    #   json({
-    #     status: "success",
-    #     data: {receipt: ReceiptSerializer.new(receipt)}
-    #   })
+    #   json ItemResponse.new(receipt: receipt)
     # end
 
     getter receipt : Receipt do

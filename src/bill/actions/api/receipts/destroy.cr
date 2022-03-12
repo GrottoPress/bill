@@ -20,19 +20,17 @@ module Bill::Api::Receipts::Destroy
     end
 
     def do_run_operation_succeeded(operation, receipt)
-      json({
-        status: "success",
-        message: Rex.t(:"action.receipt.destroy.success"),
-        data: {receipt: ReceiptSerializer.new(receipt)}
-      })
+      json ItemResponse.new(
+        receipt: receipt,
+        message: Rex.t(:"action.receipt.destroy.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.receipt.destroy.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.receipt.destroy.failure")
+      )
     end
   end
 end

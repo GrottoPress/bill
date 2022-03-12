@@ -4,10 +4,6 @@ class Api::CreditNotes::Index < ApiAction
   param page : Int32 = 1
 
   get "/credit-notes" do
-    json({
-      status: "success",
-      data: {credit_notes: CreditNoteSerializer.for_collection(credit_notes)},
-      pages: PaginationSerializer.new(pages)
-    })
+    json ListResponse.new(credit_notes: credit_notes, pages: pages)
   end
 end

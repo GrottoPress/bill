@@ -26,19 +26,17 @@ module Bill::Api::FinalizedCreditNotes::Update
     def do_run_operation_succeeded(operation, credit_note)
       credit_note = CreditNoteQuery.preload_line_items(credit_note)
 
-      json({
-        status: "success",
-        message: Rex.t(:"action.credit_note.update.success"),
-        data: {credit_note: CreditNoteSerializer.new(credit_note)}
-      })
+      json ItemResponse.new(
+        credit_note: credit_note,
+        message: Rex.t(:"action.credit_note.update.success")
+      )
     end
 
     def do_run_operation_failed(operation)
-      json({
-        status: "failure",
-        message: Rex.t(:"action.credit_note.update.failure"),
-        data: {errors: operation.errors}
-      })
+      json FailureResponse.new(
+        errors: operation.errors,
+        message: Rex.t(:"action.credit_note.update.failure")
+      )
     end
   end
 end
