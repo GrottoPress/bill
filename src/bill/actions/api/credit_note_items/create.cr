@@ -23,14 +23,14 @@ module Bill::Api::CreditNoteItems::Create
         .preload_line_items
         .find(credit_note_item.credit_note_id)
 
-      json ItemResponse.new(
+      json CreditNoteSerializer.new(
         credit_note: credit_note,
         message: Rex.t(:"action.credit_note_item.create.success")
       )
     end
 
     def do_run_operation_failed(operation)
-      json FailureResponse.new(
+      json FailureSerializer.new(
         errors: operation.errors,
         message: Rex.t(:"action.credit_note_item.create.failure")
       )

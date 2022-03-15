@@ -4,6 +4,6 @@ class Api::Receipts::Index < ApiAction
   param page : Int32 = 1
 
   get "/receipts" do
-    json ListResponse.new(receipts: receipts, pages: pages)
+    json ReceiptSerializer.new(receipts: receipts, pages: pages)
   end
 end

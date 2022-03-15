@@ -26,14 +26,14 @@ module Bill::Api::FinalizedInvoices::Update
     def do_run_operation_succeeded(operation, invoice)
       invoice = InvoiceQuery.preload_line_items(invoice)
 
-      json ItemResponse.new(
+      json InvoiceSerializer.new(
         invoice: invoice,
         message: Rex.t(:"action.invoice.update.success")
       )
     end
 
     def do_run_operation_failed(operation)
-      json FailureResponse.new(
+      json FailureSerializer.new(
         errors: operation.errors,
         message: Rex.t(:"action.invoice.update.failure")
       )

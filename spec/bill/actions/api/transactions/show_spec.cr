@@ -11,7 +11,7 @@ describe Bill::Api::Transactions::Show do
 
     response.should send_json(
       200,
-      data: {transaction: {type: "TransactionSerializer"}}
+      data: {transaction: {type: "Transaction"}}
     )
   end
 end

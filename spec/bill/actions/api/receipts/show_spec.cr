@@ -7,6 +7,6 @@ describe Bill::Api::Receipts::Show do
 
     response = ApiClient.exec(Api::Receipts::Show.with(receipt_id: receipt.id))
 
-    response.should send_json(200, data: {receipt: {type: "ReceiptSerializer"}})
+    response.should send_json(200, data: {receipt: {type: "Receipt"}})
   end
 end

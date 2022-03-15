@@ -23,14 +23,14 @@ module Bill::Api::FinalizedReceipts::Update
     end
 
     def do_run_operation_succeeded(operation, receipt)
-      json ItemResponse.new(
+      json ReceiptSerializer.new(
         receipt: receipt,
         message: Rex.t(:"action.receipt.update.success")
       )
     end
 
     def do_run_operation_failed(operation)
-      json FailureResponse.new(
+      json FailureSerializer.new(
         errors: operation.errors,
         message: Rex.t(:"action.receipt.update.failure")
       )

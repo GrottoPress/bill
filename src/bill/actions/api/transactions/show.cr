@@ -1,7 +1,7 @@
 module Bill::Api::Transactions::Show
   macro included
     # get "/transactions/:transaction_id" do
-    #   json ItemResponse.new(transaction: transaction)
+    #   json TransactionSerializer.new(transaction: transaction)
     # end
 
     getter transaction : Transaction do

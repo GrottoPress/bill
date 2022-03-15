@@ -15,7 +15,7 @@ describe Bill::Api::CreditNoteItems::Show do
 
     response.should send_json(
       200,
-      data: {credit_note_item: {type: "CreditNoteItemSerializer"}}
+      data: {credit_note_item: {type: "CreditNoteItem"}}
     )
   end
 end

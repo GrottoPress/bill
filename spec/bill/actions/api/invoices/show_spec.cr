@@ -9,7 +9,7 @@ describe Bill::Api::Invoices::Show do
 
     response.should send_json(
       200,
-      data: {invoice: {type: "InvoiceSerializer"}}
+      data: {invoice: {type: "Invoice"}}
     )
   end
 end

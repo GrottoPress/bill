@@ -1,7 +1,7 @@
 module Bill::Api::Invoices::Show
   macro included
     # get "/invoices/:invoice_id" do
-    #   json ItemResponse.new(invoice: invoice)
+    #   json InvoiceSerializer.new(invoice: invoice)
     # end
 
     getter invoice : Invoice do

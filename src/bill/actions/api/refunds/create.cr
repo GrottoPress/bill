@@ -20,14 +20,14 @@ module Bill::Api::Refunds::Create
     end
 
     def do_run_operation_succeeded(operation, transaction)
-      json ItemResponse.new(
+      json TransactionSerializer.new(
         transaction: transaction,
         message: Rex.t(:"action.refund.create.success")
       )
     end
 
     def do_run_operation_failed(operation)
-      json FailureResponse.new(
+      json FailureSerializer.new(
         errors: operation.errors,
         message: Rex.t(:"action.refund.create.failure")
       )

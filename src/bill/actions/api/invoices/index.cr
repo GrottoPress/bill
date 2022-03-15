@@ -3,7 +3,7 @@ module Bill::Api::Invoices::Index
     # param page : Int32 = 1
 
     # get "/invoices" do
-    #   json ListResponse.new(invoices: invoices, pages: pages)
+    #   json InvoiceSerializer.new(invoices: invoices, pages: pages)
     # end
 
     def pages

@@ -12,6 +12,7 @@ require "../../../../src/presets"
 
 # require "./operations/**"
 require "./serializers/base_serializer"
+require "./serializers/success_serializer"
 require "./serializers/**"
 require "./emails/base_email"
 require "./emails/**"

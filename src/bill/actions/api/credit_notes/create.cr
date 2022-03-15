@@ -19,14 +19,14 @@ module Bill::Api::CreditNotes::Create
     end
 
     def do_run_operation_succeeded(operation, credit_note)
-      json ItemResponse.new(
+      json CreditNoteSerializer.new(
         credit_note: credit_note,
         message: Rex.t(:"action.credit_note.create.success")
       )
     end
 
     def do_run_operation_failed(operation)
-      json FailureResponse.new(
+      json FailureSerializer.new(
         errors: operation.errors,
         message: Rex.t(:"action.credit_note.create.failure")
       )

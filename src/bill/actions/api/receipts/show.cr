@@ -1,7 +1,7 @@
 module Bill::Api::Receipts::Show
   macro included
     # get "/receipts/:receipt_id" do
-    #   json ItemResponse.new(receipt: receipt)
+    #   json ReceiptSerializer.new(receipt: receipt)
     # end
 
     getter receipt : Receipt do
