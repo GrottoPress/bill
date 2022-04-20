@@ -19,11 +19,11 @@ describe Bill::HasManyCreditNoteItems do
       invoice_2 = InvoiceFactory.create &.user_id(user_2.id)
       credit_note_2 = CreditNoteFactory.create &.invoice_id(invoice_2.id)
 
-      CreditNoteItemFactory.create &.credit_note_id(invoice_2.id)
+      CreditNoteItemFactory.create &.credit_note_id(credit_note_2.id)
         .quantity(5)
         .price(12)
 
-      CreditNoteItemFactory.create &.credit_note_id(invoice_2.id)
+      CreditNoteItemFactory.create &.credit_note_id(credit_note_2.id)
         .quantity(7)
         .price(10)
 
