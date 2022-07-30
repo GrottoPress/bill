@@ -38,7 +38,7 @@ describe Bill::FinalizeCreditNoteTotals do
       _credit_note.should be_a(CreditNote)
 
       _credit_note.try do |_credit_note|
-        _credit_note.reload.totals.try do |totals|
+        _credit_note.totals.try do |totals|
           totals.line_items.should eq(2 * 12)
         end
 

@@ -11,7 +11,7 @@ module Bill::Api::CreditNotes::Update
         line_items: params.many_nested?(:line_items)
       ) do |operation, updated_credit_note|
         if operation.saved?
-          do_run_operation_succeeded(operation, reload(updated_credit_note))
+          do_run_operation_succeeded(operation, updated_credit_note)
         else
           response.status_code = 400
           do_run_operation_failed(operation)
@@ -25,7 +25,7 @@ module Bill::Api::CreditNotes::Update
 
     def do_run_operation_succeeded(operation, credit_note)
       json CreditNoteSerializer.new(
-        credit_note: credit_note,
+        credit_note: CreditNoteQuery.preload_line_items(credit_note),
         message: Rex.t(:"action.credit_note.update.success")
       )
     end
@@ -35,11 +35,6 @@ module Bill::Api::CreditNotes::Update
         errors: operation.errors,
         message: Rex.t(:"action.credit_note.update.failure")
       )
-    end
-
-    private def reload(credit_note)
-      credit_note = credit_note.finalized? ? credit_note.reload : credit_note
-      CreditNoteQuery.preload_line_items(credit_note)
     end
   end
 end

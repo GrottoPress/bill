@@ -4,7 +4,7 @@ module Bill::FinalizeInvoiceTotals
 
     private def update_totals(invoice : Bill::Invoice)
       return unless InvoiceStatus.now_finalized?(status)
-      UpdateInvoiceTotals.update!(invoice)
+      self.record = UpdateInvoiceTotals.update!(invoice)
     end
   end
 end

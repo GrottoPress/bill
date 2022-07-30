@@ -5,7 +5,7 @@ module Bill::FinalizeCreditNoteTotals
 
     private def update_totals(credit_note : Bill::CreditNote)
       return unless CreditNoteStatus.now_finalized?(status)
-      UpdateCreditNoteTotals.update!(credit_note)
+      self.record = UpdateCreditNoteTotals.update!(credit_note)
     end
 
     private def update_invoice_total_credit_notes(

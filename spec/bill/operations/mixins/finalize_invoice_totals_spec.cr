@@ -19,7 +19,7 @@ describe Bill::FinalizeInvoiceTotals do
 
       # ameba:disable Lint/ShadowingOuterLocalVar
       invoice.try do |invoice|
-        invoice.reload.totals.try do |totals|
+        invoice.totals.try do |totals|
           totals.line_items.should eq(2 * 12)
         end
       end
