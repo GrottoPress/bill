@@ -24,10 +24,8 @@ module Bill::Api::FinalizedInvoices::Update
     end
 
     def do_run_operation_succeeded(operation, invoice)
-      invoice = InvoiceQuery.preload_line_items(invoice)
-
       json InvoiceSerializer.new(
-        invoice: invoice,
+        invoice: InvoiceQuery.preload_line_items(invoice),
         message: Rex.t(:"action.invoice.update.success")
       )
     end
