@@ -20,7 +20,7 @@ module Bill::Api::Invoices::Create
 
     def do_run_operation_succeeded(operation, invoice)
       json InvoiceSerializer.new(
-        invoice: invoice,
+        invoice: InvoiceQuery.preload_line_items(invoice),
         message: Rex.t(:"action.invoice.create.success")
       )
     end
@@ -34,7 +34,6 @@ module Bill::Api::Invoices::Create
 
     private def reload(invoice)
       invoice = invoice.finalized? ? invoice.reload : invoice
-      InvoiceQuery.preload_line_items(invoice)
     end
   end
 end
