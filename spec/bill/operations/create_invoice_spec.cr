@@ -17,6 +17,7 @@ describe Bill::CreateInvoice do
         notes: notes,
         status: status
       ),
+      id: 34567,
       line_items: Array(Hash(String, String)).new
     ) do |_, invoice|
       invoice.should be_a(Invoice)
@@ -27,6 +28,7 @@ describe Bill::CreateInvoice do
         invoice.description.should eq(description)
         invoice.due_at.should eq(due_at.at_beginning_of_second)
         invoice.notes.should eq(notes)
+        invoice.reference.should eq("INV34567")
         invoice.status.should eq(status)
       end
     end

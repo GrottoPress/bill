@@ -5,6 +5,7 @@ describe Bill::UpdateReceipt do
     user = UserFactory.create
 
     receipt = ReceiptFactory.create &.user_id(user.id)
+      .id(1401)
       .amount(21)
       .description("New receipt")
       .notes("A note")
@@ -29,6 +30,7 @@ describe Bill::UpdateReceipt do
       updated_receipt.description.should eq(new_description)
       updated_receipt.amount.should eq(new_amount)
       updated_receipt.notes.should eq(new_notes)
+      updated_receipt.reference.should eq("RCT1401")
       updated_receipt.status.should eq(new_status)
     end
   end

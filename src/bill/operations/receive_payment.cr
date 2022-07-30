@@ -6,6 +6,7 @@ module Bill::ReceivePayment
     include Bill::SetAmountFromMu
     include Bill::SetBusinessDetails
     include Bill::SetUserDetails
+    include Bill::SetReference
     include Bill::ValidateReceipt
   end
 end

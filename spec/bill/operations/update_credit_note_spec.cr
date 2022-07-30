@@ -5,7 +5,8 @@ describe Bill::UpdateCreditNote do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
+    credit_note = CreditNoteFactory.create &.id(1234)
+      .invoice_id(invoice.id)
       .description("New credit note")
       .notes("A note")
 
@@ -32,6 +33,7 @@ describe Bill::UpdateCreditNote do
       updated_credit_note.invoice_id.should eq(new_invoice.id)
       updated_credit_note.description.should eq(new_description)
       updated_credit_note.notes.should eq(new_notes)
+      updated_credit_note.reference.should eq("CRD1234")
     end
   end
 

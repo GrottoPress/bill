@@ -7,6 +7,7 @@ module Bill::UpdateCreditNote
     end
 
     include Bill::SetFinalizedCreatedAt
+    include Bill::SetReference
     include Bill::ValidateCreditNote
 
     private def validate_not_finalized

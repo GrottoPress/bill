@@ -10,6 +10,7 @@ module Bill::UpdateInvoice
     include Bill::EnsureDueAtGteCreatedAt
     include Bill::SetBusinessDetails
     include Bill::SetUserDetails
+    include Bill::SetReference
     include Bill::ValidateInvoice
 
     private def validate_not_finalized

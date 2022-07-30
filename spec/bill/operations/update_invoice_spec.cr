@@ -4,7 +4,8 @@ describe Bill::UpdateInvoice do
   it "updates invoice" do
     user = UserFactory.create
 
-    invoice = InvoiceFactory.create &.user_id(user.id)
+    invoice = InvoiceFactory.create &.id(2)
+      .user_id(user.id)
       .description("New invoice")
       .due_at(2.days.from_now.to_utc)
       .notes("A note")
@@ -32,6 +33,7 @@ describe Bill::UpdateInvoice do
       updated_invoice.user_id.should eq(new_user.id)
       updated_invoice.description.should eq(new_description)
       updated_invoice.due_at.should eq(new_due_at.at_beginning_of_second)
+      updated_invoice.reference.should eq("INV002")
       updated_invoice.notes.should eq(new_notes)
     end
   end

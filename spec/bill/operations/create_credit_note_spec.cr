@@ -17,6 +17,7 @@ describe Bill::CreateCreditNote do
         notes: notes,
         status: status
       ),
+      id: 15,
       line_items: Array(Hash(String, String)).new
     ) do |_, credit_note|
       credit_note.should be_a(CreditNote)
@@ -26,6 +27,7 @@ describe Bill::CreateCreditNote do
         credit_note.invoice_id.should eq(invoice.id)
         credit_note.description.should eq(description)
         credit_note.notes.should eq(notes)
+        credit_note.reference.should eq("CRD015")
         credit_note.status.should eq(status)
       end
     end

@@ -33,6 +33,10 @@ class UpdateCreditNoteTotals < CreditNote::SaveOperation
   include Bill::UpdateCreditNoteTotals
 end
 
+class UpdateCreditNoteReference < CreditNote::SaveOperation
+  include Bill::UpdateReference
+end
+
 class UpdateInvoiceTotalCreditNotes < Invoice::SaveOperation
   include Bill::UpdateInvoiceTotalCreditNotes
 end

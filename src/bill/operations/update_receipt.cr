@@ -10,6 +10,7 @@ module Bill::UpdateReceipt
     include Bill::SetFinalizedCreatedAt
     include Bill::SetBusinessDetails
     include Bill::SetUserDetails
+    include Bill::SetReference
     include Bill::ValidateReceipt
 
     private def validate_not_finalized

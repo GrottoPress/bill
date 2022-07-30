@@ -6,6 +6,7 @@ module Bill::Receipt
     column business_details : String
     column description : String
     column notes : String?
+    column reference : String?
     column status : ReceiptStatus
     column user_details : String
 

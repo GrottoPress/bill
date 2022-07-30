@@ -6,6 +6,7 @@ module Bill::Invoice
     column description : String
     column due_at : Time
     column notes : String?
+    column reference : String?
     column status : InvoiceStatus
     column totals : InvoiceTotals?, serialize: true
     column user_details : String

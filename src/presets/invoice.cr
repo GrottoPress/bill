@@ -29,6 +29,10 @@ class UpdateInvoiceTotals < Invoice::SaveOperation
   include Bill::UpdateInvoiceTotals
 end
 
+class UpdateInvoiceReference < Invoice::SaveOperation
+  include Bill::UpdateReference
+end
+
 class DeleteInvoice < Invoice::DeleteOperation
   include Bill::DeleteInvoice
 end

@@ -6,6 +6,7 @@ module Bill::CreateInvoice
     include Bill::EnsureDueAtGteCreatedAt
     include Bill::SetBusinessDetails
     include Bill::SetUserDetails
+    include Bill::SetReference
     include Bill::ValidateInvoice
   end
 end

@@ -4,6 +4,7 @@ module Bill::CreditNote
 
     column description : String
     column notes : String?
+    column reference : String?
     column status : CreditNoteStatus
     column totals : CreditNoteTotals?, serialize: true
 

@@ -9,13 +9,16 @@ describe Bill::ReceivePayment do
 
     user = UserFactory.create
 
-    ReceivePayment.create(params(
-      user_id: user.id,
-      description: description,
-      amount: amount,
-      notes: notes,
-      status: status
-    )) do |_, receipt|
+    ReceivePayment.create(
+      params(
+        user_id: user.id,
+        description: description,
+        amount: amount,
+        notes: notes,
+        status: status
+      ),
+      reference: "1401"
+    ) do |_, receipt|
       receipt.should be_a(Receipt)
 
       receipt.try do |receipt| # ameba:disable Lint/ShadowingOuterLocalVar
@@ -23,6 +26,7 @@ describe Bill::ReceivePayment do
         receipt.description.should eq(description)
         receipt.amount.should eq(amount)
         receipt.notes.should eq(notes)
+        receipt.reference.should eq("1401")
         receipt.status.should eq(status)
       end
     end

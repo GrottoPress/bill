@@ -25,6 +25,10 @@ class UpdateFinalizedReceipt < Receipt::SaveOperation
   include Bill::UpdateFinalizedReceipt
 end
 
+class UpdateReceiptReference < Receipt::SaveOperation
+  include Bill::UpdateReference
+end
+
 class DeleteReceipt < Receipt::DeleteOperation
   include Bill::DeleteReceipt
 end
