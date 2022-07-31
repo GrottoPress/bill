@@ -126,7 +126,7 @@
 
    The form should be `POST`ed to `InvoiceItems::Create`, with the following parameters:
 
-   - `invoice_id : Int64`
+   - `invoice_id`
    - `description : String`
    - `quantity : Int16`
    - `price : Int32` (or `price_mu : Float64`)
@@ -180,7 +180,7 @@
 
    The form should be `POST`ed to `InvoiceItems::Update`, with the following parameters:
 
-   - `invoice_id : Int64`
+   - `invoice_id`
    - `description : String`
    - `quantity : Int16`
    - `price : Int32` (or `price_mu : Float64`)

@@ -145,7 +145,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    The form should be `POST`ed to `CreditTransactions::Create`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `amount : Int32` (or `amount_mu : Float64`)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be generated from other parameters)
@@ -200,7 +200,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    The form should be `POST`ed to `DebitTransactions::Create`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `amount : Int32` (or `amount_mu : Float64`)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be crafted from other parameters)

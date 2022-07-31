@@ -135,7 +135,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    The form should be `POST`ed to `CreditNotes::Create`, with the following parameters:
 
-   - `invoice_id : Int64`
+   - `invoice_id`
    - `description : String`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
@@ -194,7 +194,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    The form should be `POST`ed to `CreditNotes::Update`, with the following parameters:
 
-   - `invoice_id : Int64`
+   - `invoice_id`
    - `description : String`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)

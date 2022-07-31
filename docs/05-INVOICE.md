@@ -155,7 +155,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    The form should be `POST`ed to `Invoices::Create`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `description : String`
    - `due_at : Time`
    - `notes : String?`
@@ -215,7 +215,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    The form should be `POST`ed to `Invoices::Update`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `description : String`
    - `due_at : Time`
    - `notes : String?`

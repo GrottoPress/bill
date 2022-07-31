@@ -126,7 +126,7 @@
 
    The form should be `POST`ed to `CreditNoteItems::Create`, with the following parameters:
 
-   - `credit_note_id : Int64`
+   - `credit_note_id`
    - `description : String`
    - `quantity : Int16`
    - `price : Int32` (or `price_mu : Float64`)
@@ -180,7 +180,7 @@
 
    The form should be `POST`ed to `CreditNoteItems::Update`, with the following parameters:
 
-   - `credit_note_id : Int64`
+   - `credit_note_id`
    - `description : String`
    - `quantity : Int16`
    - `price : Int32` (or `price_mu : Float64`)

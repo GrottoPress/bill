@@ -146,7 +146,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    The form should be `POST`ed to `Receipts::Create`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `amount : Int32`
    - `description : String`
    - `notes : String?`
@@ -201,7 +201,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    The form should be `POST`ed to `Receipts::Update`, with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `amount : Int32`
    - `description : String`
    - `notes : String?`
@@ -372,7 +372,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    The form should be `POST`ed to `Refunds::Create`, optionally with the following parameters:
 
-   - `user_id : Int64`
+   - `user_id`
    - `amount : Int32`
    - `description : String`
    - `metadata : TransactionMetadata?` (may be crafted from other parameters)

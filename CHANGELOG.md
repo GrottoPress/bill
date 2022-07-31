@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Invoice#reference` column
 - Add `Receipt#reference` column
 - Add `Transaction#reference` column
+- Add support for all database primary key types (not just `Int64`)
 
 ## [0.4.0] - 2022-06-28
 
