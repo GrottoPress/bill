@@ -4,6 +4,7 @@ module Bill::CreateTransaction
 
     include Bill::SetAmountFromMu
     include Bill::EnsureCreatedAtNotPast
+    include Bill::SetReference
     include Bill::ValidateTransaction
   end
 end

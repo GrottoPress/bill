@@ -15,4 +15,8 @@ Bill.configure do |settings|
   settings.receipt_reference = ->(receipt : Bill::Receipt) do
     "RCT#{receipt.id.to_s.rjust(3, '0')}"
   end
+
+  settings.transaction_reference = ->(transaction : Bill::Transaction) do
+    "TRN#{transaction.id.to_s.rjust(3, '0')}"
+  end
 end

@@ -19,5 +19,10 @@ module Bill
       ->(receipt : Bill::Receipt) do
         receipt.id.to_s.rjust(3, '0')
       end
+
+    setting transaction_reference : Transaction -> String =
+      ->(transaction : Bill::Transaction) do
+        transaction.id.to_s.rjust(3, '0')
+      end
   end
 end

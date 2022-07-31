@@ -5,6 +5,7 @@ module Bill::Transaction
     column amount : Int32
     column description : String
     column metadata : TransactionMetadata?, serialize: true
+    column reference : String?
     column type : TransactionType
 
     def amount_fm
