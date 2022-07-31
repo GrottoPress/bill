@@ -60,6 +60,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
          add business_details : String
          add description : String
          add notes : String?
+         add reference : String?
          add status : String
          add user_details : String
          # ...

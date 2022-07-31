@@ -54,6 +54,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
          add description : String
          add notes : String?
+         add reference : String?
          add status : String
          add totals : JSON::Any?
          # ...
