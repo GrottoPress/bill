@@ -7,7 +7,7 @@ module Bill::Api::CreditNoteItems::Create
     def run_operation
       CreateCreditNoteItem.create(
         params,
-        credit_note_id: credit_note_id.to_i64
+        credit_note_id: _credit_note_id
       ) do |operation, credit_note_item|
         if operation.saved?
           do_run_operation_succeeded(operation, credit_note_item.not_nil!)
@@ -34,6 +34,10 @@ module Bill::Api::CreditNoteItems::Create
         errors: operation.errors,
         message: Rex.t(:"action.credit_note_item.create.failure")
       )
+    end
+
+    private def _credit_note_id
+      CreditNote::PrimaryKeyType.adapter.parse!(credit_note_id)
     end
   end
 end

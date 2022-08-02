@@ -7,7 +7,7 @@ module Bill::InvoiceItems::Create
     def run_operation
       CreateInvoiceItem.create(
         params,
-        invoice_id: invoice_id.to_i64
+        invoice_id: _invoice_id
       ) do |operation, invoice_item|
         if operation.saved?
           do_run_operation_succeeded(operation, invoice_item.not_nil!)
@@ -26,6 +26,10 @@ module Bill::InvoiceItems::Create
     def do_run_operation_failed(operation)
       flash.failure = Rex.t(:"action.invoice_item.create.failure")
       html NewPage, operation: operation
+    end
+
+    private def _invoice_id
+      Invoice::PrimaryKeyType.adapter.parse!(invoice_id)
     end
   end
 end
