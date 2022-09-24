@@ -5,6 +5,7 @@ private class SaveInvoice < Invoice::SaveOperation
     :business_details,
     :description,
     :due_at,
+    :reference,
     :status,
     :user_details
 
@@ -122,6 +123,27 @@ describe Bill::ValidateInvoice do
 
       operation.status
         .should have_error("operation.error.status_transition_invalid")
+    end
+  end
+
+  it "ensures reference is unique" do
+    reference = "123"
+
+    user = UserFactory.create
+    InvoiceFactory.create &.user_id(user.id).reference(reference)
+
+    SaveInvoice.create(params(
+      user_id: user.id,
+      business_details: "ACME Inc",
+      description: "New invoice",
+      due_at: 1.day.from_now,
+      reference: reference,
+      status: :open,
+      user_details: "Mary Smith"
+    )) do |operation, invoice|
+      invoice.should be_nil
+
+      operation.reference.should have_error("operation.error.reference_exists")
     end
   end
 end

@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 private class SaveCreditNote < CreditNote::SaveOperation
-  permit_columns :invoice_id, :description, :status
+  permit_columns :invoice_id, :description, :reference, :status
 
   include Bill::ValidateCreditNote
 end
@@ -92,6 +92,25 @@ describe Bill::ValidateCreditNote do
 
       operation.status
         .should have_error("operation.error.status_transition_invalid")
+    end
+  end
+
+  it "ensures reference is unique" do
+    reference = "123"
+
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+    CreditNoteFactory.create &.invoice_id(invoice.id).reference(reference)
+
+    SaveCreditNote.create(params(
+      invoice_id: invoice.id,
+      description: "New credit note",
+      reference: reference,
+      status: :open
+    )) do |operation, credit_note|
+      credit_note.should be_nil
+
+      operation.reference.should have_error("operation.error.reference_exists")
     end
   end
 end

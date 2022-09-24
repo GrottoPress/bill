@@ -7,6 +7,7 @@ module Bill::ValidateReceipt
       validate_business_details_required
       validate_description_required
       validate_status_required
+      validate_reference_unique
       validate_user_details_required
       validate_user_id_required
       validate_amount_gt_zero
@@ -33,6 +34,13 @@ module Bill::ValidateReceipt
     private def validate_status_required
       validate_required status,
         message: Rex.t(:"operation.error.status_required")
+    end
+
+    private def validate_reference_unique
+      validate_uniqueness_of reference, message: Rex.t(
+        :"operation.error.reference_exists",
+        reference: reference.value
+      )
     end
 
     private def validate_user_details_required

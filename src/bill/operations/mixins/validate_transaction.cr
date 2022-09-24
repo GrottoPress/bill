@@ -4,6 +4,7 @@ module Bill::ValidateTransaction
       validate_amount_required
       validate_description_required
       validate_type_required
+      validate_reference_unique
       validate_user_id_required
 
       validate_not_update
@@ -28,6 +29,13 @@ module Bill::ValidateTransaction
 
     private def validate_type_required
       validate_required type, message: Rex.t(:"operation.error.type_required")
+    end
+
+    private def validate_reference_unique
+      validate_uniqueness_of reference, message: Rex.t(
+        :"operation.error.reference_exists",
+        reference: reference.value
+      )
     end
 
     private def validate_not_update

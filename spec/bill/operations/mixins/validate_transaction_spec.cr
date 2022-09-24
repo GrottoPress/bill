@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 private class SaveTransaction < Transaction::SaveOperation
-  permit_columns :user_id, :amount, :description, :type
+  permit_columns :user_id, :amount, :description, :reference, :type
 
   include Bill::ValidateTransaction
 end
@@ -83,6 +83,25 @@ describe Bill::ValidateTransaction do
 
       operation.id
         .should have_error("operation.error.transaction_update_forbidden")
+    end
+  end
+
+  it "ensures reference is unique" do
+    reference = "123"
+
+    user = UserFactory.create
+    TransactionFactory.create &.user_id(user.id).reference(reference)
+
+    SaveTransaction.create(params(
+      user_id: user.id,
+      description: "New transaction",
+      amount: 33,
+      reference: reference,
+      type: :invoice,
+    )) do |operation, transaction|
+      transaction.should be_nil
+
+      operation.reference.should have_error("operation.error.reference_exists")
     end
   end
 end
