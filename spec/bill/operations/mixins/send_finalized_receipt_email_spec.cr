@@ -5,6 +5,7 @@ private class SaveReceipt < Receipt::SaveOperation
     :amount,
     :business_details,
     :description,
+    :reference,
     :status,
     :user_details
 

@@ -1,6 +1,8 @@
 require "../../spec_helper"
 
 private class SaveTransaction < Transaction::SaveOperation
+  permit_columns :reference
+
   include Bill::ReceiveDirectPayment
 end
 

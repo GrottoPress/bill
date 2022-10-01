@@ -5,6 +5,7 @@ private class SaveInvoice < Invoice::SaveOperation
     :business_details,
     :description,
     :due_at,
+    :reference,
     :status,
     :user_details
 

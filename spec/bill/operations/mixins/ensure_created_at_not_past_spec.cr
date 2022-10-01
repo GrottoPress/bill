@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 private class SaveTransaction < Transaction::SaveOperation
-  permit_columns :user_id, :amount, :description, :type
+  permit_columns :user_id, :amount, :description, :reference, :type
 
   include Bill::EnsureCreatedAtNotPast
 end
