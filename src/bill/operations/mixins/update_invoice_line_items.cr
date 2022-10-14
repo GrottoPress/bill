@@ -1,3 +1,7 @@
+# TODO: Remove this
+#   See https://github.com/luckyframework/avram/pull/895
+require "lucille/spec/avram/fake_params"
+
 module Bill::UpdateInvoiceLineItems
   macro included
     after_save update_line_items
@@ -24,7 +28,7 @@ module Bill::UpdateInvoiceLineItems
         invoice_item_from_hash(line_item, invoice).try do |invoice_item|
           UpdateInvoiceItemForParent.update!(
             invoice_item,
-            Avram::Params.new(line_item),
+            FakeParams.new(line_item), # TODO: Replace with `Avram::Params`
             parent: self
           )
         end
@@ -34,7 +38,7 @@ module Bill::UpdateInvoiceLineItems
     private def create_items(invoice)
       line_items_to_create.each do |line_item|
         CreateInvoiceItemForParent.create!(
-          Avram::Params.new(line_item),
+          FakeParams.new(line_item), # TODO: Replace with `Avram::Params`
           parent: self
         )
       end
