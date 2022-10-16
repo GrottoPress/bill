@@ -1,24 +1,6 @@
 module Bill::Ledger
   macro included
     def balance(
-      user,
-      type : TransactionType,
-      from : Time? = nil,
-      till : Time? = nil
-    )
-      balance(user.transactions, type, from, till)
-    end
-
-    def balance(
-      user,
-      types : Array(TransactionType)? = nil,
-      from : Time? = nil,
-      till : Time? = nil
-    )
-      balance(user.transactions, types, from, till)
-    end
-
-    def balance(
       transactions : Array(Bill::Transaction),
       type : TransactionType,
       from : Time? = nil,
@@ -42,13 +24,22 @@ module Bill::Ledger
       transactions.sum(&.amount)
     end
 
-    def balance!(
+    def balance(
       user,
       type : TransactionType,
       from : Time? = nil,
       till : Time? = nil
     )
-      balance!(user, [type], from, till)
+      balance(user.transactions, type, from, till)
+    end
+
+    def balance(
+      user,
+      types : Array(TransactionType)? = nil,
+      from : Time? = nil,
+      till : Time? = nil
+    )
+      balance(user.transactions, types, from, till)
     end
 
     def balance!(
@@ -57,6 +48,15 @@ module Bill::Ledger
       till : Time? = nil
     )
       balance!(nil, [type], from, till)
+    end
+
+    def balance!(
+      user,
+      type : TransactionType,
+      from : Time? = nil,
+      till : Time? = nil
+    )
+      balance!(user, [type], from, till)
     end
 
     def balance!(
