@@ -83,6 +83,7 @@ describe Bill::AutoMarkInvoicesAsPaid do
     end
 
     invoice.reload.status.should eq(InvoiceStatus.new(:paid))
+    invoice_2.reload.status.should eq(InvoiceStatus.new(:paid))
 
     user_2 = UserFactory.create &.email("xyz@abc.def")
 
@@ -120,6 +121,7 @@ describe Bill::AutoMarkInvoicesAsPaid do
       }]
     )
 
+    invoice_3.reload.status.should eq(InvoiceStatus.new(:open))
     invoice_4.reload.status.should eq(InvoiceStatus.new(:paid))
 
     invoice_5 = CreateInvoice.create!(
@@ -138,6 +140,7 @@ describe Bill::AutoMarkInvoicesAsPaid do
       }]
     )
 
+    invoice_4.reload.status.should eq(InvoiceStatus.new(:paid))
     invoice_5.reload.status.should eq(InvoiceStatus.new(:open))
   end
 end
