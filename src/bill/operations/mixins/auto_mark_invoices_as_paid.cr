@@ -20,26 +20,19 @@ module Bill::AutoMarkInvoicesAsPaid
     # due date; the earliest due are paid first.
     private def mark_for_debit(user, balance)
       invoices = unpaid_invoices(user).due_at.desc_order.results
-      invoices = mark_net_zero_invoices(invoices)
-      mark_debit_net_invoices(invoices, balance)
-    end
+      net_zero, net_debit = invoices.partition(&.net_amount.zero?)
 
-    private def mark_net_zero_invoices(invoices)
-      zeros = invoices.select(&.net_amount.== 0)
-      mark_as_paid InvoiceQuery.new.id.in(zeros.map &.id)
-      invoices - zeros
-    end
-
-    private def mark_debit_net_invoices(invoices, balance)
-      skip_index = invoices.accumulate(0) do |sum, invoice|
+      skip_index = net_debit.accumulate(0) do |sum, invoice|
         sum + invoice.net_amount
       end.index(&.>= balance).try(&.+ 1)
 
-      skip_index.try do |skip_index|
-        invoices[skip_index..]?.try do |invoices|
-          mark_as_paid InvoiceQuery.new.id.in(invoices.map &.id)
-        end
+      selected = net_zero
+
+      skip_index.try do |_skip_index|
+        net_debit[_skip_index..]?.try { |_net_debit| selected += _net_debit }
       end
+
+      mark_as_paid InvoiceQuery.new.id.in(selected.map &.id)
     end
 
     private def unpaid_invoices(user)
