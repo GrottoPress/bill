@@ -32,7 +32,7 @@ module Bill::AutoMarkInvoicesAsPaid
 
     private def mark_debit_net_invoices(invoices, balance)
       skip_index = invoices.accumulate(0) do |sum, invoice|
-        sum + invoice.amount
+        sum + invoice.net_amount
       end.index(&.>= balance).try(&.+ 1)
 
       skip_index.try do |skip_index|

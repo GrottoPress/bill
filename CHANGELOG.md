@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Upgrade to support *Crystal* v1.6
 
+### Fixed
+- Use net amount (instead of full amount) when marking invoices as paid
+
 ## [0.6.0] - 2022-10-15
 
 ### Changed
