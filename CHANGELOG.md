@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Add `Bill::BelongsToReceipt` model mixin
+- Add `Bill::OptionalBelongsToReceipt` model mixin
 
 ### Changed
 - Upgrade to support *Crystal* v1.6
