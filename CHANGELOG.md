@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Use net amount (instead of full amount) when marking invoices as paid
+- Fix `PQ::PQError` (syntax error) in `Ledger.balance!` when using `UUID` primary keys
 
 ## [0.6.0] - 2022-10-15
 

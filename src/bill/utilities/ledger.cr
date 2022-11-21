@@ -69,7 +69,7 @@ module Bill::Ledger
 
       query = TransactionQuery.new
 
-      query = query.where("#{foreign_key(user)} = ?", user.id) if user
+      query = query.where("#{foreign_key(user)} = ?", user.id.to_s) if user
       query = query.type.in(types) if types
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
