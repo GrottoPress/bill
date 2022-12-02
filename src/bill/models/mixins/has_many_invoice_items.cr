@@ -11,10 +11,10 @@ module Bill::HasManyInvoiceItems
     end
 
     def line_items_amount : Int32
-      if responds_to?(:totals)
-        self.totals.try(&.line_items) || line_items.sum(&.amount)
+      if responds_to?(:totals) && self.totals
+        self.totals.not_nil!.line_items
       else
-        line_items.sum &.amount
+        line_items.sum(&.amount)
       end
     end
 
