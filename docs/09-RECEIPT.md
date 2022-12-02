@@ -22,6 +22,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    - `amount : Int32`
    - `business_details : String`
+   - `counter : Int64`
    - `description : String`
    - `notes : String?`
    - `reference : String?`
@@ -59,6 +60,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
          add amount : Int32
          add business_details : String
+         add counter : Int64, unique: true
          add description : String
          add notes : String?
          add reference : String?
@@ -66,6 +68,16 @@ See <https://en.wikipedia.org/wiki/Receipt>
          add user_details : String
          # ...
        end
+
+       execute <<-SQL
+         CREATE SEQUENCE IF NOT EXISTS receipts_counter_sequence;
+         SQL
+
+       execute <<-SQL
+         ALTER TABLE receipts
+         ALTER COLUMN counter
+         SET DEFAULT NEXTVAL('receipts_counter_sequence');
+         SQL
      end
 
      def rollback

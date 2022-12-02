@@ -5,7 +5,7 @@ describe Bill::UpdateReceipt do
     user = UserFactory.create
 
     receipt = ReceiptFactory.create &.user_id(user.id)
-      .id(1401)
+      .counter(1401)
       .amount(21)
       .description("New receipt")
       .notes("A note")

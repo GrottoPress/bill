@@ -18,7 +18,7 @@ module Bill::UpdateReference
 
         reference.value = Bill.settings
           .{{ T.name.split("::").last.underscore.id }}_reference
-          .call(_record)
+          .call(_record.counter)
       end
     end
   end

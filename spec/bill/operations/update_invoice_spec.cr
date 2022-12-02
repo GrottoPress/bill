@@ -4,7 +4,7 @@ describe Bill::UpdateInvoice do
   it "updates invoice" do
     user = UserFactory.create
 
-    invoice = InvoiceFactory.create &.id(2)
+    invoice = InvoiceFactory.create &.counter(2)
       .user_id(user.id)
       .description("New invoice")
       .due_at(2.days.from_now.to_utc)

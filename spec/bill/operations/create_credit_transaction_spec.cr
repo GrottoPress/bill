@@ -15,7 +15,7 @@ describe Bill::CreateCreditTransaction do
         amount: amount,
         type: :receipt
       ),
-      id: 467,
+      counter: 467,
       metadata: TransactionMetadata.from_json({receipt_id: receipt_id}.to_json)
     ) do |_, transaction|
       transaction.should be_a(Transaction)

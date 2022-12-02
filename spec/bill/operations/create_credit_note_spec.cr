@@ -17,7 +17,7 @@ describe Bill::CreateCreditNote do
         notes: notes,
         status: status
       ),
-      id: 15,
+      counter: 15,
       line_items: Array(Hash(String, String)).new
     ) do |_, credit_note|
       credit_note.should be_a(CreditNote)

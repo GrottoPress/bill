@@ -20,6 +20,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    `Bill::CreditNote` adds the following columns:
 
+   - `counter : Int64`
    - `description : String?`
    - `notes : String?`
    - `reference : String?`
@@ -53,6 +54,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
          add_timestamps
          add_belongs_to invoice : Invoice, on_delete: :cascade
 
+         add counter : Int64, unique: true
          add description : String?
          add notes : String?
          add reference : String?
@@ -60,6 +62,16 @@ See <https://en.wikipedia.org/wiki/Credit_note>
          add totals : JSON::Any?
          # ...
        end
+
+       execute <<-SQL
+         CREATE SEQUENCE IF NOT EXISTS credit_notes_counter_sequence;
+         SQL
+
+       execute <<-SQL
+         ALTER TABLE credit_notes
+         ALTER COLUMN counter
+         SET DEFAULT NEXTVAL('credit_notes_counter_sequence');
+         SQL
      end
 
      def rollback

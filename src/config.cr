@@ -5,24 +5,20 @@ module Bill
     setting currency : ::Currency
     setting max_debt_allowed : Int32 = 0
 
-    setting credit_note_reference : CreditNote -> String =
-      ->(credit_note : Bill::CreditNote) do
-        credit_note.id.to_s.rjust(3, '0')
-      end
+    setting credit_note_reference : Int64 -> String = ->(counter : Int64) do
+      counter.to_s.rjust(3, '0')
+    end
 
-    setting invoice_reference : Invoice -> String =
-      ->(invoice : Bill::Invoice) do
-        invoice.id.to_s.rjust(3, '0')
-      end
+    setting invoice_reference : Int64 -> String = ->(counter : Int64) do
+      counter.to_s.rjust(3, '0')
+    end
 
-    setting receipt_reference : Receipt -> String =
-      ->(receipt : Bill::Receipt) do
-        receipt.id.to_s.rjust(3, '0')
-      end
+    setting receipt_reference : Int64 -> String = ->(counter : Int64) do
+      counter.to_s.rjust(3, '0')
+    end
 
-    setting transaction_reference : Transaction -> String =
-      ->(transaction : Bill::Transaction) do
-        transaction.id.to_s.rjust(3, '0')
-      end
+    setting transaction_reference : Int64 -> String = ->(counter : Int64) do
+      counter.to_s.rjust(3, '0')
+    end
   end
 end

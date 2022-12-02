@@ -29,6 +29,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    `Bill::Transaction` adds the following columns:
 
    - `amount : Int32`
+   - `counter : Int64`
    - `description : String`
    - `metadata : TransactionMetadata?` (JSON::Serializable)
    - `reference : String?`
@@ -61,6 +62,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
          add_belongs_to user : User, on_delete: :cascade
 
          add amount : Int32
+         add counter : Int64, unique: true
          add created_at : Time
          add description : String
          add metadata : JSON::Any?
@@ -68,6 +70,16 @@ The ledger is immutable -- once transactions are recorded, they are never update
          add type : String
          # ...
        end
+
+       execute <<-SQL
+         CREATE SEQUENCE IF NOT EXISTS transactions_counter_sequence;
+         SQL
+
+       execute <<-SQL
+         ALTER TABLE transactions
+         ALTER COLUMN counter
+         SET DEFAULT NEXTVAL('transactions_counter_sequence');
+         SQL
      end
 
      def rollback

@@ -15,7 +15,7 @@ describe Bill::CreateDebitTransaction do
         amount: amount,
         type: :invoice
       ),
-      id: 467,
+      counter: 467,
       metadata: TransactionMetadata.from_json({invoice_id: invoice_id}.to_json)
     ) do |_, transaction|
       transaction.should be_a(Transaction)

@@ -34,6 +34,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    - `description : String?`
    - `business_details : String`
+   - `counter : Int64`
    - `due_at : Time`
    - `notes : String?`
    - `reference : String?`
@@ -71,6 +72,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
          add_belongs_to user : User, on_delete: :cascade
 
          add business_details : String
+         add counter : Int64, unique: true
          add description : String?
          add due_at : Time
          add notes : String?
@@ -80,6 +82,16 @@ See <https://en.wikipedia.org/wiki/Invoice>
          add user_details : String
          # ...
        end
+
+       execute <<-SQL
+         CREATE SEQUENCE IF NOT EXISTS invoices_counter_sequence;
+         SQL
+
+       execute <<-SQL
+         ALTER TABLE invoices
+         ALTER COLUMN counter
+         SET DEFAULT NEXTVAL('invoices_counter_sequence');
+         SQL
      end
 
      def rollback

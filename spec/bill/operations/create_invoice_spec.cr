@@ -17,7 +17,7 @@ describe Bill::CreateInvoice do
         notes: notes,
         status: status
       ),
-      id: 34567,
+      counter: 34567,
       line_items: Array(Hash(String, String)).new
     ) do |_, invoice|
       invoice.should be_a(Invoice)

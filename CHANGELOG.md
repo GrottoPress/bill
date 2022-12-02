@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add `CreditNote#counter` column for use in references
+- Add `Invoice#counter` column for use in references
+- Add `Receipt#counter` column for use in references
+- Add `Transaction#counter` column for use in references
+
 ### Changed
 - Make `Invoice#description` column optional
 - Make `CreditNote#description` column optional

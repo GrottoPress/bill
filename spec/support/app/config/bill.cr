@@ -4,19 +4,19 @@ Bill.configure do |settings|
   settings.currency = Currency.new("GHS", "GH₵")
   settings.max_debt_allowed = 400
 
-  settings.credit_note_reference = ->(credit_note : Bill::CreditNote) do
-    "CRD#{credit_note.id.to_s.rjust(3, '0')}"
+  settings.credit_note_reference = ->(counter : Int64) do
+    "CRD#{counter.to_s.rjust(3, '0')}"
   end
 
-  settings.invoice_reference = ->(invoice : Bill::Invoice) do
-    "INV#{invoice.id.to_s.rjust(3, '0')}"
+  settings.invoice_reference = ->(counter : Int64) do
+    "INV#{counter.to_s.rjust(3, '0')}"
   end
 
-  settings.receipt_reference = ->(receipt : Bill::Receipt) do
-    "RCT#{receipt.id.to_s.rjust(3, '0')}"
+  settings.receipt_reference = ->(counter : Int64) do
+    "RCT#{counter.to_s.rjust(3, '0')}"
   end
 
-  settings.transaction_reference = ->(transaction : Bill::Transaction) do
-    "TRN#{transaction.id.to_s.rjust(3, '0')}"
+  settings.transaction_reference = ->(counter : Int64) do
+    "TRN#{counter.to_s.rjust(3, '0')}"
   end
 end

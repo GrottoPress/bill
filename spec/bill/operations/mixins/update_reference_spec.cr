@@ -7,7 +7,7 @@ end
 describe Bill::UpdateReference do
   it "sets reference" do
     user = UserFactory.create
-    invoice = InvoiceFactory.create &.id(4).user_id(user.id).status(:open)
+    invoice = InvoiceFactory.create &.counter(4).user_id(user.id).status(:open)
 
     SaveInvoice.update(invoice) do |operation, updated_invoice|
       operation.saved?.should be_true
