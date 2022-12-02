@@ -19,21 +19,6 @@ describe Bill::ValidateCreditNote do
     end
   end
 
-  it "requires description" do
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
-
-    SaveCreditNote.create(params(
-      invoice_id: invoice.id,
-      status: :open
-    )) do |operation, credit_note|
-      credit_note.should be_nil
-
-      operation.description
-        .should have_error("operation.error.description_required")
-    end
-  end
-
   it "requires status" do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)

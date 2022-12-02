@@ -2,7 +2,7 @@ module Bill::CreditNote
   macro included
     include Bill::BelongsToInvoice
 
-    column description : String
+    column description : String?
     column notes : String?
     column reference : String?
     column status : CreditNoteStatus

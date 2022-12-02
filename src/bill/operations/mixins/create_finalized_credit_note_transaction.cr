@@ -6,9 +6,12 @@ module Bill::CreateFinalizedCreditNoteTransaction
       return unless CreditNoteStatus.now_finalized?(status)
       return if (amount = credit_note.amount!).zero?
 
+      description = credit_note.description ||
+        "Credit note #{credit_note.reference}"
+
       CreateCreditTransaction.create!(
         user_id: credit_note.invoice!.user_id,
-        description: credit_note.description,
+        description: description,
         type: TransactionType.new(:credit_note),
         amount: amount,
         metadata: TransactionMetadata.from_json({

@@ -5,7 +5,6 @@ module Bill::ValidateCreditNote
     before_save do
       set_invoice
 
-      validate_description_required
       validate_status_required
       validate_reference_unique
       validate_invoice_id_required
@@ -14,11 +13,6 @@ module Bill::ValidateCreditNote
     end
 
     include Bill::ValidateStatusTransition
-
-    private def validate_description_required
-      validate_required description,
-        message: Rex.t(:"operation.error.description_required")
-    end
 
     private def validate_status_required
       validate_required status,

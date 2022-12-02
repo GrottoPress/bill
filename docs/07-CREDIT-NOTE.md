@@ -20,7 +20,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    `Bill::CreditNote` adds the following columns:
 
-   - `description : String`
+   - `description : String?`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
    - `totals : CreditNoteTotals?` (JSON::Serializable)
@@ -52,7 +52,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
          add_timestamps
          add_belongs_to invoice : Invoice, on_delete: :cascade
 
-         add description : String
+         add description : String?
          add notes : String?
          add reference : String?
          add status : String
@@ -136,7 +136,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
    The form should be `POST`ed to `CreditNotes::Create`, with the following parameters:
 
    - `invoice_id`
-   - `description : String`
+   - `description : String?`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
 
@@ -195,7 +195,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
    The form should be `POST`ed to `CreditNotes::Update`, with the following parameters:
 
    - `invoice_id`
-   - `description : String`
+   - `description : String?`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
 
@@ -253,7 +253,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    The form should be `POST`ed to `FinalizedCreditNotes::Update`, with the following parameters:
 
-   - `description : String`
+   - `description : String?`
    - `notes : String?`
    - `status : CreditNoteStatus` (enum)
 
