@@ -4,7 +4,6 @@ module Bill::ValidateInvoice
 
     before_save do
       validate_business_details_required
-      validate_description_required
       validate_due_at_required
       validate_status_required
       validate_reference_unique
@@ -18,11 +17,6 @@ module Bill::ValidateInvoice
     private def validate_business_details_required
       validate_required business_details,
         message: Rex.t(:"operation.error.business_details_required")
-    end
-
-    private def validate_description_required
-      validate_required description,
-        message: Rex.t(:"operation.error.description_required")
     end
 
     private def validate_due_at_required

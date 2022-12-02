@@ -32,7 +32,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    `Bill::Invoice` adds the following columns:
 
-   - `description : String`
+   - `description : String?`
    - `business_details : String`
    - `due_at : Time`
    - `notes : String?`
@@ -70,7 +70,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
          add_belongs_to user : User, on_delete: :cascade
 
          add business_details : String
-         add description : String
+         add description : String?
          add due_at : Time
          add notes : String?
          add reference : String?
@@ -156,7 +156,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
    The form should be `POST`ed to `Invoices::Create`, with the following parameters:
 
    - `user_id`
-   - `description : String`
+   - `description : String?`
    - `due_at : Time`
    - `notes : String?`
    - `status : InvoiceStatus` (enum)
@@ -216,7 +216,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
    The form should be `POST`ed to `Invoices::Update`, with the following parameters:
 
    - `user_id`
-   - `description : String`
+   - `description : String?`
    - `due_at : Time`
    - `notes : String?`
 
@@ -274,7 +274,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    The form should be `POST`ed to `FinalizedInvoices::Update`, with the following parameters:
 
-   - `description : String`
+   - `description : String?`
    - `due_at : Time`
    - `notes : String?`
 

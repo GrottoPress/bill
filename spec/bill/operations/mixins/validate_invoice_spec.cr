@@ -27,21 +27,6 @@ describe Bill::ValidateInvoice do
     end
   end
 
-  it "requires description" do
-    SaveInvoice.create(params(
-      user_id: UserFactory.create.id,
-      business_details: "ACME Inc",
-      due_at: 1.day.from_now,
-      status: :open,
-      user_details: "Mary Smith"
-    )) do |operation, invoice|
-      invoice.should be_nil
-
-      operation.description
-        .should have_error("operation.error.description_required")
-    end
-  end
-
   it "requires due date" do
     SaveInvoice.create(params(
       user_id: UserFactory.create.id,

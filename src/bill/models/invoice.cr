@@ -3,7 +3,7 @@ module Bill::Invoice
     include Bill::BelongsToUser
 
     column business_details : String
-    column description : String
+    column description : String?
     column due_at : Time
     column notes : String?
     column reference : String?

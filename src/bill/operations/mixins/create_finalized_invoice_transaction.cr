@@ -6,9 +6,11 @@ module Bill::CreateFinalizedInvoiceTransaction
       return unless InvoiceStatus.now_finalized?(status)
       return if (amount = invoice.amount!).zero?
 
+      description = invoice.description || "Invoice #{invoice.reference}"
+
       CreateDebitTransaction.create!(
         user_id: invoice.user_id,
-        description: invoice.description,
+        description: description,
         type: TransactionType.new(:invoice),
         amount: amount,
         metadata: TransactionMetadata.from_json({
