@@ -31,6 +31,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `amount : Int32`
    - `description : String`
    - `metadata : TransactionMetadata?` (JSON::Serializable)
+   - `reference : String?`
    - `type : TransactionType` (enum)
 
    You may add other columns and associations specific to your application.

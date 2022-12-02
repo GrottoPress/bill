@@ -22,6 +22,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    - `description : String?`
    - `notes : String?`
+   - `reference : String?`
    - `status : CreditNoteStatus` (enum)
    - `totals : CreditNoteTotals?` (JSON::Serializable)
 

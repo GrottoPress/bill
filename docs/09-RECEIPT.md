@@ -24,6 +24,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    - `business_details : String`
    - `description : String`
    - `notes : String?`
+   - `reference : String?`
    - `status : ReceiptStatus` (enum)
    - `user_details : String`
 

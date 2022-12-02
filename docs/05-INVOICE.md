@@ -36,6 +36,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
    - `business_details : String`
    - `due_at : Time`
    - `notes : String?`
+   - `reference : String?`
    - `status : InvoiceStatus` (enum)
    - `totals : InvoiceTotals?` (JSON::Serializable)
    - `user_details : String`
