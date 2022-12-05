@@ -13,24 +13,16 @@ module Bill::FractionalMoney
     end
 
     def amount_mu : Float64
-      (amount / @currency.mu_factor).round(@currency.decimal_digits)
+      (amount / currency.mu_factor).round(currency.decimal_digits)
     end
 
     def to_s(io)
-      string = amount_mu.to_s.split('.')
-
-      io << separate(string[0].to_i)
-      io << @currency.decimal_separator
-      io << string[1].ljust(@currency.decimal_digits, '0')
-    end
-
-    private def separate(value : Int) : String
-      value.to_s
-        .reverse
-        .scan(/\d{1,3}/)
-        .flat_map(&.to_a)
-        .join(@currency.thousands_separator)
-        .reverse
+      amount_mu.format(
+        io,
+        currency.decimal_separator,
+        currency.thousands_separator,
+        currency.decimal_digits
+      )
     end
   end
 end

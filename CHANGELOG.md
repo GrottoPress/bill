@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Make `Invoice#description` column optional
 - Make `CreditNote#description` column optional
 
+### Fixed
+- Fix negative sign stripped in fractional money formats for negative amounts
+
 ## [0.7.0] - 2022-11-21
 
 ### Added
