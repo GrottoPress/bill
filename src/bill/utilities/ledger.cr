@@ -97,6 +97,10 @@ module Bill::Ledger
       balance == 0
     end
 
+    def self.balance_fm(balance : Int)
+      FractionalMoney.new(balance)
+    end
+
     protected def foreign_key(record)
       "#{record.class.name.underscore.split("::").last}_id"
     end

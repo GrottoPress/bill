@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Invoice#counter` column for use in references
 - Add `Receipt#counter` column for use in references
 - Add `Transaction#counter` column for use in references
+- Add `Ledger.balance_fm` method
 
 ### Changed
 - Make `Invoice#description` column optional
