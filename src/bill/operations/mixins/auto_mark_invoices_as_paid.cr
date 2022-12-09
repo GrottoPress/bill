@@ -19,7 +19,10 @@ module Bill::AutoMarkInvoicesAsPaid
     # Net zero invoices are paid first. The rest follow based on
     # due date; the earliest due are paid first.
     private def mark_for_debit(user, balance)
-      invoices = unpaid_invoices(user).due_at.desc_order.results
+      invoices = unpaid_invoices(user).due_at.desc_order
+        .created_at.desc_order
+        .results
+
       net_zero, net_debit = invoices.partition(&.net_amount.zero?)
 
       skip_index = net_debit.accumulate(0) do |sum, invoice|
