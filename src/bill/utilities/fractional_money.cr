@@ -16,7 +16,7 @@ module Bill::FractionalMoney
       (amount / currency.mu_factor).round(currency.decimal_digits)
     end
 
-    def to_s(io)
+    def to_s(io : IO)
       amount_mu.format(
         io,
         currency.decimal_separator,
