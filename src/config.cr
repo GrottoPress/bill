@@ -3,7 +3,6 @@ module Bill
     setting business_name : String
     setting business_address : String
     setting currency : ::Currency
-    setting max_debt_allowed : Int32 = 0
 
     setting credit_note_reference : Int64 -> String = ->(counter : Int64) do
       counter.to_s.rjust(3, '0')

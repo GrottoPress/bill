@@ -95,20 +95,8 @@ describe Bill::InvoicesLedger do
       user.owes?.should eq(500 * 1 - 200)
       user.owes!.should eq(500 * 1 - 200)
 
-      user.soft_owes?.should eq(500 * 1 - 200)
-      user.soft_owes!.should eq(500 * 1 - 200)
-
-      user.hard_owes?.should be_nil
-      user.hard_owes!.should be_nil
-
       user.over_owes?.should be_nil
       user.over_owes!.should be_nil
-
-      user.over_soft_owes?.should be_nil
-      user.over_soft_owes!.should be_nil
-
-      user.over_hard_owes?.should be_nil
-      user.over_hard_owes!.should be_nil
 
       CreateCreditNote.create(
         params(
@@ -131,20 +119,8 @@ describe Bill::InvoicesLedger do
       user.owes?.should eq(500 * 1 - 200 - 100 * 1)
       user.owes!.should eq(500 * 1 - 200 - 100 * 1)
 
-      user.soft_owes?.should eq(500 * 1 - 200 - 100 * 1)
-      user.soft_owes!.should eq(500 * 1 - 200 - 100 * 1)
-
-      user.hard_owes?.should be_nil
-      user.hard_owes!.should be_nil
-
       user.over_owes?.should be_nil
       user.over_owes!.should be_nil
-
-      user.over_soft_owes?.should be_nil
-      user.over_soft_owes!.should be_nil
-
-      user.over_hard_owes?.should be_nil
-      user.over_hard_owes!.should be_nil
 
       CreateInvoice.create(
         params(
@@ -169,20 +145,8 @@ describe Bill::InvoicesLedger do
       user.owes?.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
       user.owes!.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
 
-      user.soft_owes?.should be_nil
-      user.soft_owes!.should be_nil
-
-      user.hard_owes?.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
-      user.hard_owes!.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
-
       user.over_owes?.should eq(700 * 1 - 200)
       user.over_owes!.should eq(700 * 1 - 200)
-
-      user.over_soft_owes?.should be_nil
-      user.over_soft_owes!.should be_nil
-
-      user.over_hard_owes?.should eq(700 * 1 - 200)
-      user.over_hard_owes!.should eq(700 * 1 - 200)
     end
   end
 end

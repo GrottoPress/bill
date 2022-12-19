@@ -19,6 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Make `Invoice#description` column optional
 - Make `CreditNote#description` column optional
 
+### Removed
+- Remove `.max_debt_allowed` setting
+- Remove `Ledger.invoices.hard_owing?`
+- Remove `Ledger.invoices.hard_owing!`
+- Remove `Ledger.invoices.soft_owing?`
+- Remove `Ledger.invoices.soft_owing!`
+- Remove `Ledger.invoices.over_hard_owing?`
+- Remove `Ledger.invoices.over_hard_owing!`
+- Remove `Ledger.invoices.over_soft_owing?`
+- Remove `Ledger.invoices.over_soft_owing!`
+
 ### Fixed
 - Fix negative sign stripped in fractional money formats for negative amounts
 

@@ -2,7 +2,6 @@ Bill.configure do |settings|
   settings.business_name = "ACME Inc"
   settings.business_address = "123 Joe Boy Street, Antarctica."
   settings.currency = Currency.new("GHS", "GH₵")
-  settings.max_debt_allowed = 400
 
   settings.credit_note_reference = ->(counter : Int64) do
     "CRD#{counter.to_s.rjust(3, '0')}"
