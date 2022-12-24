@@ -17,6 +17,10 @@ class CreateTransaction < Transaction::SaveOperation
   include Bill::CreateTransaction
 end
 
+class UpdateTransaction < Transaction::SaveOperation
+  include Bill::UpdateTransaction
+end
+
 class CreateCreditTransaction < Transaction::SaveOperation
   include Bill::CreateCreditTransaction
 end
