@@ -6,7 +6,10 @@ module Bill::CreateFinalizedInvoiceTransaction
       return unless InvoiceStatus.now_finalized?(status)
       return if (amount = invoice.amount!).zero?
 
-      description = invoice.description || "Invoice #{invoice.reference}"
+      description = invoice.description || Rex.t(
+        :"operation.misc.invoice_description",
+        reference: invoice.reference
+      )
 
       CreateDebitTransaction.create!(
         user_id: invoice.user_id,
