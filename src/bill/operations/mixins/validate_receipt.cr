@@ -66,7 +66,7 @@ module Bill::ValidateReceipt
 
     private def validate_user_exists
       user_id.value.try do |value|
-        return if @user
+        return if user
 
         user_id.add_error Rex.t(
           :"operation.error.user_not_found",

@@ -9,7 +9,7 @@ module Bill::SetUserDetails
     private def set_user_details
       return if record.try(&.finalized?)
 
-      @user.try do |user|
+      user.try do |user|
         user_details.value = user.billing_details
       end
     end
