@@ -8,7 +8,7 @@ module Bill::CreditNotesLedger
       new.credit_notes
     end
 
-    private struct CreditNotes
+    struct CreditNotes
       def initialize(@ledger : Bill::Ledger)
         @type = TransactionType.new(:credit_note)
       end
