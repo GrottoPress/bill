@@ -8,7 +8,7 @@ module Bill::InvoicesLedger
       new.invoices
     end
 
-    private struct Invoices
+    struct Invoices
       def initialize(@ledger : Bill::Ledger)
         @type = TransactionType.new(:invoice)
       end
