@@ -46,9 +46,7 @@ module Bill::UpdateInvoiceLineItems
 
     private def invoice_item_from_hash(hash, invoice)
       hash["id"]?.try do |id|
-        InvoiceItem::PrimaryKeyType.adapter.parse(id).value.try do |id|
-          InvoiceItemQuery.new.id(id).invoice_id(invoice.id).first?
-        end
+        InvoiceItemQuery.new.id(id).invoice_id(invoice.id).first?
       end
     end
   end
