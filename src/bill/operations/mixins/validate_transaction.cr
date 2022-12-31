@@ -1,7 +1,5 @@
 module Bill::ValidateTransaction
   macro included
-    include Lucille::UserFromUserId
-
     before_save do
       validate_amount_required
       validate_description_required
@@ -11,8 +9,9 @@ module Bill::ValidateTransaction
 
       validate_not_update
       validate_amount_not_zero
-      validate_user_exists
     end
+
+    include Lucille::ValidateUserExists
 
     private def validate_user_id_required
       validate_required user_id,
@@ -49,19 +48,6 @@ module Bill::ValidateTransaction
       amount.value.try do |value|
         return unless value.zero?
         amount.add_error Rex.t(:"operation.error.amount_zero", amount: value)
-      end
-    end
-
-    private def validate_user_exists
-      return unless user_id.changed?
-
-      user_id.value.try do |value|
-        return if user
-
-        user_id.add_error Rex.t(
-          :"operation.error.user_not_found",
-          user_id: value
-        )
       end
     end
   end

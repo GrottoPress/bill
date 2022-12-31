@@ -1,7 +1,5 @@
 module Bill::ValidateInvoice
   macro included
-    include Lucille::UserFromUserId
-
     before_save do
       validate_business_details_required
       validate_due_at_required
@@ -9,10 +7,10 @@ module Bill::ValidateInvoice
       validate_reference_unique
       validate_user_details_required
       validate_user_id_required
-      validate_user_exists
     end
 
     include Bill::ValidateStatusTransition
+    include Lucille::ValidateUserExists
 
     private def validate_business_details_required
       validate_required business_details,
@@ -44,19 +42,6 @@ module Bill::ValidateInvoice
     private def validate_user_id_required
       validate_required user_id,
         message: Rex.t(:"operation.error.user_id_required")
-    end
-
-    private def validate_user_exists
-      return unless user_id.changed?
-
-      user_id.value.try do |value|
-        return if user
-
-        user_id.add_error Rex.t(
-          :"operation.error.user_not_found",
-          user_id: value
-        )
-      end
     end
   end
 end
