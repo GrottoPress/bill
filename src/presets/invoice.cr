@@ -1,7 +1,4 @@
-{% skip_file unless Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("Invoice")
-%}
+{% skip_file unless Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
 
 include Bill::InvoiceStatus
 

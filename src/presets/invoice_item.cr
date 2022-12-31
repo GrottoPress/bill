@@ -1,6 +1,5 @@
 {% skip_file unless Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("InvoiceItem")
+  .find(&.name.== :InvoiceItem.id)
 %}
 
 class Invoice < BaseModel

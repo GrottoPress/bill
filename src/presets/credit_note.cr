@@ -1,6 +1,5 @@
 {% skip_file unless Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("CreditNote")
+  .find(&.name.== :CreditNote.id)
 %}
 
 include Bill::CreditNoteStatus

@@ -1,6 +1,5 @@
 {% skip_file unless Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("Transaction")
+  .find(&.name.== :Transaction.id)
 %}
 
 include Bill::TransactionType
@@ -37,7 +36,7 @@ struct Ledger
   include Bill::Ledger
 end
 
-{% if Avram::Model.all_subclasses.map(&.stringify).includes?("InvoiceItem") %}
+{% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
   class User < BaseModel
     include Bill::InvoicesAmount
   end
@@ -71,10 +70,7 @@ end
   end
 {% end %}
 
-{% if Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("CreditNoteItem") %}
-
+{% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
   class User < BaseModel
     include Bill::CreditNotesAmount
   end
@@ -92,7 +88,7 @@ end
   end
 {% end %}
 
-{% if Avram::Model.all_subclasses.map(&.stringify).includes?("Receipt") %}
+{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
   class User < BaseModel
     include Bill::ReceiptsAmount
   end

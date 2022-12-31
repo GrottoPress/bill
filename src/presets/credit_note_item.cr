@@ -1,6 +1,5 @@
 {% skip_file unless Avram::Model.all_subclasses
-  .map(&.stringify)
-  .includes?("CreditNoteItem")
+  .find(&.name.== :CreditNoteItem.id)
 %}
 
 class CreditNote < BaseModel
