@@ -1,6 +1,7 @@
 module Bill::ValidateInvoiceItem
   macro included
     include Bill::SetDefaultQuantity
+    include Bill::InvoiceFromInvoiceId
 
     before_save do
       validate_invoice_id_required
@@ -47,12 +48,14 @@ module Bill::ValidateInvoiceItem
     private def validate_invoice_exists
       return unless invoice_id.changed?
 
-      validate_foreign_key invoice_id,
-        query: InvoiceQuery,
-        message: Rex.t(
+      invoice_id.value.try do |value|
+        return if invoice
+
+        invoice_id.add_error Rex.t(
           :"operation.error.invoice_not_found",
-          invoice_id: invoice_id.value
+          invoice_id: value
         )
+      end
     end
   end
 end

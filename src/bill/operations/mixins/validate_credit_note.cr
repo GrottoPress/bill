@@ -1,10 +1,8 @@
 module Bill::ValidateCreditNote
   macro included
-    @invoice : Invoice?
+    include Bill::InvoiceFromInvoiceId
 
     before_save do
-      set_invoice
-
       validate_status_required
       validate_reference_unique
       validate_invoice_id_required
@@ -32,8 +30,10 @@ module Bill::ValidateCreditNote
     end
 
     private def validate_invoice_exists
+      return unless invoice_id.changed?
+
       invoice_id.value.try do |value|
-        return if @invoice
+        return if invoice
 
         invoice_id.add_error Rex.t(
           :"operation.error.invoice_not_found",
@@ -43,19 +43,13 @@ module Bill::ValidateCreditNote
     end
 
     private def validate_invoice_finalized
-      @invoice.try do |invoice|
+      invoice.try do |invoice|
         return if invoice.finalized?
 
         invoice_id.add_error Rex.t(
           :"operation.error.invoice_not_finalized",
           invoice_id: invoice.id
         )
-      end
-    end
-
-    private def set_invoice
-      invoice_id.value.try do |value|
-        @invoice = InvoiceQuery.new.id(value).first?
       end
     end
   end

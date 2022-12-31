@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Transaction#counter` column for use in references
 - Add `Ledger.balance_fm` method
 - Pay earliest invoices first if they have same due date
+- Add `Bill::InvoiceFromInvoiceId` operation mixin
 
 ### Changed
 - Make `Invoice#description` column optional
