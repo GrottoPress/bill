@@ -1,12 +1,9 @@
 module Bill::ValidateCreditNoteItem
   macro included
     include Bill::SetDefaultQuantity
-
-    @credit_note : CreditNote?
+    include Bill::CreditNoteFromCreditNoteId
 
     before_save do
-      set_credit_note
-
       validate_credit_note_id_required
       validate_description_required
       validate_price_required
@@ -52,8 +49,10 @@ module Bill::ValidateCreditNoteItem
     end
 
     private def validate_credit_note_exists
+      return unless credit_note_id.changed?
+
       credit_note_id.value.try do |value|
-        return if @credit_note
+        return if credit_note
 
         credit_note_id.add_error Rex.t(
           :"operation.error.credit_note_not_found",
@@ -67,7 +66,9 @@ module Bill::ValidateCreditNoteItem
         price.value.try do |_price|
           return unless quantity.changed? || price.changed?
 
-          @credit_note.try do |credit_note|
+          credit_note.try do |credit_note|
+            credit_note = CreditNoteQuery.preload_invoice(credit_note)
+
             invoice_amount = credit_note.invoice.net_amount
             current_credits = credit_note.amount!
             record.try { |record| current_credits -= record.amount }
@@ -86,12 +87,6 @@ module Bill::ValidateCreditNoteItem
             end
           end
         end
-      end
-    end
-
-    private def set_credit_note
-      credit_note_id.value.try do |value|
-        @credit_note = CreditNoteQuery.new.id(value).preload_invoice.first?
       end
     end
   end
