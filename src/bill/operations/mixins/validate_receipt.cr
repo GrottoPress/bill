@@ -1,6 +1,6 @@
 module Bill::ValidateReceipt
   macro included
-    include Bill::SetUserFromUserId
+    include Lucille::UserFromUserId
 
     before_save do
       validate_amount_required
@@ -65,6 +65,8 @@ module Bill::ValidateReceipt
     end
 
     private def validate_user_exists
+      return unless user_id.changed?
+
       user_id.value.try do |value|
         return if user
 

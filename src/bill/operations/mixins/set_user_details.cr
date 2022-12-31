@@ -1,6 +1,6 @@
 module Bill::SetUserDetails
   macro included
-    include Bill::SetUserFromUserId
+    include Lucille::UserFromUserId
 
     before_save do
       set_user_details
