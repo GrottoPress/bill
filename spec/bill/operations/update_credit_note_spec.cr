@@ -93,7 +93,7 @@ describe Bill::UpdateCreditNote do
       ),
       line_items: [
         {"id" => credit_note_item.id.to_s, "price" => "12"},
-        {"id" => credit_note_item_2.id.to_s, "delete" => ""},
+        {"id" => credit_note_item_2.id.to_s, "quantity" => "0"},
         {"description" => "Item 3", "quantity" => "2", "price" => "8"},
         {"description" => "Item 4", "quantity" => "2", "price" => "6"}
       ]

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Make `Invoice#description` column optional
 - Make `CreditNote#description` column optional
+- Use a zero quantity or price as a flag to delete an item in `Bill::NeedsLineItems`.
 
 ### Removed
 - Remove `.max_debt_allowed` setting

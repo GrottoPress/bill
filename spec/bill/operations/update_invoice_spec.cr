@@ -67,7 +67,7 @@ describe Bill::UpdateInvoice do
       ),
       line_items: [
         {"id" => invoice_item.id.to_s, "price" => "12"},
-        {"id" => invoice_item_2.id.to_s, "delete" => ""},
+        {"id" => invoice_item_2.id.to_s, "price" => "0"},
         {"description" => "Item 3", "quantity" => "2", "price" => "8"},
         {"description" => "Item 4", "quantity" => "2", "price" => "6"}
       ]
