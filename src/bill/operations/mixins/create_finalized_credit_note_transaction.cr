@@ -6,15 +6,13 @@ module Bill::CreateFinalizedCreditNoteTransaction
       return unless CreditNoteStatus.now_finalized?(status)
       return if (amount = credit_note.amount!).zero?
 
-      credit_note = CreditNoteQuery.preload_invoice(credit_note)
-
       description = credit_note.description || Rex.t(
         :"operation.misc.credit_note_description",
         reference: credit_note.reference
       )
 
       CreateCreditTransaction.create!(
-        user_id: credit_note.invoice.user_id,
+        user_id: credit_note.invoice!.user_id,
         description: description,
         type: TransactionType.new(:credit_note),
         amount: amount,

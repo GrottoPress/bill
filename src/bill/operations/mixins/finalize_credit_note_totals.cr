@@ -12,9 +12,7 @@ module Bill::FinalizeCreditNoteTotals
       credit_note : Bill::CreditNote
     )
       return unless CreditNoteStatus.now_finalized?(status)
-
-      credit_note = CreditNoteQuery.preload_invoice(credit_note)
-      UpdateInvoiceTotalCreditNotes.update!(credit_note.invoice)
+      UpdateInvoiceTotalCreditNotes.update!(credit_note.invoice!)
     end
   end
 end
