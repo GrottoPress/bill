@@ -1,12 +1,19 @@
 module Bill::HasManyCreditNoteItems
   macro included
+    @_amount_includes_line_items = false
+    @_amount_includes_line_items_ = false
+
     has_many line_items : CreditNoteItem
 
     def amount : Int32
+      return previous_def if @_amount_includes_line_items
+      @_amount_includes_line_items = true
       previous_def + line_items_amount
     end
 
     def amount! : Int32
+      return previous_def if @_amount_includes_line_items_
+      @_amount_includes_line_items_ = true
       previous_def + line_items_amount!
     end
 

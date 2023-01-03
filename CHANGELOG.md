@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fix negative sign stripped in fractional money formats for negative amounts
+- Ensure calculated amounts are constant even if modules are included multiple times
 
 ## [0.7.0] - 2022-11-21
 
