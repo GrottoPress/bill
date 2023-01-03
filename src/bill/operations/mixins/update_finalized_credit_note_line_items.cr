@@ -25,7 +25,11 @@ module Bill::UpdateFinalizedCreditNoteLineItems
 
     private def credit_note_item_from_hash(hash, credit_note)
       hash["id"]?.try do |id|
-        CreditNoteItemQuery.new.id(id).credit_note_id(credit_note.id).first?
+        CreditNoteItemQuery.new
+          .id(id)
+          .credit_note_id(credit_note.id)
+          .preload_credit_note
+          .first?
       end
     end
   end

@@ -46,7 +46,11 @@ module Bill::UpdateInvoiceLineItems
 
     private def invoice_item_from_hash(hash, invoice)
       hash["id"]?.try do |id|
-        InvoiceItemQuery.new.id(id).invoice_id(invoice.id).first?
+        InvoiceItemQuery.new
+          .id(id)
+          .invoice_id(invoice.id)
+          .preload_invoice
+          .first?
       end
     end
   end
