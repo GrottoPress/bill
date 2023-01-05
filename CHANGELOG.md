@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Bill::CreditNoteFromCreditNoteId` operation mixin
 - Add `Bill::InvoiceFromInvoiceId` operation mixin
 - Add `CreditNoteTotals#line_items_fm`
+- Add `InvoiceTotals#line_items_fm`
 
 ### Changed
 - Make `Invoice#description` column optional
