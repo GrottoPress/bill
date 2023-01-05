@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pay earliest invoices first if they have same due date
 - Add `Bill::CreditNoteFromCreditNoteId` operation mixin
 - Add `Bill::InvoiceFromInvoiceId` operation mixin
+- Add `CreditNoteTotals#line_items_fm`
 
 ### Changed
 - Make `Invoice#description` column optional
