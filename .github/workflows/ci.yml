@@ -73,6 +73,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        cockroachdb: [22.2.2]
         crystal: [1.6.0]
     runs-on: ubuntu-latest
     continue-on-error: false
@@ -95,11 +96,11 @@ jobs:
         run: |
           sudo apt -y install tar wget
           sudo mkdir -p /usr/local/lib/cockroach
-          wget https://binaries.cockroachdb.com/cockroach-v22.2.2.linux-amd64.tgz
-          tar -xzf cockroach-v22.2.2.linux-amd64.tgz
-          sudo cp -f cockroach-v22.2.2.linux-amd64/cockroach /usr/local/bin/
+          wget https://binaries.cockroachdb.com/cockroach-v${{ matrix.cockroachdb_version }}.linux-amd64.tgz
+          tar -xzf cockroach-v${{ matrix.cockroachdb_version }}.linux-amd64.tgz
+          sudo cp -f cockroach-v${{ matrix.cockroachdb_version }}.linux-amd64/cockroach /usr/local/bin/
           sudo chmod +x /usr/local/bin/cockroach
-          sudo cp -rf cockroach-v22.2.2.linux-amd64/lib/* /usr/local/lib/cockroach/
+          sudo cp -rf cockroach-v${{ matrix.cockroachdb_version }}.linux-amd64/lib/* /usr/local/lib/cockroach/
         working-directory: /tmp
       - name: Start CockroachDB
         run: cockroach start-single-node --insecure --listen-addr=localhost:36257 --sql-addr=localhost:26257 --background
