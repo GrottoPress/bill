@@ -113,8 +113,8 @@ describe Bill::InvoicesLedger do
         credit_note.should be_a(CreditNote)
       end
 
-      user = UserQuery.preload_transactions(user)
-      user = UserQuery.preload_invoices(user)
+      user = UserQuery.preload_transactions(user, force: true)
+      user = UserQuery.preload_invoices(user, force: true)
 
       user.owes?.should eq(500 * 1 - 200 - 100 * 1)
       user.owes!.should eq(500 * 1 - 200 - 100 * 1)
@@ -139,8 +139,8 @@ describe Bill::InvoicesLedger do
         _invoice.should be_a(Invoice)
       end
 
-      user = UserQuery.preload_transactions(user)
-      user = UserQuery.preload_invoices(user)
+      user = UserQuery.preload_transactions(user, force: true)
+      user = UserQuery.preload_invoices(user, force: true)
 
       user.owes?.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)
       user.owes!.should eq(500 * 1 - 200 - 100 * 1 + 700 * 1)

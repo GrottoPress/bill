@@ -1,7 +1,3 @@
-# TODO: Remove this
-#   See https://github.com/luckyframework/avram/pull/895
-require "lucille/spec/avram/fake_params"
-
 module Bill::UpdateCreditNoteLineItems
   macro included
     after_save update_line_items
@@ -34,7 +30,7 @@ module Bill::UpdateCreditNoteLineItems
         ).try do |credit_note_item|
           UpdateCreditNoteItemForParent.update!(
             credit_note_item,
-            FakeParams.new(line_item), # TODO: Replace with `Avram::Params`
+            Avram::Params.new(line_item),
             parent: self
           )
         end
@@ -44,7 +40,7 @@ module Bill::UpdateCreditNoteLineItems
     private def create_items(credit_note)
       line_items_to_create.each do |line_item|
         CreateCreditNoteItemForParent.create!(
-          FakeParams.new(line_item), # TODO: Replace with `Avram::Params`
+          Avram::Params.new(line_item),
           parent: self
         )
       end
