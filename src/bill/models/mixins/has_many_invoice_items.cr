@@ -13,10 +13,18 @@ module Bill::HasManyInvoiceItems
     end
 
     def line_items_amount! : Int32
-      InvoiceItemQuery.new
+      sum = InvoiceItemQuery.new
         .{{ @type.name.split("::").last.underscore.id }}_id(id)
         .exec_scalar(&.select_sum "price * quantity")
-        .try(&.as(Int64).to_i) || 0
+
+      case sum
+      when PG::Numeric
+        sum.to_f.to_i
+      when Int
+        sum.to_i
+      else
+        0
+      end
     end
 
     def line_items_amount_fm

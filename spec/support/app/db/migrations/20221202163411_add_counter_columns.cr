@@ -1,7 +1,7 @@
 class AddCounterColumns::V20221202163411 < Avram::Migrator::Migration::V1
   def migrate
     alter :credit_notes do
-      add counter : Int64, unique: true, fill_existing_with: 1
+      add counter : Int64, unique: true, default: 1
     end
 
     execute <<-SQL
@@ -15,7 +15,7 @@ class AddCounterColumns::V20221202163411 < Avram::Migrator::Migration::V1
       SQL
 
     alter :invoices do
-      add counter : Int64, unique: true, fill_existing_with: 1
+      add counter : Int64, unique: true, default: 1
     end
 
     execute <<-SQL
@@ -29,7 +29,7 @@ class AddCounterColumns::V20221202163411 < Avram::Migrator::Migration::V1
       SQL
 
     alter :receipts do
-      add counter : Int64, unique: true, fill_existing_with: 1
+      add counter : Int64, unique: true, default: 1
     end
 
     execute <<-SQL
@@ -43,7 +43,7 @@ class AddCounterColumns::V20221202163411 < Avram::Migrator::Migration::V1
       SQL
 
     alter :transactions do
-      add counter : Int64, unique: true, fill_existing_with: 1
+      add counter : Int64, unique: true, default: 1
     end
 
     execute <<-SQL
