@@ -76,7 +76,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
          add description : String?
          add due_at : Time
          add notes : String?
-         add reference : String?
+         add reference : String?, unique: true
          add status : String
          add totals : JSON::Any?
          add user_details : String

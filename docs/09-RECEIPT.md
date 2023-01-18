@@ -63,7 +63,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
          add counter : Int64, unique: true
          add description : String
          add notes : String?
-         add reference : String?
+         add reference : String?, unique: true
          add status : String
          add user_details : String
          # ...

@@ -66,7 +66,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
          add created_at : Time
          add description : String
          add metadata : JSON::Any?
-         add reference : String?
+         add reference : String?, unique: true
          add type : String
          # ...
        end
