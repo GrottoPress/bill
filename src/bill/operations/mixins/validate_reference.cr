@@ -5,6 +5,8 @@ module Bill::ValidateReference
     end
 
     private def validate_reference_unique
+      return unless reference.changed?
+
       reference.value.try do |value|
         query = {{ T }}Query.new
         record.try { |_record| query = query.id.not.eq(_record.id) }
