@@ -4,24 +4,17 @@ module Bill::ValidateCreditNote
 
     before_save do
       validate_status_required
-      validate_reference_unique
       validate_invoice_id_required
       validate_invoice_finalized
       validate_invoice_exists
     end
 
     include Bill::ValidateStatusTransition
+    include Bill::ValidateReference
 
     private def validate_status_required
       validate_required status,
         message: Rex.t(:"operation.error.status_required")
-    end
-
-    private def validate_reference_unique
-      validate_uniqueness_of reference, message: Rex.t(
-        :"operation.error.reference_exists",
-        reference: reference.value
-      )
     end
 
     private def validate_invoice_id_required

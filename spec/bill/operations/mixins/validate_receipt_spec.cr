@@ -146,7 +146,7 @@ describe Bill::ValidateReceipt do
   end
 
   it "ensures reference is unique" do
-    reference = "123"
+    reference = "r123"
 
     user = UserFactory.create
     ReceiptFactory.create &.user_id(user.id).reference(reference)
@@ -156,7 +156,7 @@ describe Bill::ValidateReceipt do
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
-      reference: reference,
+      reference: reference.upcase,
       status: :open,
       user_details: "Mary Smith"
     )) do |operation, receipt|
