@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add support for CockroachDB
 
 ### Fixed
-- Do a case-sensitive search when validating `reference` uniqueness
+- Do a case-insensitive search when validating `reference` uniqueness
 
 ## [0.8.0] - 2023-01-09
 
