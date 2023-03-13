@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Do a case-insensitive search when validating `reference` uniqueness
 
+### Changed
+- Upgrade to support *Lucky* v1.0
+
 ## [0.8.0] - 2023-01-09
 
 ### Added
