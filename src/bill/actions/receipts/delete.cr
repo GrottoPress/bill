@@ -9,7 +9,7 @@ module Bill::Receipts::Delete
     def run_operation
       DeleteReceipt.delete(receipt) do |operation, deleted_receipt|
         if operation.deleted?
-          do_run_operation_succeeded(operation, deleted_receipt.not_nil!)
+          do_run_operation_succeeded(operation, deleted_receipt)
         else
           response.status_code = 400
           do_run_operation_failed(operation)

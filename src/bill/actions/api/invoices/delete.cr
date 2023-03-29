@@ -9,7 +9,7 @@ module Bill::Api::Invoices::Delete
     def run_operation
       DeleteInvoice.delete(invoice) do |operation, deleted_invoice|
         if operation.deleted?
-          do_run_operation_succeeded(operation, deleted_invoice.not_nil!)
+          do_run_operation_succeeded(operation, deleted_invoice)
         else
           response.status_code = 400
           do_run_operation_failed(operation)

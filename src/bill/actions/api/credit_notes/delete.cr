@@ -9,7 +9,7 @@ module Bill::Api::CreditNotes::Delete
     def run_operation
       DeleteCreditNote.delete(credit_note) do |operation, deleted_credit_note|
         if operation.deleted?
-          do_run_operation_succeeded(operation, deleted_credit_note.not_nil!)
+          do_run_operation_succeeded(operation, deleted_credit_note)
         else
           response.status_code = 400
           do_run_operation_failed(operation)
