@@ -4,13 +4,11 @@ describe Bill::RefundPayment do
   it "refunds payment" do
     description = "New refund"
     amount = 45
-    meta_number = 6
 
     user = UserFactory.create
 
     RefundPayment.create(
       params(user_id: user.id, description: description, amount: amount),
-      metadata: TransactionMetadata.from_json({number: meta_number}.to_json),
       receipt: nil
     ) do |_, transaction|
       transaction.should be_a(Transaction)
@@ -20,7 +18,6 @@ describe Bill::RefundPayment do
         transaction.user_id.should eq(user.id)
         transaction.description.should eq(description)
         transaction.amount.should eq(amount)
-        transaction.metadata.try(&.["number"]?).should eq(meta_number)
       end
     end
   end
