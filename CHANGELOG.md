@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Changed
+- Upgrade `GrottoPress/lucille` shard to v1.0
+
 ### Removed
 - Remove `ApiAction` and `BrowserAction` from presets
 
