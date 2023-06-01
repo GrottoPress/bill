@@ -3,6 +3,8 @@ module Bill::ValidateCreditNoteItem
     include Bill::SetDefaultQuantity
     include Bill::CreditNoteFromCreditNoteId
 
+    skip_default_validations
+
     before_save do
       validate_credit_note_id_required
       validate_description_required

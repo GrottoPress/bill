@@ -3,6 +3,8 @@ module Bill::ValidateInvoiceItem
     include Bill::SetDefaultQuantity
     include Bill::InvoiceFromInvoiceId
 
+    skip_default_validations
+
     before_save do
       validate_invoice_id_required
       validate_description_required

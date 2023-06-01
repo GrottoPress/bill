@@ -1,5 +1,7 @@
 module Bill::ValidateTransaction
   macro included
+    skip_default_validations
+
     before_save do
       validate_amount_required
       validate_description_required

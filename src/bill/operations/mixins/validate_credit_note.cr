@@ -2,6 +2,8 @@ module Bill::ValidateCreditNote
   macro included
     include Bill::InvoiceFromInvoiceId
 
+    skip_default_validations
+
     before_save do
       validate_status_required
       validate_invoice_id_required

@@ -4,6 +4,8 @@ private class SaveTransaction < Transaction::SaveOperation
   permit_columns :user_id, :amount, :description, :reference, :type
 
   include Bill::SendDirectReceiptEmail
+
+  skip_default_validations
 end
 
 describe Bill::SendDirectReceiptEmail do

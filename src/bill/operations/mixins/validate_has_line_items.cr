@@ -1,5 +1,7 @@
 module Bill::ValidateHasLineItems
   macro included
+    skip_default_validations
+
     before_save do
       validate_has_line_items
     end

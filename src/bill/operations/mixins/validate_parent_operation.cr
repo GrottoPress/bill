@@ -15,6 +15,8 @@ module Bill::ValidateParentOperation
         validate_parent_not_finalized
       end
     {% else %}
+      skip_default_validations
+
       before_save do
         set_foreign_key
         validate_foreign_key_match

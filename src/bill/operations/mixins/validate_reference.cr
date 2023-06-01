@@ -1,5 +1,7 @@
 module Bill::ValidateReference
   macro included
+    skip_default_validations
+
     before_save do
       validate_reference_unique
     end

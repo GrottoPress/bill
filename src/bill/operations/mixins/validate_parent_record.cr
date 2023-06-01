@@ -12,6 +12,8 @@ module Bill::ValidateParentRecord
         validate_parent_not_finalized
       end
     {% else %}
+      skip_default_validations
+
       before_save do
         validate_parent_not_finalized
       end

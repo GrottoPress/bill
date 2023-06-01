@@ -1,5 +1,7 @@
 module Bill::ValidateInvoice
   macro included
+    skip_default_validations
+
     before_save do
       validate_business_details_required
       validate_due_at_required

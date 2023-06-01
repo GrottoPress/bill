@@ -1,5 +1,7 @@
 module Bill::ValidateParentFinalized
   macro included
+    skip_default_validations
+
     {% parent_model = T.name.split("::").last.gsub(/Item$/, "").id %}
 
     {% assoc = T.constant(:ASSOCIATIONS).find do |assoc|

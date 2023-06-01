@@ -1,5 +1,7 @@
 module Bill::ValidateStatusTransition
   macro included
+    skip_default_validations
+
     before_save do
       validate_status_transition
     end
