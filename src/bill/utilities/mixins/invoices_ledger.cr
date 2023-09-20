@@ -14,7 +14,7 @@ module Bill::InvoicesLedger
       end
 
       def balance(
-        user,
+        user : Bill::HasManyTransactions,
         from : Time? = nil,
         till : Time? = nil
       )
@@ -30,7 +30,7 @@ module Bill::InvoicesLedger
       end
 
       def balance!(
-        user : User? = nil,
+        user : Bill::HasManyTransactions? = nil,
         from : Time? = nil,
         till : Time? = nil
       )

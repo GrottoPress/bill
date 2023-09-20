@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Support namespaced parent model types
 
+### Changed
+- Add `user` parameter type restriction to `Ledger.balance` methods
+
 ## [0.11.0] - 2023-06-02
 
 ### Changed

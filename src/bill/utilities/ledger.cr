@@ -25,7 +25,7 @@ module Bill::Ledger
     end
 
     def balance(
-      user,
+      user : Bill::HasManyTransactions,
       type : TransactionType,
       from : Time? = nil,
       till : Time? = nil
@@ -34,7 +34,7 @@ module Bill::Ledger
     end
 
     def balance(
-      user,
+      user : Bill::HasManyTransactions,
       types : Array(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
@@ -51,7 +51,7 @@ module Bill::Ledger
     end
 
     def balance!(
-      user,
+      user : Bill::HasManyTransactions?,
       type : TransactionType,
       from : Time? = nil,
       till : Time? = nil
@@ -60,7 +60,7 @@ module Bill::Ledger
     end
 
     def balance!(
-      user = nil,
+      user : Bill::HasManyTransactions? = nil,
       types : Array(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
