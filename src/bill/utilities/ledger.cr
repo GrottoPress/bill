@@ -77,6 +77,31 @@ module Bill::Ledger
       query.amount.select_sum!
     end
 
+    def balance!(
+      user_id,
+      type : TransactionType,
+      from : Time? = nil,
+      till : Time? = nil
+    )
+      balance!(user_id, [type], from, till)
+    end
+
+    def balance!(
+      user_id,
+      types : Array(TransactionType)? = nil,
+      from : Time? = nil,
+      till : Time? = nil
+    )
+      raise_if_start_gt_end(from, till)
+
+      query = TransactionQuery.new.user_id(user_id)
+      query = query.type.in(types) if types
+      query = query.created_at.gte(from) if from
+      query = query.created_at.lte(till) if till
+
+      query.amount.select_sum!
+    end
+
     def self.balance(*args, **named_args)
       new.balance(*args, **named_args)
     end

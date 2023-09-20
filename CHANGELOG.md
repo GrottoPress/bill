@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add `Transaction#balance(User::PrimaryKeyType, ...)` methods
+
 ### Fixed
 - Support namespaced parent model types
 

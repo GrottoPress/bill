@@ -3,14 +3,14 @@ module Bill::AutoMarkInvoicesAsPaid
     after_save mark_invoices_as_paid
 
     private def mark_invoices_as_paid(transaction : Bill::Transaction)
-      balance = Ledger.balance!(user = transaction.user!)
-      return mark_all(user) unless Ledger.debit?(balance)
-      mark_for_debit(user, balance)
+      balance = Ledger.balance!(user_id = transaction.user_id)
+      return mark_all(user_id) unless Ledger.debit?(balance)
+      mark_for_debit(user_id, balance)
     end
 
     # A credit or zero balance means all invoices have been paid.
-    private def mark_all(user)
-      mark_as_paid(unpaid_invoices user)
+    private def mark_all(user_id)
+      mark_as_paid(unpaid_invoices user_id)
     end
 
     # Mark invoices as paid until total open amount is *just* greater
@@ -18,8 +18,8 @@ module Bill::AutoMarkInvoicesAsPaid
     #
     # Net zero invoices are paid first. The rest follow based on
     # due date; the earliest due are paid first.
-    private def mark_for_debit(user, balance)
-      invoices = unpaid_invoices(user).due_at.desc_order
+    private def mark_for_debit(user_id, balance)
+      invoices = unpaid_invoices(user_id).due_at.desc_order
         .created_at.desc_order
         .results
 
@@ -38,8 +38,8 @@ module Bill::AutoMarkInvoicesAsPaid
       mark_as_paid InvoiceQuery.new.id.in(selected.map &.id)
     end
 
-    private def unpaid_invoices(user)
-      InvoiceQuery.new.user_id(user.id).is_open
+    private def unpaid_invoices(user_id)
+      InvoiceQuery.new.user_id(user_id).is_open
     end
 
     private def mark_as_paid(query)
