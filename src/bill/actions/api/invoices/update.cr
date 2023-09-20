@@ -11,7 +11,7 @@ module Bill::Api::Invoices::Update
         line_items: params.many_nested?(:line_items)
       ) do |operation, updated_invoice|
         if operation.saved?
-          do_run_operation_succeeded(operation, reload(updated_invoice))
+          do_run_operation_succeeded(operation, updated_invoice)
         else
           response.status_code = 400
           do_run_operation_failed(operation)
@@ -35,10 +35,6 @@ module Bill::Api::Invoices::Update
         errors: operation.errors,
         message: Rex.t(:"action.invoice.update.failure")
       )
-    end
-
-    private def reload(invoice)
-      invoice = invoice.finalized? ? invoice.reload : invoice
     end
   end
 end
