@@ -2,7 +2,7 @@ module Bill::ValidateParentFinalized
   macro included
     skip_default_validations
 
-    {% parent_model = T.name.split("::").last.gsub(/Item$/, "").id %}
+    {% parent_model = T.name.gsub(/Item$/, "") %}
 
     {% assoc = T.constant(:ASSOCIATIONS).find do |assoc|
       assoc[:relationship_type] == :belongs_to &&
@@ -24,7 +24,10 @@ module Bill::ValidateParentFinalized
         return if record.{{ assoc[:assoc_name].id }}.finalized?
 
         {{ assoc[:foreign_key].id }}.add_error Rex.t(
-          :"operation.error.{{ parent_model.underscore }}_not_finalized",
+          :"operation.error.{{ parent_model.split("::")
+            .last
+            .underscore
+            .id }}_not_finalized",
           {{ assoc[:foreign_key].id }}: record.id,
           status: record.{{ assoc[:assoc_name].id }}.status.to_s
         )

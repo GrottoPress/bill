@@ -21,7 +21,11 @@ module Bill::ValidateHasLineItems
           self.line_items_to_save.empty?
       end
 
-      id.add_error Rex.t(:"operation.error.{{ T.name.underscore }}_items_empty")
+      id.add_error Rex.t(:"operation.error.{{ T.name
+        .split("::")
+        .last
+        .underscore
+        .id }}_items_empty")
     end
   end
 end

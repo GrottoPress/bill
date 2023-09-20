@@ -1,6 +1,6 @@
 module Bill::ValidateParentOperation
   macro included
-    {% parent_model = T.name.split("::").last.gsub(/Item$/, "").id %}
+    {% parent_model = T.name.gsub(/Item$/, "") %}
 
     {% assoc = T.constant(:ASSOCIATIONS).find do |assoc|
       assoc[:relationship_type] == :belongs_to &&
@@ -49,7 +49,10 @@ module Bill::ValidateParentOperation
         return unless parent.finalized?
 
         {{ assoc[:foreign_key].id }}.add_error Rex.t(
-          :"operation.error.{{ parent_model.underscore }}_finalized",
+          :"operation.error.{{ parent_model.split("::")
+            .last
+            .underscore
+            .id }}_finalized",
           {{ assoc[:foreign_key].id }}: parent.id,
           status: parent.status.to_s
         )
