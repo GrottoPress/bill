@@ -102,7 +102,7 @@ module Bill::Ledger
     end
 
     protected def foreign_key(record)
-      "#{record.class.name.underscore.split("::").last}_id"
+      "#{record.class.name.split("::").last.underscore}_id"
     end
 
     private def raise_if_start_gt_end(from, till)
