@@ -1,15 +1,15 @@
 module Bill::FractionalMoney
   macro included
-    getter amount : Int32
+    getter amount : Amount
     getter currency : Currency
 
     def initialize(amount : Int, @currency = Bill.settings.currency)
-      @amount = amount.to_i
+      @amount = Amount.new(amount)
     end
 
     def self.from_mu(amount : Float64, currency = Bill.settings.currency) : self
-      new (amount.round(currency.decimal_digits) *
-        currency.mu_factor).round.to_i
+      amount = amount.round(currency.decimal_digits).*(currency.mu_factor).round
+      new Amount.new(amount)
     end
 
     def amount_mu : Float64

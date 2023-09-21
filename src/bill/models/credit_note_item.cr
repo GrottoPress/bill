@@ -3,15 +3,15 @@ module Bill::CreditNoteItem
     include Bill::BelongsToCreditNote
 
     column description : String
-    column quantity : Int16
-    column price : Int32
+    column quantity : Quantity
+    column price : Amount
 
     def price_fm
       FractionalMoney.new(price)
     end
 
-    def amount : Int32
-      price * quantity
+    def amount : Amount
+      Amount.new(price * quantity)
     end
 
     def amount_fm

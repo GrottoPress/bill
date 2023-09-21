@@ -3,7 +3,7 @@ module Bill::Receipt
     include Bill::BelongsToUser
     include Bill::ReferenceColumns
 
-    column amount : Int32
+    column amount : Amount
     column business_details : String
     column description : String
     column notes : String?

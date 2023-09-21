@@ -28,7 +28,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    `Bill::Transaction` adds the following columns:
 
-   - `amount : Int32`
+   - `amount : Amount`
    - `counter : Int64`
    - `description : String`
    - `metadata : TransactionMetadata?` (JSON::Serializable)
@@ -61,7 +61,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
          add_belongs_to user : User, on_delete: :cascade
 
-         add amount : Int32
+         add amount : Int32 # Set to whatever `Amount` aliases to
          add counter : Int64, unique: true
          add created_at : Time
          add description : String
@@ -159,7 +159,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    The form should be `POST`ed to `CreditTransactions::Create`, with the following parameters:
 
    - `user_id`
-   - `amount : Int32` (or `amount_mu : Float64`)
+   - `amount : Amount` (or `amount_mu : Float64`)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be generated from other parameters)
    - `type : TransactionType` (enum)
@@ -214,7 +214,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    The form should be `POST`ed to `DebitTransactions::Create`, with the following parameters:
 
    - `user_id`
-   - `amount : Int32` (or `amount_mu : Float64`)
+   - `amount : Amount` (or `amount_mu : Float64`)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be crafted from other parameters)
    - `type : TransactionType` (enum)

@@ -4,7 +4,7 @@ module Bill::HasManyInvoiceItems
 
     has_many line_items : InvoiceItem
 
-    def line_items_amount : Int32
+    def line_items_amount : Amount
       if responds_to?(:totals) && self.totals
         self.totals.not_nil!.line_items
       else
@@ -12,18 +12,18 @@ module Bill::HasManyInvoiceItems
       end
     end
 
-    def line_items_amount! : Int32
+    def line_items_amount! : Amount
       sum = InvoiceItemQuery.new
         .{{ @type.name.split("::").last.underscore.id }}_id(id)
         .exec_scalar(&.select_sum "price * quantity")
 
       case sum
       when PG::Numeric
-        sum.to_f.to_i
+        Amount.new(sum.to_f)
       when Int
-        sum.to_i
+        Amount.new(sum)
       else
-        0
+        Amount.new(0)
       end
     end
 

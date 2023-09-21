@@ -74,7 +74,7 @@ module Bill::Ledger
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
 
-      query.amount.select_sum!
+      Amount.new(query.amount.select_sum!)
     end
 
     def balance!(
@@ -99,7 +99,7 @@ module Bill::Ledger
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
 
-      query.amount.select_sum!
+      Amount.new(query.amount.select_sum!)
     end
 
     def self.balance(*args, **named_args)

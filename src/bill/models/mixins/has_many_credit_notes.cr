@@ -4,7 +4,7 @@ module Bill::HasManyCreditNotes
 
     has_many credit_notes : CreditNote
 
-    def credit_notes_amount : Int32
+    def credit_notes_amount : Amount
       if responds_to?(:totals) && self.totals
         self.totals.not_nil!.credit_notes
       else
@@ -12,7 +12,7 @@ module Bill::HasManyCreditNotes
       end
     end
 
-    def credit_notes_amount! : Int32
+    def credit_notes_amount! : Amount
       join_query = CreditNoteQuery.new
         .{{ @type.name.split("::").last.underscore.id }}_id(id)
         .is_finalized
@@ -23,11 +23,11 @@ module Bill::HasManyCreditNotes
 
       case sum
       when PG::Numeric
-        sum.to_f.to_i
+        Amount.new(sum.to_f)
       when Int
-        sum.to_i
+        Amount.new(sum)
       else
-        0
+        Amount.new(0)
       end
     end
   end

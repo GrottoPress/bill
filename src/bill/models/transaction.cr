@@ -3,7 +3,7 @@ module Bill::Transaction
     include Bill::BelongsToUser
     include Bill::ReferenceColumns
 
-    column amount : Int32
+    column amount : Amount
     column description : String
     column metadata : TransactionMetadata?, serialize: true
     column type : TransactionType

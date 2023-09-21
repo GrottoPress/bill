@@ -19,8 +19,8 @@
    `Bill::InvoiceItem` adds the following columns:
 
    - `description : String`
-   - `quantity : Int16`
-   - `price : Int32`
+   - `quantity : Quantity`
+   - `price : Amount`
 
    You may add other columns and associations specific to your application.
 
@@ -50,8 +50,8 @@
          add_belongs_to invoice : Invoice, on_delete: :cascade
 
          add description : String
-         add quantity : Int16
-         add price : Int32
+         add quantity : Int16 # Set to whatever `Quantity` aliases to
+         add price : Int32 # Set to whatever `Amount` aliases to
          # ...
        end
      end
@@ -128,8 +128,8 @@
 
    - `invoice_id`
    - `description : String`
-   - `quantity : Int16`
-   - `price : Int32` (or `price_mu : Float64`)
+   - `quantity : Quantity`
+   - `price : Amount` (or `price_mu : Float64`)
 
    You may skip this action if building an API.
 
@@ -182,8 +182,8 @@
 
    - `invoice_id`
    - `description : String`
-   - `quantity : Int16`
-   - `price : Int32` (or `price_mu : Float64`)
+   - `quantity : Quantity`
+   - `price : Amount` (or `price_mu : Float64`)
 
    You may skip this action if building an API.
 

@@ -20,7 +20,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    `Bill::Receipt` adds the following columns:
 
-   - `amount : Int32`
+   - `amount : Amount`
    - `business_details : String`
    - `counter : Int64`
    - `description : String`
@@ -58,7 +58,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
          add_timestamps
          add_belongs_to user : User, on_delete: :cascade
 
-         add amount : Int32
+         add amount : Int32 # Set to whatever `Amount` aliases to
          add business_details : String
          add counter : Int64, unique: true
          add description : String
@@ -160,7 +160,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    The form should be `POST`ed to `Receipts::Create`, with the following parameters:
 
    - `user_id`
-   - `amount : Int32`
+   - `amount : Amount`
    - `description : String`
    - `notes : String?`
    - `status : ReceiptStatus` (enum)
@@ -215,7 +215,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    The form should be `POST`ed to `Receipts::Update`, with the following parameters:
 
    - `user_id`
-   - `amount : Int32`
+   - `amount : Amount`
    - `description : String`
    - `notes : String?`
    - `status : ReceiptStatus` (enum)
@@ -386,7 +386,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    The form should be `POST`ed to `Refunds::Create`, optionally with the following parameters:
 
    - `user_id`
-   - `amount : Int32`
+   - `amount : Amount`
    - `description : String`
    - `metadata : TransactionMetadata?` (may be crafted from other parameters)
 

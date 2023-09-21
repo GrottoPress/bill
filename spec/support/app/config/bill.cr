@@ -1,3 +1,6 @@
+alias Amount = Int32
+alias Quantity = Int16
+
 Bill.configure do |settings|
   settings.business_name = "ACME Inc"
   settings.business_address = "123 Joe Boy Street, Antarctica."

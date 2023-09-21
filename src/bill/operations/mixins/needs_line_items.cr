@@ -5,9 +5,9 @@ module Bill::NeedsLineItems
     def line_items
       previous_def.reject do |line_item|
         line_item.empty? ||
-        line_item["quantity"]?.try(&.to_i?.try &.< 0) ||
-        line_item["price"]?.try(&.to_i?.try &.< 0) ||
-        line_item["price_mu"]?.try(&.to_f?.try &.< 0)
+        line_item["quantity"]?.try { |quantity| Quantity.new(quantity) < 0 } ||
+        line_item["price"]?.try { |price| Amount.new(price) < 0 } ||
+        line_item["price_mu"]?.try(&.to_f.< 0)
       end
     end
 
@@ -25,9 +25,9 @@ module Bill::NeedsLineItems
 
     def line_items_to_save
       line_items.reject do |line_item|
-        line_item["quantity"]?.try(&.to_i?.== 0) ||
-        line_item["price"]?.try(&.to_i?.== 0) ||
-        line_item["price_mu"]?.try(&.to_f?.== 0)
+        line_item["quantity"]?.try { |quantity| Quantity.new(quantity) == 0 } ||
+        line_item["price"]?.try { |price| Amount.new(price) == 0 } ||
+        line_item["price_mu"]?.try(&.to_f.== 0)
       end
     end
   end
