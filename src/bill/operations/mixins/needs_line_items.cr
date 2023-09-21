@@ -7,7 +7,7 @@ module Bill::NeedsLineItems
         line_item.empty? ||
         line_item["quantity"]?.try(&.to_i?.try &.< 0) ||
         line_item["price"]?.try(&.to_i?.try &.< 0) ||
-        line_item["price_mu"]?.try(&.to_i?.try &.< 0)
+        line_item["price_mu"]?.try(&.to_f?.try &.< 0)
       end
     end
 
@@ -27,7 +27,7 @@ module Bill::NeedsLineItems
       line_items.reject do |line_item|
         line_item["quantity"]?.try(&.to_i?.== 0) ||
         line_item["price"]?.try(&.to_i?.== 0) ||
-        line_item["price_mu"]?.try(&.to_i?.== 0)
+        line_item["price_mu"]?.try(&.to_f?.== 0)
       end
     end
   end
