@@ -18,12 +18,9 @@ module Bill::HasManyInvoiceItems
         .exec_scalar(&.select_sum "price * quantity")
 
       case sum
-      when PG::Numeric
-        Amount.new(sum.to_f)
-      when Int
-        Amount.new(sum)
-      else
-        Amount.new(0)
+      when PG::Numeric then Amount.new(sum.to_f)
+      when Int then Amount.new(sum)
+      else Amount.new(0)
       end
     end
 
