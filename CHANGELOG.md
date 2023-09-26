@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Allow setting custom quantity and amount/price column types
 
+### Changed
+- Relax `types` parameter type restriction for `Ledger.balance` to `Indexable(TransactionType)`
+
 ## [0.12.1] - 2023-09-21
 
 ### Fixed

@@ -6,12 +6,12 @@ module Bill::Ledger
       from : Time? = nil,
       till : Time? = nil
     )
-      balance(transactions, [type], from, till)
+      balance(transactions, {type}, from, till)
     end
 
     def balance(
       transactions : Array(Bill::Transaction),
-      types : Array(TransactionType)? = nil,
+      types : Indexable(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
     )
@@ -35,7 +35,7 @@ module Bill::Ledger
 
     def balance(
       user : Bill::HasManyTransactions,
-      types : Array(TransactionType)? = nil,
+      types : Indexable(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
     )
@@ -47,7 +47,7 @@ module Bill::Ledger
       from : Time? = nil,
       till : Time? = nil
     )
-      balance!(nil, [type], from, till)
+      balance!(nil, {type}, from, till)
     end
 
     def balance!(
@@ -56,12 +56,12 @@ module Bill::Ledger
       from : Time? = nil,
       till : Time? = nil
     )
-      balance!(user, [type], from, till)
+      balance!(user, {type}, from, till)
     end
 
     def balance!(
       user : Bill::HasManyTransactions? = nil,
-      types : Array(TransactionType)? = nil,
+      types : Indexable(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
     )
@@ -70,7 +70,7 @@ module Bill::Ledger
       query = TransactionQuery.new
 
       query = query.where("#{foreign_key(user)} = ?", user.id.to_s) if user
-      query = query.type.in(types) if types
+      query = query.type.in(types.to_a) if types
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
 
@@ -83,19 +83,19 @@ module Bill::Ledger
       from : Time? = nil,
       till : Time? = nil
     )
-      balance!(user_id, [type], from, till)
+      balance!(user_id, {type}, from, till)
     end
 
     def balance!(
       user_id,
-      types : Array(TransactionType)? = nil,
+      types : Indexable(TransactionType)? = nil,
       from : Time? = nil,
       till : Time? = nil
     )
       raise_if_start_gt_end(from, till)
 
       query = TransactionQuery.new.user_id(user_id)
-      query = query.type.in(types) if types
+      query = query.type.in(types.to_a) if types
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
 
