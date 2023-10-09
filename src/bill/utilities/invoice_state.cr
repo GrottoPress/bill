@@ -5,12 +5,12 @@ module Bill::InvoiceState
     def initialize(@status : InvoiceStatus)
     end
 
-    def transition(to new_status)
-      transition(self.class.new new_status)
-    end
-
     def transition(to new_state : self)
       new_state if transition?(new_state.status)
+    end
+
+    def transition(to new_status)
+      transition(self.class.new new_status)
     end
 
     private def transition?(new_status)
