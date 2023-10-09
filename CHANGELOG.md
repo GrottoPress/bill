@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Relax `types` parameter type restriction for `Ledger.balance` to `Indexable(TransactionType)`
+- Add `time` parameter to `InvoiceQuery#is_due` method
+- Add `time` parameter to `InvoiceQuery#is_not_due` method
+- Add `time` parameter to `InvoiceQuery#is_overdue` method
+- Add `time` parameter to `InvoiceQuery#is_not_overdue` method
+- Add `time` parameter to `InvoiceQuery#is_underdue` method
+- Add `time` parameter to `InvoiceQuery#is_not_underdue` method
 
 ## [0.12.1] - 2023-09-21
 
