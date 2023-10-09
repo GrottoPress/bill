@@ -15,6 +15,7 @@ module Bill::CreateFinalizedInvoiceTransaction
         user_id: invoice.user_id,
         description: description,
         type: TransactionType.new(:invoice),
+        status: TransactionStatus.new(:open),
         amount: amount,
         metadata: TransactionMetadata.from_json({
           invoice_id: invoice.id

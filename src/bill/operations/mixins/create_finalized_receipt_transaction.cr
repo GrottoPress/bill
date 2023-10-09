@@ -10,6 +10,7 @@ module Bill::CreateFinalizedReceiptTransaction
         user_id: receipt.user_id,
         description: receipt.description,
         type: TransactionType.new(:receipt),
+        status: TransactionStatus.new(:open),
         amount: receipt.amount,
         metadata: TransactionMetadata.from_json({
           receipt_id: receipt.id

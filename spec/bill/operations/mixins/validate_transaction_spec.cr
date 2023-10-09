@@ -70,22 +70,6 @@ describe Bill::ValidateTransaction do
     end
   end
 
-  it "prevents updating" do
-    user = UserFactory.create
-    transaction = TransactionFactory.create &.user_id(user.id)
-
-    SaveTransaction.update(transaction, params(
-      description: "New transaction",
-      amount: 33,
-      type: :invoice,
-    )) do |operation, _|
-      operation.saved?.should be_false
-
-      operation.id
-        .should have_error("operation.error.transaction_update_forbidden")
-    end
-  end
-
   it "ensures reference is unique" do
     reference = "123"
 

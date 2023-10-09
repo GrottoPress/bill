@@ -17,6 +17,7 @@ module Bill::Ledger
     )
       raise_if_start_gt_end(from, till)
 
+      transactions = transactions.select(&.finalized?)
       transactions = transactions.select(&.type.in? types) if types
       transactions = transactions.select(&.created_at.>= from) if from
       transactions = transactions.select(&.created_at.<= till) if till
@@ -67,8 +68,7 @@ module Bill::Ledger
     )
       raise_if_start_gt_end(from, till)
 
-      query = TransactionQuery.new
-
+      query = TransactionQuery.new.is_finalized
       query = query.where("#{foreign_key(user)} = ?", user.id.to_s) if user
       query = query.type.in(types.to_a) if types
       query = query.created_at.gte(from) if from
@@ -94,7 +94,7 @@ module Bill::Ledger
     )
       raise_if_start_gt_end(from, till)
 
-      query = TransactionQuery.new.user_id(user_id)
+      query = TransactionQuery.new.user_id(user_id).is_finalized
       query = query.type.in(types.to_a) if types
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till

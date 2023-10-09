@@ -1,31 +1,50 @@
 require "../../spec_helper"
 
 describe Bill::UpdateTransaction do
-  it "updates description only" do
-    amount = 4
-    new_description = "New transaction"
-    type = TransactionType.new(:receipt)
-
+  it "updates transaction" do
     user = UserFactory.create
-    user_2 = UserFactory.create &.email("me@you.her")
 
     transaction = TransactionFactory.create &.user_id(user.id)
-      .amount(amount)
+      .amount(20)
       .description("Awesome transaction")
-      .type(type)
+      .status(:draft)
+      .type(:invoice)
+
+    new_user = UserFactory.create &.email("some@one.now")
+    new_description = "Another transaction"
+    new_amount = 45
+    new_status = TransactionStatus.new(:open)
+    new_type = TransactionType.new(:receipt)
 
     UpdateTransaction.update(transaction, params(
-      user_id: user_2.id,
-      amount: 600,
+      user_id: new_user.id,
+      amount: new_amount,
       description: new_description,
-      type: :invoice
+      status: new_status,
+      type: new_type
     )) do |operation, updated_transaction|
       operation.saved?.should be_true
 
-      updated_transaction.amount.should eq(amount)
+      updated_transaction.amount.should eq(new_amount)
       updated_transaction.description.should eq(new_description)
-      updated_transaction.type.should eq(type)
-      updated_transaction.user_id.should eq(user.id)
+      updated_transaction.status.should eq(new_status)
+      updated_transaction.type.should eq(new_type)
+      updated_transaction.user_id.should eq(new_user.id)
+    end
+  end
+
+  it "prevents modifying finalized transaction" do
+    user = UserFactory.create
+    transaction = TransactionFactory.create &.user_id(user.id).status(:open)
+
+    UpdateTransaction.update(
+      transaction,
+      params(description: "Another transaction")
+    ) do |operation, _|
+      operation.saved?.should be_false
+
+      operation.status
+        .should(have_error "operation.error.transaction_finalized")
     end
   end
 end

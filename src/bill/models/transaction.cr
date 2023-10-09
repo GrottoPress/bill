@@ -6,7 +6,10 @@ module Bill::Transaction
     column amount : Amount
     column description : String
     column metadata : TransactionMetadata?, serialize: true
+    column status : TransactionStatus
     column type : TransactionType
+
+    delegate :draft?, :open?, :finalized?, to: status
 
     def amount_fm
       FractionalMoney.new(amount)

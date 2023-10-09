@@ -8,19 +8,30 @@ describe Bill::CreditNotesLedger do
       TransactionFactory.create &.user_id(user.id)
         .created_at(3.days.ago)
         .type(:credit_note)
+        .status(:open)
         .amount(-11)
 
-      TransactionFactory.create &.user_id(user.id).type(:receipt).amount(-12)
+      TransactionFactory.create &.user_id(user.id)
+        .type(:credit_note)
+        .status(:draft)
+        .amount(49)
+
+      TransactionFactory.create &.user_id(user.id)
+        .type(:receipt)
+        .status(:open)
+        .amount(-12)
 
       user_2 = UserFactory.create &.email("aa@bb.cc")
 
       TransactionFactory.create &.user_id(user_2.id)
         .type(:credit_note)
+        .status(:open)
         .amount(21)
 
       TransactionFactory.create &.user_id(user_2.id)
         .created_at(3.days.from_now)
         .type(:credit_note)
+        .status(:open)
         .amount(-22)
 
       user = UserQuery.preload_transactions(user)

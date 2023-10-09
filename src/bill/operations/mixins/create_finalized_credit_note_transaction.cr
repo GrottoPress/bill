@@ -15,6 +15,7 @@ module Bill::CreateFinalizedCreditNoteTransaction
         user_id: credit_note.invoice!.user_id,
         description: description,
         type: TransactionType.new(:credit_note),
+        status: TransactionStatus.new(:open),
         amount: amount,
         metadata: TransactionMetadata.from_json({
           credit_note_id: credit_note.id

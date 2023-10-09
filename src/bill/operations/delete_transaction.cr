@@ -1,15 +1,8 @@
-module Bill::UpdateTransaction
+module Bill::DeleteTransaction
   macro included
-    permit_columns :user_id, :amount, :description, :status, :type
-
-    before_save do
+    before_delete do
       validate_not_finalized
     end
-
-    include Bill::SetAmountFromMu
-    include Bill::SetFinalizedCreatedAt
-    include Bill::SetReference
-    include Bill::ValidateTransaction
 
     private def validate_not_finalized
       record.try do |transaction|

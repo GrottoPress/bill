@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - 
 
 ### Added
+- Add `Transaction#status` column
 - Allow setting custom quantity and amount/price column types
 
 ### Changed

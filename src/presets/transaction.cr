@@ -2,6 +2,7 @@
   .find(&.name.== :Transaction.id)
 %}
 
+include Bill::TransactionStatus
 include Bill::TransactionType
 
 class User < BaseModel
@@ -20,12 +21,24 @@ class UpdateTransaction < Transaction::SaveOperation
   include Bill::UpdateTransaction
 end
 
+class UpdateFinalizedTransaction < Transaction::SaveOperation
+  include Bill::UpdateFinalizedTransaction
+end
+
 class CreateCreditTransaction < Transaction::SaveOperation
   include Bill::CreateCreditTransaction
 end
 
 class CreateDebitTransaction < Transaction::SaveOperation
   include Bill::CreateDebitTransaction
+end
+
+class DeleteTransaction < Transaction::DeleteOperation
+  include Bill::DeleteTransaction
+end
+
+struct TransactionState
+  include Bill::TransactionState
 end
 
 struct TransactionMetadata
