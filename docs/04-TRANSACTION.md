@@ -33,6 +33,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `description : String`
    - `metadata : TransactionMetadata?` (JSON::Serializable)
    - `reference : String?`
+   - `status : TransactionStatus` (enum)
    - `type : TransactionType` (enum)
 
    You may add other columns and associations specific to your application.
@@ -67,6 +68,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
          add description : String
          add metadata : JSON::Any?
          add reference : String?, unique: true
+         add status : String
          add type : String
          # ...
        end
@@ -104,6 +106,15 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    ---
    ```crystal
+   # ->>> src/operations/update_transaction.cr
+
+   class UpdateTransaction < Transaction::SaveOperation
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/operations/receive_direct_payment.cr
 
    class ReceiveDirectPayment < Transaction::SaveOperation
@@ -114,6 +125,24 @@ The ledger is immutable -- once transactions are recorded, they are never update
    ```
 
    This operation allows you to receive payments directly as a recorded transaction, without setting up a `Receipt` model. It does not exist if `Receipt` model is set up.
+
+   ---
+   ```crystal
+   # ->>> src/operations/update_finalized_transaction.cr
+
+   class UpdateFinalizedTransaction < Transaction::SaveOperation
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
+   # ->>> src/operations/delete_transaction.cr
+
+   class DeleteTransaction < Transaction::DeleteOperation
+     # ...
+   end
+   ```
 
 1. Set up actions:
 
@@ -145,6 +174,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `credit : Bool` (whether this is a *credit* transaction, or *debit* otherwise)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be generated from other parameters)
+   - `status : TransactionStatus` (enum)
    - `type : TransactionType` (enum)
 
    You may skip this action if building an API.
@@ -158,6 +188,115 @@ The ledger is immutable -- once transactions are recorded, they are never update
      include Bill::Transactions::Create
 
      post "/transactions" do
+       run_operation
+     end
+
+     # What to do if `#run_operation` succeeds
+     #
+     #def do_run_operation_succeeded(operation, transaction)
+     #  ...
+     #end
+
+     # What to do if `#run_operation` fails
+     #
+     #def do_run_operation_failed(operation)
+     #  ...
+     #end
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
+   # ->>> src/actions/transactions/edit.cr
+
+   class Transactions::Edit < BrowserAction
+     # ...
+     include Bill::Transactions::Edit
+
+     get "/transactions/:transaction_id/edit" do
+       operation = UpdateTransaction.new(transaction)
+       html EditPage, operation: operation
+     end
+     # ...
+   end
+   ```
+
+   You may need to add `Transactions::EditPage` in `src/pages/transactions/edit_page.cr`, containing your edit form.
+
+   The form should be `POST`ed to `Transactions::Update`, with the following parameters:
+
+   - `user_id`
+   - `amount : Amount` (or `amount_mu : Float64`)
+   - `credit : Bool` (whether this is a *credit* transaction, or *debit* otherwise)
+   - `description : String`
+   - `metadata : TransactionMetadata?` (may be generated from other parameters)
+   - `status : TransactionStatus` (enum)
+   - `type : TransactionType` (enum)
+
+   You may skip this action if building an API.
+
+   ---
+   ```crystal
+   # ->>> src/actions/transactions/update.cr
+
+   class Transactions::Update < BrowserAction
+     # ...
+     include Bill::Transactions::Update
+
+     patch "/transactions/:transaction_id" do
+       run_operation
+     end
+
+     # What to do if `#run_operation` succeeds
+     #
+     #def do_run_operation_succeeded(operation, transaction)
+     #  ...
+     #end
+
+     # What to do if `#run_operation` fails
+     #
+     #def do_run_operation_failed(operation)
+     #  ...
+     #end
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_transactions/edit.cr
+
+   class FinalizedTransactions::Edit < BrowserAction
+     # ...
+     include Bill::FinalizedTransactions::Edit
+
+     get "/transactions/:transaction_id/finalized/edit" do
+       operation = UpdateFinalizedTransaction.new(transaction)
+       html EditPage, operation: operation
+     end
+     # ...
+   end
+   ```
+
+   You may need to add `FinalizedTransactions::EditPage` in `src/pages/finalized_transactions/edit_page.cr`, containing your edit form.
+
+   The form should be `POST`ed to `FinalizedTransactions::Update`, with the following parameters:
+
+   - `description : String`
+   - `status : TransactionStatus` (enum)
+
+   You may skip this action if building an API.
+
+   ---
+   ```crystal
+   # ->>> src/actions/finalized_transactions/update.cr
+
+   class FinalizedTransactions::Update < BrowserAction
+     # ...
+     include Bill::FinalizedTransactions::Update
+
+     patch "/transactions/:transaction_id/finalized" do
        run_operation
      end
 
@@ -217,5 +356,8 @@ The ledger is immutable -- once transactions are recorded, they are never update
 1. API Actions:
 
    - `Bill::Api::Transactions::Create`
+   - `Bill::Api::FinalizedTransactions::Update`
+   - `Bill::Api::Transactions::Delete`
    - `Bill::Api::Transactions::Index`
    - `Bill::Api::Transactions::Show`
+   - `Bill::Api::Transactions::Update`

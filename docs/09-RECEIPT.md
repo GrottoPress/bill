@@ -258,7 +258,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
      include Bill::FinalizedReceipts::Edit
 
      get "/receipts/:receipt_id/finalized/edit" do
-       operation = UpdateReceipt.new(receipt)
+       operation = UpdateFinalizedReceipt.new(receipt)
        html EditPage, operation: operation
      end
      # ...
