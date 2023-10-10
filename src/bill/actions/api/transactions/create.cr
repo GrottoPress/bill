@@ -1,11 +1,11 @@
-module Bill::Api::CreditTransactions::Create
+module Bill::Api::Transactions::Create
   macro included
-    # post "/transactions/credit" do
+    # post "/transactions" do
     #   run_operation
     # end
 
     def run_operation
-      CreateCreditTransaction.create(params) do |operation, transaction|
+      CreateTransaction.create(params) do |operation, transaction|
         if operation.saved?
           do_run_operation_succeeded(operation, transaction.not_nil!)
         else

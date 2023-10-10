@@ -4,6 +4,7 @@ module Bill::RefundPayment
 
     before_save do
       set_type
+      set_credit
       set_user_id
       set_amount
       set_metadata
@@ -13,10 +14,14 @@ module Bill::RefundPayment
       validate_receipt_finalized
     end
 
-    include Bill::CreateDebitTransaction
+    include Bill::CreateTransaction
 
     private def set_type
       type.value = TransactionType.new(:receipt)
+    end
+
+    private def set_credit
+      credit.value = false
     end
 
     private def set_amount

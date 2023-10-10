@@ -6,8 +6,9 @@ module Bill::CreateFinalizedReceiptTransaction
       return unless ReceiptStatus.now_finalized?(status)
       return if receipt.amount.zero?
 
-      CreateCreditTransaction.create!(
+      CreateTransaction.create!(
         user_id: receipt.user_id,
+        credit: true,
         description: receipt.description,
         type: TransactionType.new(:receipt),
         status: TransactionStatus.new(:open),

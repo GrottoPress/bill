@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 
+
+### Added
+- Add `credit : Bool` attribute to `CreateTransaction` operation
+- Add `credit : Bool` attribute to `UpdateTransaction` operation
+
+### Removed
+- Remove `CreateCreditTransaction` operation
+- Remove `CreateDebitTransaction` operation
+- Remove `Api::CreditTransactions::*` actions
+- Remove `Api::DebitTransactions::*` actions
+- Remove `CreditTransactions::*` actions
+- Remove `DebitTransactions::*` actions
+
 ## [0.13.0] - 2023-10-10
 
 ### Added

@@ -11,8 +11,9 @@ module Bill::CreateFinalizedInvoiceTransaction
         reference: invoice.reference
       )
 
-      CreateDebitTransaction.create!(
+      CreateTransaction.create!(
         user_id: invoice.user_id,
+        credit: false,
         description: description,
         type: TransactionType.new(:invoice),
         status: TransactionStatus.new(:open),

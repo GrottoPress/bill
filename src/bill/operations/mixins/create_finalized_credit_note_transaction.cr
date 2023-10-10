@@ -11,8 +11,9 @@ module Bill::CreateFinalizedCreditNoteTransaction
         reference: credit_note.reference
       )
 
-      CreateCreditTransaction.create!(
+      CreateTransaction.create!(
         user_id: credit_note.invoice!.user_id,
+        credit: true,
         description: description,
         type: TransactionType.new(:credit_note),
         status: TransactionStatus.new(:open),

@@ -1,14 +1,15 @@
 require "../../../../spec_helper"
 
-describe Bill::Api::DebitTransactions::Create do
+describe Bill::Api::Transactions::Create do
   it "creates transaction" do
     response = ApiClient.exec(
-      Api::DebitTransactions::Create,
+      Api::Transactions::Create,
       transaction: {
         user_id: UserFactory.create.id,
         description: "New transaction",
+        credit: true,
         type: :invoice,
-        amount: 4
+        amount: 3
       }
     )
 

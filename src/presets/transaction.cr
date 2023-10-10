@@ -25,14 +25,6 @@ class UpdateFinalizedTransaction < Transaction::SaveOperation
   include Bill::UpdateFinalizedTransaction
 end
 
-class CreateCreditTransaction < Transaction::SaveOperation
-  include Bill::CreateCreditTransaction
-end
-
-class CreateDebitTransaction < Transaction::SaveOperation
-  include Bill::CreateDebitTransaction
-end
-
 class DeleteTransaction < Transaction::DeleteOperation
   include Bill::DeleteTransaction
 end
@@ -66,11 +58,7 @@ end
     include Bill::AutoMarkInvoicesAsPaid
   end
 
-  class CreateCreditTransaction < Transaction::SaveOperation
-    include Bill::AutoMarkInvoicesAsPaid
-  end
-
-  class CreateDebitTransaction < Transaction::SaveOperation
+  class CreateTransaction < Transaction::SaveOperation
     include Bill::AutoMarkInvoicesAsPaid
   end
 

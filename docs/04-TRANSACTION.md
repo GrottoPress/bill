@@ -104,24 +104,6 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    ---
    ```crystal
-   # ->>> src/operations/create_credit_transaction.cr
-
-   class CreateCreditTransaction < Transaction::SaveOperation
-     # ...
-   end
-   ```
-
-   ---
-   ```crystal
-   # ->>> src/operations/create_debit_transaction.cr
-
-   class CreateDebitTransaction < Transaction::SaveOperation
-     # ...
-   end
-   ```
-
-   ---
-   ```crystal
    # ->>> src/operations/receive_direct_payment.cr
 
    class ReceiveDirectPayment < Transaction::SaveOperation
@@ -140,26 +122,27 @@ The ledger is immutable -- once transactions are recorded, they are never update
    However, in the rare situation that you may need to record transactions manually, you may set up action routes for those.
 
    ```crystal
-   # ->>> src/actions/credit_transactions/new.cr
+   # ->>> src/actions/transactions/new.cr
 
-   class CreditTransactions::New < BrowserAction
+   class Transactions::New < BrowserAction
      # ...
-     include Bill::CreditTransactions::New
+     include Bill::Transactions::New
 
-     get "/transactions/credit/new" do
-       operation = CreateCreditTransaction.new
+     get "/transactions/new" do
+       operation = CreateTransaction.new
        html NewPage, operation: operation
      end
      # ...
    end
    ```
 
-   You may need to add `CreditTransactions::NewPage` in `src/pages/credit_transactions/new_page.cr`, containing your new transaction form.
+   You may need to add `Transactions::NewPage` in `src/pages/transactions/new_page.cr`, containing your new transaction form.
 
-   The form should be `POST`ed to `CreditTransactions::Create`, with the following parameters:
+   The form should be `POST`ed to `Transactions::Create`, with the following parameters:
 
    - `user_id`
    - `amount : Amount` (or `amount_mu : Float64`)
+   - `credit : Bool` (whether this is a *credit* transaction, or *debit* otherwise)
    - `description : String`
    - `metadata : TransactionMetadata?` (may be generated from other parameters)
    - `type : TransactionType` (enum)
@@ -168,68 +151,13 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    ---
    ```crystal
-   # ->>> src/actions/credit_transactions/create.cr
+   # ->>> src/actions/transactions/create.cr
 
-   class CreditTransactions::Create < BrowserAction
+   class Transactions::Create < BrowserAction
      # ...
-     include Bill::CreditTransactions::Create
+     include Bill::Transactions::Create
 
-     post "/transactions/credit" do
-       run_operation
-     end
-
-     # What to do if `#run_operation` succeeds
-     #
-     #def do_run_operation_succeeded(operation, transaction)
-     #  ...
-     #end
-
-     # What to do if `#run_operation` fails
-     #
-     #def do_run_operation_failed(operation)
-     #  ...
-     #end
-     # ...
-   end
-   ```
-
-   ---
-   ```crystal
-   # ->>> src/actions/debit_transactions/new.cr
-
-   class DebitTransactions::New < BrowserAction
-     # ...
-     include Bill::DebitTransactions::New
-
-     get "/transactions/debit/new" do
-       operation = CreateDebitTransaction.new
-       html NewPage, operation: operation
-     end
-     # ...
-   end
-   ```
-
-   You may need to add `DebitTransactions::NewPage` in `src/pages/debit_transactions/new_page.cr`, containing your new transaction form.
-
-   The form should be `POST`ed to `DebitTransactions::Create`, with the following parameters:
-
-   - `user_id`
-   - `amount : Amount` (or `amount_mu : Float64`)
-   - `description : String`
-   - `metadata : TransactionMetadata?` (may be crafted from other parameters)
-   - `type : TransactionType` (enum)
-
-   You may skip this action if building an API.
-
-   ---
-   ```crystal
-   # ->>> src/actions/debit_transactions/create.cr
-
-   class DebitTransactions::Create < BrowserAction
-     # ...
-     include Bill::DebitTransactions::Create
-
-     post "/transactions/debit" do
+     post "/transactions" do
        run_operation
      end
 
@@ -288,7 +216,6 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
 1. API Actions:
 
-   - `Bill::Api::CreditTransactions::Create`
-   - `Bill::Api::DebitTransactions::Create`
+   - `Bill::Api::Transactions::Create`
    - `Bill::Api::Transactions::Index`
    - `Bill::Api::Transactions::Show`
