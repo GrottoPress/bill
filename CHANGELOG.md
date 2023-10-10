@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add `credit : Bool` attribute to `CreateTransaction` operation
 - Add `credit : Bool` attribute to `UpdateTransaction` operation
+- Add `Api::FinalizedTransactions::*` actions
+- Add `FinalizedTransactions::*` actions
 
 ### Removed
 - Remove `CreateCreditTransaction` operation
