@@ -17,6 +17,8 @@ describe Bill::UpdateReceipt do
     new_notes = "Another note"
     new_status = ReceiptStatus.new(:open)
 
+    TransactionQuery.new.none?.should be_true
+
     UpdateReceipt.update(receipt, params(
       user_id: new_user.id,
       description: new_description,
@@ -33,6 +35,13 @@ describe Bill::UpdateReceipt do
       updated_receipt.reference.should eq("RCT1401")
       updated_receipt.status.should eq(new_status)
     end
+
+    TransactionQuery.new
+      .user_id(new_user.id)
+      .type(:receipt)
+      .is_finalized
+      .none?
+      .should(be_false)
   end
 
   it "prevents modifying finalized receipt" do

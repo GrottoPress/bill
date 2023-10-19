@@ -102,7 +102,7 @@ end
     include Bill::RefundPayment
   end
 
-  class UpdateFinalizedReceipt < Receipt::SaveOperation
+  class UpdateReceipt < Receipt::SaveOperation
     include Bill::CreateFinalizedReceiptTransaction
   end
 

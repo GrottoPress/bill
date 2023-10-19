@@ -9,6 +9,8 @@ describe Bill::ReceivePayment do
 
     user = UserFactory.create
 
+    TransactionQuery.new.none?.should be_true
+
     ReceivePayment.create(
       params(
         user_id: user.id,
@@ -30,5 +32,12 @@ describe Bill::ReceivePayment do
         receipt.status.should eq(status)
       end
     end
+
+    TransactionQuery.new
+      .user_id(user.id)
+      .type(:receipt)
+      .is_finalized
+      .none?
+      .should(be_false)
   end
 end
