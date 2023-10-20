@@ -5,7 +5,7 @@ describe Bill::UpdateTransaction do
     user = UserFactory.create
 
     transaction = TransactionFactory.create &.user_id(user.id)
-      .amount(20)
+      .amount(-20)
       .description("Awesome transaction")
       .status(:draft)
       .type(:invoice)
@@ -19,6 +19,7 @@ describe Bill::UpdateTransaction do
     UpdateTransaction.update(transaction, params(
       user_id: new_user.id,
       amount: new_amount,
+      credit: false,
       description: new_description,
       status: new_status,
       type: new_type

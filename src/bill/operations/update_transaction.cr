@@ -38,7 +38,7 @@ module Bill::UpdateTransaction
     end
 
     private def set_credit
-      return if credit.value
+      return unless credit.value.nil?
       record.try { |transaction| credit.value = transaction.credit? }
     end
   end
