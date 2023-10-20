@@ -5,6 +5,7 @@ module Bill::ValidateTransaction
     before_save do
       validate_amount_required
       validate_description_required
+      validate_status_required
       validate_type_required
       validate_user_id_required
 
@@ -28,6 +29,11 @@ module Bill::ValidateTransaction
     private def validate_amount_required
       validate_required amount,
         message: Rex.t(:"operation.error.amount_required")
+    end
+
+    private def validate_status_required
+      validate_required status,
+        message: Rex.t(:"operation.error.status_required")
     end
 
     private def validate_type_required

@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 private class SaveTransaction < Transaction::SaveOperation
-  permit_columns :user_id, :amount, :description, :reference, :type
+  permit_columns :user_id, :amount, :description, :reference, :status, :type
 
   include Bill::ValidateTransaction
 end
@@ -11,6 +11,7 @@ describe Bill::ValidateTransaction do
     SaveTransaction.create(params(
       amount: 22,
       description: "New transaction",
+      status: :open,
       type: :invoice
     )) do |operation, transaction|
       transaction.should be_nil
@@ -23,6 +24,7 @@ describe Bill::ValidateTransaction do
     SaveTransaction.create(params(
       user_id: UserFactory.create.id,
       amount: 33,
+      status: :open,
       type: :invoice,
     )) do |operation, transaction|
       transaction.should be_nil
@@ -36,6 +38,7 @@ describe Bill::ValidateTransaction do
     SaveTransaction.create(params(
       user_id: UserFactory.create.id,
       description: "New transaction",
+      status: :open,
       type: :invoice,
     )) do |operation, transaction|
       transaction.should be_nil
@@ -44,11 +47,25 @@ describe Bill::ValidateTransaction do
     end
   end
 
+  it "requires status" do
+    SaveTransaction.create(params(
+      user_id: UserFactory.create.id,
+      description: "New transaction",
+      amount: 44,
+      type: :invoice,
+    )) do |operation, transaction|
+      transaction.should be_nil
+
+      operation.status.should have_error("operation.error.status_required")
+    end
+  end
+
   it "rejects zero amount" do
     SaveTransaction.create(params(
       user_id: UserFactory.create.id,
       description: "New transaction",
       amount: 0,
+      status: :open,
       type: :invoice,
     )) do |operation, transaction|
       transaction.should be_nil
@@ -62,6 +79,7 @@ describe Bill::ValidateTransaction do
       user_id: 2_i64,
       description: "New transaction",
       amount: 33,
+      status: :open,
       type: :invoice,
     )) do |operation, transaction|
       transaction.should be_nil
@@ -81,6 +99,7 @@ describe Bill::ValidateTransaction do
       description: "New transaction",
       amount: 33,
       reference: reference,
+      status: :open,
       type: :invoice,
     )) do |operation, transaction|
       transaction.should be_nil
