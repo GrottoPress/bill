@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add `Bill::SetAmountSign` operation mixin
+
 ### Fix
 - Fix change from credit to debit amount not working in `UpdateTransaction`
 
