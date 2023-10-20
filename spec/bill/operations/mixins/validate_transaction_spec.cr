@@ -60,6 +60,19 @@ describe Bill::ValidateTransaction do
     end
   end
 
+  it "requires type" do
+    SaveTransaction.create(params(
+      user_id: UserFactory.create.id,
+      description: "New transaction",
+      amount: 44,
+      status: :draft,
+    )) do |operation, transaction|
+      transaction.should be_nil
+
+      operation.type.should have_error("operation.error.type_required")
+    end
+  end
+
   it "rejects zero amount" do
     SaveTransaction.create(params(
       user_id: UserFactory.create.id,
