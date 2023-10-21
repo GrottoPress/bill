@@ -4,8 +4,8 @@ module Bill::CreateTransaction
 
     include Bill::SetDefaultStatus
     include Bill::SetAmountFromMu
-    include Bill::SetAmountSign
     include Bill::SetReference
+    include Bill::SetTransactionAmount
 
     before_save do
       validate_credit_required

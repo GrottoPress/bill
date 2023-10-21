@@ -3,9 +3,9 @@ module Bill::UpdateTransaction
     permit_columns :user_id, :amount, :description, :status, :type
 
     include Bill::SetAmountFromMu
-    include Bill::SetAmountSign
     include Bill::SetFinalizedCreatedAt
     include Bill::SetReference
+    include Bill::SetTransactionAmount
 
     before_save do
       validate_not_finalized

@@ -1,4 +1,4 @@
-module Bill::SetAmountSign
+module Bill::SetTransactionAmount
   macro included
     attribute credit : Bool
 
