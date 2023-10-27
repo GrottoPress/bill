@@ -5,7 +5,7 @@ module Bill::SetDefaultStatus
     end
 
     private def set_default_status
-      return if status.value
+      return unless status.value.nil?
       status.value = {{ T }}Status.new(:draft)
     end
   end

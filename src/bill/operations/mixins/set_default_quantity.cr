@@ -5,7 +5,7 @@ module Bill::SetDefaultQuantity
     end
 
     private def set_default_quantity
-      quantity.value = 1 unless quantity.value
+      quantity.value = 1 if quantity.value.nil?
     end
   end
 end

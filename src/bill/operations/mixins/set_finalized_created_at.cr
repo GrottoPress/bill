@@ -5,7 +5,7 @@ module Bill::SetFinalizedCreatedAt
     end
 
     private def set_finalized_created_at
-      return unless created_at.value
+      return if created_at.value.nil?
       created_at.value = Time.utc if {{ T }}Status.now_finalized?(status)
     end
   end

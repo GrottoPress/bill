@@ -25,7 +25,7 @@ module Bill::RefundPayment
     end
 
     private def set_amount
-      return if amount.value
+      return unless amount.value.nil?
       receipt.try { |receipt| amount.value = receipt.amount }
     end
 
@@ -46,7 +46,7 @@ module Bill::RefundPayment
     end
 
     private def set_default_description
-      return if description.value
+      return unless description.value.nil?
 
       receipt.try do |receipt|
         description.value = Rex.t(
@@ -57,10 +57,10 @@ module Bill::RefundPayment
     end
 
     private def validate_amount_lte_receipt
-      return unless value = amount.value
+      amount.value.try do |value|
+        receipt.try do |receipt|
+          return if value <= receipt.amount
 
-      receipt.try do |receipt|
-        if value > receipt.amount
           amount.add_error Rex.t(
             :"operation.error.refund_exceeds_receipt",
             amount: value,
