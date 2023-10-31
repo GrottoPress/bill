@@ -36,9 +36,11 @@ jobs:
       matrix:
         crystal: ['1.6.0', latest]
         experimental: [false]
+        shard_file: [shard.yml, shard.latest.yml]
         include:
           - crystal: nightly
             experimental: true
+            shard_file: shard.edge.yml
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     steps:
@@ -56,6 +58,8 @@ jobs:
           restore-keys: ${{ runner.os }}-shards-
       - name: Install shards
         run: shards update --skip-postinstall --skip-executables
+        env:
+          SHARDS_OVERRIDE: ${{ matrix.shard_file }}
       - name: Install Postgresql
         run: sudo apt -y install postgresql
       - name: Start Postgresql
@@ -73,10 +77,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cockroachdb: ['22.2.2']
+        cockroachdb: ['v22.2.0', latest]
         crystal: ['1.6.0']
+        experimental: [false]
+        shard_file: [shard.yml, shard.latest.yml]
+        include:
+          - cockroachdb: latest
+            crystal: latest
+            experimental: true
+            shard_file: shard.edge.yml
     runs-on: ubuntu-latest
-    continue-on-error: false
+    continue-on-error: ${{ matrix.experimental }}
     steps:
       - name: Download source
         uses: actions/checkout@v3
@@ -92,15 +103,17 @@ jobs:
           restore-keys: ${{ runner.os }}-shards-
       - name: Install shards
         run: shards update --skip-postinstall --skip-executables
+        env:
+          SHARDS_OVERRIDE: ${{ matrix.shard_file }}
       - name: Install CockroachDB
         run: |
           sudo apt -y install tar wget
           sudo mkdir -p /usr/local/lib/cockroach
-          wget https://binaries.cockroachdb.com/cockroach-v${{ matrix.cockroachdb }}.linux-amd64.tgz
-          tar -xzf cockroach-v${{ matrix.cockroachdb }}.linux-amd64.tgz
-          sudo cp -f cockroach-v${{ matrix.cockroachdb }}.linux-amd64/cockroach /usr/local/bin/
+          wget -O cockroachdb.tgz https://binaries.cockroachdb.com/cockroach-${{ matrix.cockroachdb }}.linux-amd64.tgz
+          tar -xzf cockroachdb.tgz
+          sudo cp -f cockroach-*/cockroach /usr/local/bin/
           sudo chmod +x /usr/local/bin/cockroach
-          sudo cp -rf cockroach-v${{ matrix.cockroachdb }}.linux-amd64/lib/* /usr/local/lib/cockroach/
+          sudo cp -rf cockroach-*/lib/* /usr/local/lib/cockroach/
         working-directory: /tmp
       - name: Start CockroachDB
         run: cockroach start-single-node --insecure --listen-addr=localhost:36257 --sql-addr=localhost:26257 --background
