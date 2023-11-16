@@ -102,6 +102,8 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    class UpdateCreditNote < CreditNote::SaveOperation
      # ...
+     include Bill::SendFinalizedCreditNoteEmail
+     # ...
    end
    ```
 

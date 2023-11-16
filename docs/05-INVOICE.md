@@ -122,6 +122,8 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    class UpdateInvoice < Invoice::SaveOperation
      # ...
+     include Bill::SendFinalizedInvoiceEmail
+     # ...
    end
    ```
 

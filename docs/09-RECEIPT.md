@@ -108,6 +108,8 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    class UpdateReceipt < Receipt::SaveOperation
      # ...
+     include Bill::SendFinalizedReceiptEmail
+     # ...
    end
    ```
 
