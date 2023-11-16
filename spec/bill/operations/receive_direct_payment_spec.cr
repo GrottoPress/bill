@@ -16,7 +16,8 @@ describe Bill::ReceiveDirectPayment do
       user_id: user.id,
       description: description,
       amount: amount,
-      type: :invoice
+      type: :invoice,
+      status: :open
     )) do |_, transaction|
       transaction.should be_a(Transaction)
 
@@ -26,6 +27,7 @@ describe Bill::ReceiveDirectPayment do
         transaction.description.should eq(description)
         transaction.type.should eq(TransactionType.new(:receipt))
         transaction.amount.should eq(-amount)
+        transaction.status.should eq(TransactionStatus.new(:open))
       end
     end
   end
