@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Send direct receipt emails **only** for finalized transactions
+- Add `TransactionMetadata#receipt_id` only when `Receipt` model exists
 
 ## [0.14.4] - 2023-10-27
 

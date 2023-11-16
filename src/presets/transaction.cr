@@ -106,6 +106,10 @@ end
     include Bill::CreateFinalizedReceiptTransaction
   end
 
+  struct TransactionMetadata
+    include Bill::ReceiptTransactionMetadata
+  end
+
   struct Ledger
     include Bill::ReceiptsLedger
   end
