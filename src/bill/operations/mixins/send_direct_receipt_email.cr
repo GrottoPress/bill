@@ -3,6 +3,7 @@ module Bill::SendDirectReceiptEmail
     after_commit send_receipt_email
 
     private def send_receipt_email(transaction : Bill::Transaction)
+      return unless TransactionStatus.now_finalized?(status)
       return unless transaction.type == TransactionType.new(:receipt)
 
       transaction = TransactionQuery.preload_user(transaction)

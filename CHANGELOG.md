@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add support for Lucky v1.1
 
+### Fixed
+- Send direct receipt emails **only** for finalized transactions
+
 ## [0.14.4] - 2023-10-27
 
 ### Fixed
