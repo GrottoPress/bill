@@ -128,6 +128,17 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    ---
    ```crystal
+   # ->>> src/operations/receive_direct_payment.cr
+
+   class UpdateDirectReceipt < Transaction::SaveOperation
+     # ...
+     include Bill::SendDirectReceiptEmail
+     # ...
+   end
+   ```
+
+   ---
+   ```crystal
    # ->>> src/operations/update_finalized_transaction.cr
 
    class UpdateFinalizedTransaction < Transaction::SaveOperation

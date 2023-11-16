@@ -125,4 +125,8 @@ end
   class ReceiveDirectPayment < Transaction::SaveOperation
     include Bill::ReceiveDirectPayment
   end
+
+  class UpdateDirectReceipt < Transaction::SaveOperation
+    include Bill::UpdateDirectReceipt
+  end
 {% end %}
