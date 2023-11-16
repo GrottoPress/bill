@@ -88,6 +88,10 @@ end
     include Bill::CreateFinalizedCreditNoteTransaction
   end
 
+  struct TransactionMetadata
+    include Bill::CreditNoteTransactionMetadata
+  end
+
   struct Ledger
     include Bill::CreditNotesLedger
   end
