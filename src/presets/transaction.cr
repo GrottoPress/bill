@@ -66,6 +66,10 @@ end
     include Bill::UpdateReference
   end
 
+  struct TransactionMetadata
+    include Bill::InvoiceTransactionMetadata
+  end
+
   struct Ledger
     include Bill::InvoicesLedger
   end
