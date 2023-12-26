@@ -1,10 +1,13 @@
 module Bill::InvoiceQuery
   macro included
     def is_due(on time = Time.utc)
+      time = time.to_local
       is_open.due_at.between(time.at_beginning_of_day, time.at_end_of_day)
     end
 
     def is_not_due(on time = Time.utc)
+      time = time.to_local
+
       where(&.is_not_open.or &.due_at.not.between(
         time.at_beginning_of_day,
         time.at_end_of_day
@@ -12,19 +15,19 @@ module Bill::InvoiceQuery
     end
 
     def is_overdue(on time = Time.utc)
-      is_open.due_at.lt(time.at_beginning_of_day)
+      is_open.due_at.lt(time.to_local.at_beginning_of_day)
     end
 
     def is_not_overdue(on time = Time.utc)
-      where(&.is_not_open.or &.due_at.not.lt(time.at_beginning_of_day))
+      where(&.is_not_open.or &.due_at.not.lt(time.to_local.at_beginning_of_day))
     end
 
     def is_underdue(on time = Time.utc)
-      is_open.due_at.gt(time.at_end_of_day)
+      is_open.due_at.gt(time.to_local.at_end_of_day)
     end
 
     def is_not_underdue(on time = Time.utc)
-      where(&.is_not_open.or &.due_at.not.gt(time.at_end_of_day))
+      where(&.is_not_open.or &.due_at.not.gt(time.to_local.at_end_of_day))
     end
 
     def is_draft

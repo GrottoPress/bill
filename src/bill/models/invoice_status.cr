@@ -22,7 +22,7 @@ module Bill::InvoiceStatus
       end
 
       private def overdue_by(invoice) : Time::Span
-        Time.utc.at_beginning_of_day - invoice.due_on
+        Time.local.at_beginning_of_day - invoice.due_on
       end
     end
 

@@ -22,3 +22,5 @@ Bill.configure do |settings|
     "TRN#{counter.to_s.rjust(3, '0')}"
   end
 end
+
+Time::Location.local = Time::Location.load("America/Detroit")

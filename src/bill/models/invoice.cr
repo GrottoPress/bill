@@ -15,7 +15,7 @@ module Bill::Invoice
     delegate :draft?, :open?, :paid?, :finalized?, to: status
 
     def due_on : Time
-      due_at.at_beginning_of_day
+      due_at.to_local.at_beginning_of_day
     end
 
     def due? : Bool
