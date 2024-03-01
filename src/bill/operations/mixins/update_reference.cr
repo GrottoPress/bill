@@ -4,8 +4,6 @@ module Bill::UpdateReference
       set_reference
     end
 
-    include Bill::ValidateReference
-
     private def set_reference
       record.try do |_record|
         return if _record.reference

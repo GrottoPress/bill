@@ -26,17 +26,4 @@ describe Bill::UpdateReference do
       updated_invoice.reference.should eq(reference)
     end
   end
-
-  it "ensures reference is unique" do
-    reference = "123"
-
-    user = UserFactory.create
-    invoice = InvoiceFactory.create &.user_id(user.id).reference("K12")
-    InvoiceFactory.create &.user_id(user.id).reference(reference)
-
-    SaveInvoice.update(invoice, reference: reference) do |operation, _|
-      operation.saved?.should be_false
-      operation.reference.should have_error("operation.error.reference_exists")
-    end
-  end
 end
