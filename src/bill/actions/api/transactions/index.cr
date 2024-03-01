@@ -3,7 +3,7 @@ module Bill::Api::Transactions::Index
     # param page : Int32 = 1
 
     # get "/transactions" do
-    #   json ListTransaction.new(transactions: transactions, pages: pages)
+    #   json TransactionSerializer.new(transactions: transactions, pages: pages)
     # end
 
     def pages
