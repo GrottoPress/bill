@@ -4,7 +4,7 @@ module Bill::AutoMarkInvoicesAsPaid
 
     private def mark_invoices_as_paid(transaction : Bill::Transaction)
       balance = Ledger.balance!(user_id = transaction.user_id)
-      return mark_all(user_id) unless Ledger.debit?(balance)
+      return mark_all(user_id) unless balance.debit?
       mark_for_debit(user_id, balance)
     end
 

@@ -110,18 +110,6 @@ module Bill::Ledger
       new.balance!(*args, **named_args)
     end
 
-    def self.debit?(balance : Int)
-      balance > 0
-    end
-
-    def self.credit?(balance : Int)
-      balance < 0
-    end
-
-    def self.zero?(balance : Int)
-      balance == 0
-    end
-
     def self.balance_fm(balance : Int)
       FractionalMoney.new(balance)
     end

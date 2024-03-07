@@ -16,15 +16,15 @@ module Bill::Transaction
     end
 
     def debit? : Bool
-      Ledger.debit?(amount)
+      amount.debit?
     end
 
     def credit? : Bool
-      Ledger.credit?(amount)
+      amount.credit?
     end
 
     def zero? : Bool
-      Ledger.zero?(amount)
+      amount.zero?
     end
   end
 end
