@@ -1,5 +1,10 @@
 class User < BaseModel
   include Bill::User
+  include Bill::HasManyCreditNotesThroughInvoices
+  include Bill::HasManyInvoices
+  include Bill::HasManyReceipts
+  include Bill::HasManyTransactions
+
   include Carbon::Emailable
 
   skip_default_columns
