@@ -51,7 +51,7 @@ module Bill::RefundPayment
       receipt.try do |receipt|
         description.value = Rex.t(
           :"operation.misc.refund_description",
-          reeipt_id: receipt.id
+          reference: receipt.reference
         )
       end
     end

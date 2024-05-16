@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fix CI issues with Lucky v1.2
 
+### Changed
+- Replace receipt ID variable with reference in refund description translation
+
 ## [0.16.0] - 2024-03-07
 
 ### Added
