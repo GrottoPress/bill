@@ -44,7 +44,7 @@ describe Bill::RefundPayment do
           transaction.user_id.should eq(user.id)
           transaction.description.should eq(description)
           transaction.amount.should eq(amount)
-          transaction.metadata.try(&.receipt_id).should eq(receipt.id)
+          transaction.receipt_id.should eq(receipt.id)
         end
       end
     end

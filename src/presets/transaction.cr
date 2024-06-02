@@ -33,15 +33,15 @@ struct TransactionState
   include Bill::TransactionState
 end
 
-struct TransactionMetadata
-  include Bill::TransactionMetadata
-end
-
 struct Ledger
   include Bill::Ledger
 end
 
 {% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+  class Transaction < BaseModel
+    include Bill::InvoiceTransactionSource
+  end
+
   class User < BaseModel
     include Bill::InvoicesAmount
   end
@@ -66,16 +66,16 @@ end
     include Bill::UpdateReference
   end
 
-  struct TransactionMetadata
-    include Bill::InvoiceTransactionMetadata
-  end
-
   struct Ledger
     include Bill::InvoicesLedger
   end
 {% end %}
 
 {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+  class Transaction < BaseModel
+    include Bill::CreditNoteTransactionSource
+  end
+
   class User < BaseModel
     include Bill::CreditNotesAmount
   end
@@ -88,16 +88,16 @@ end
     include Bill::CreateFinalizedCreditNoteTransaction
   end
 
-  struct TransactionMetadata
-    include Bill::CreditNoteTransactionMetadata
-  end
-
   struct Ledger
     include Bill::CreditNotesLedger
   end
 {% end %}
 
 {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+  class Transaction < BaseModel
+    include Bill::ReceiptTransactionSource
+  end
+
   class User < BaseModel
     include Bill::ReceiptsAmount
   end
@@ -112,10 +112,6 @@ end
 
   class UpdateReceipt < Receipt::SaveOperation
     include Bill::CreateFinalizedReceiptTransaction
-  end
-
-  struct TransactionMetadata
-    include Bill::ReceiptTransactionMetadata
   end
 
   struct Ledger

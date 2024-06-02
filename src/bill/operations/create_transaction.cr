@@ -1,6 +1,6 @@
 module Bill::CreateTransaction
   macro included
-    permit_columns :user_id, :amount, :description, :status, :type
+    permit_columns :user_id, :amount, :description, :source, :status, :type
 
     include Bill::SetDefaultStatus
     include Bill::SetAmountFromMu

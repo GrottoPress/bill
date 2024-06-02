@@ -7,7 +7,7 @@ module Bill::RefundPayment
       set_credit
       set_user_id
       set_amount
-      set_metadata
+      set_source
       set_default_description
 
       validate_amount_lte_receipt
@@ -33,15 +33,9 @@ module Bill::RefundPayment
       receipt.try { |receipt| user_id.value = receipt.user_id }
     end
 
-    private def set_metadata
+    private def set_source
       receipt.try do |receipt|
-        values = {receipt_id: receipt.id}
-
-        metadata.value.try do |value|
-          return metadata.value = value.merge(**values)
-        end
-
-        metadata.value = TransactionMetadata.from_json(values.to_json)
+        source.value = receipt.id.to_s
       end
     end
 

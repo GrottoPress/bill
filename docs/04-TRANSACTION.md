@@ -31,8 +31,8 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `amount : Amount`
    - `counter : Int64`
    - `description : String`
-   - `metadata : TransactionMetadata?` (JSON::Serializable)
    - `reference : String?`
+   - `source : String?`
    - `status : TransactionStatus` (enum)
    - `type : TransactionType` (enum)
 
@@ -66,8 +66,8 @@ The ledger is immutable -- once transactions are recorded, they are never update
          add counter : Int64, unique: true
          add created_at : Time
          add description : String
-         add metadata : JSON::Any?
          add reference : String?, unique: true
+         add source : String?
          add status : String
          add type : String
          # ...
@@ -184,7 +184,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `amount : Amount` (or `amount_mu : Float64`)
    - `credit : Bool` (whether this is a *credit* transaction, or *debit* otherwise)
    - `description : String`
-   - `metadata : TransactionMetadata?` (may be generated from other parameters)
+   - `source : String?`
    - `status : TransactionStatus` (enum)
    - `type : TransactionType` (enum)
 
@@ -241,7 +241,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
    - `amount : Amount` (or `amount_mu : Float64`)
    - `credit : Bool` (whether this is a *credit* transaction, or *debit* otherwise)
    - `description : String`
-   - `metadata : TransactionMetadata?` (may be generated from other parameters)
+   - `source : String?`
    - `status : TransactionStatus` (enum)
    - `type : TransactionType` (enum)
 

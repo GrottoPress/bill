@@ -5,7 +5,7 @@ module Bill::Transaction
 
     column amount : Amount
     column description : String
-    column metadata : TransactionMetadata?, serialize: true
+    column source : String? # Polymorphic Invoice/Receipt/CreditNote ID
     column status : TransactionStatus
     column type : TransactionType
 

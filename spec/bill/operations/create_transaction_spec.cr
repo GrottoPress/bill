@@ -14,10 +14,10 @@ describe Bill::CreateTransaction do
         credit: true,
         description: description,
         amount: amount,
+        source: receipt_id,
         type: :receipt
       ),
-      counter: 467,
-      metadata: TransactionMetadata.from_json({receipt_id: receipt_id}.to_json)
+      counter: 467
     ) do |_, transaction|
       transaction.should be_a(Transaction)
 
@@ -28,12 +28,7 @@ describe Bill::CreateTransaction do
         transaction.type.should eq(type)
         transaction.amount.should eq(-amount)
         transaction.reference.should eq("TRN467")
-
-        transaction.metadata.should be_a(TransactionMetadata)
-
-        transaction.metadata.try do |metadata|
-          metadata.receipt_id.should eq(receipt_id)
-        end
+        transaction.receipt_id.should eq(receipt_id)
       end
     end
   end
@@ -51,10 +46,10 @@ describe Bill::CreateTransaction do
         credit: false,
         description: description,
         amount: amount,
+        source: invoice_id,
         type: :invoice
       ),
-      counter: 467,
-      metadata: TransactionMetadata.from_json({invoice_id: invoice_id}.to_json)
+      counter: 467
     ) do |_, transaction|
       transaction.should be_a(Transaction)
 
@@ -65,12 +60,7 @@ describe Bill::CreateTransaction do
         transaction.type.should eq(type)
         transaction.amount.should eq(amount)
         transaction.reference.should eq("TRN467")
-
-        transaction.metadata.should be_a(TransactionMetadata)
-
-        transaction.metadata.try do |metadata|
-          metadata.invoice_id.should eq(invoice_id)
-        end
+        transaction.invoice_id.should eq(invoice_id)
       end
     end
   end

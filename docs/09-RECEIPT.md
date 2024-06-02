@@ -390,7 +390,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
    - `user_id`
    - `amount : Amount`
    - `description : String`
-   - `metadata : TransactionMetadata?` (may be crafted from other parameters)
+   - `source : String?`
 
    You may skip this action if building an API.
 
