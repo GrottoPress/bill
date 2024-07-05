@@ -1,5 +1,5 @@
 # Receives payment without creating a `Receipt` record
-module Bill::UpdateDirectReceipt
+module Bill::UpdateDirectReceipt # Transaction::SaveOperation
   macro included
     before_save do
       set_type

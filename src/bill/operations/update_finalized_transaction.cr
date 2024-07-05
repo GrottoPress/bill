@@ -1,4 +1,4 @@
-module Bill::UpdateFinalizedTransaction
+module Bill::UpdateFinalizedTransaction # Transaction::SaveOperation
   macro included
     permit_columns :description, :status
 

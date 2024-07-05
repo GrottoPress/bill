@@ -1,4 +1,4 @@
-module Bill::RefundPayment
+module Bill::RefundPayment # Transaction::SaveOperation
   macro included
     needs receipt : Receipt?
 

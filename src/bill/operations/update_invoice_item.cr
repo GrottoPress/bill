@@ -1,4 +1,4 @@
-module Bill::UpdateInvoiceItem
+module Bill::UpdateInvoiceItem # InvoiceItem::SaveOperation
   macro included
     permit_columns :invoice_id, :description, :quantity, :price
 

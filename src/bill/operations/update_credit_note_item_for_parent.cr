@@ -1,4 +1,4 @@
-module Bill::UpdateCreditNoteItemForParent
+module Bill::UpdateCreditNoteItemForParent # CreditNoteItem::SaveOperation
   macro included
     permit_columns :description, :quantity, :price
 

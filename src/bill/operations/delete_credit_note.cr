@@ -1,4 +1,4 @@
-module Bill::DeleteCreditNote
+module Bill::DeleteCreditNote # CreditNote::DeleteOperation
   macro included
     before_delete do
       validate_not_finalized

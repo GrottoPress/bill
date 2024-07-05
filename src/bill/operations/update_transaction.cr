@@ -1,4 +1,4 @@
-module Bill::UpdateTransaction
+module Bill::UpdateTransaction # Transaction::SaveOperation
   macro included
     permit_columns :user_id, :amount, :description, :source, :status, :type
 

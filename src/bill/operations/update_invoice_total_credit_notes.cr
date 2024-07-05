@@ -1,4 +1,4 @@
-module Bill::UpdateInvoiceTotalCreditNotes
+module Bill::UpdateInvoiceTotalCreditNotes # Invoice::SaveOperation
   macro included
     before_save do
       set_total_credit_notes

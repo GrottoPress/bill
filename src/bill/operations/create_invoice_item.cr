@@ -1,4 +1,4 @@
-module Bill::CreateInvoiceItem
+module Bill::CreateInvoiceItem # InvoiceItem::SaveOperation
   macro included
     permit_columns :invoice_id, :description, :quantity, :price
 

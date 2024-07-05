@@ -1,4 +1,4 @@
-module Bill::DeleteCreditNoteItem
+module Bill::DeleteCreditNoteItem # CreditNoteItem::DeleteOperation
   macro included
     include Bill::ValidateParentRecord
   end

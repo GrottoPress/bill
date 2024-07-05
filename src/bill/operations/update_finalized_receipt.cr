@@ -1,4 +1,4 @@
-module Bill::UpdateFinalizedReceipt
+module Bill::UpdateFinalizedReceipt # Receipt::SaveOperation
   macro included
     permit_columns :description, :notes, :status
 

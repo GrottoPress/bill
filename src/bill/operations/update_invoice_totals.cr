@@ -1,4 +1,4 @@
-module Bill::UpdateInvoiceTotals
+module Bill::UpdateInvoiceTotals # Invoice::SaveOperation
   macro included
     before_save do
       set_total_line_items

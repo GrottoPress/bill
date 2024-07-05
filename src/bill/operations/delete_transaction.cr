@@ -1,4 +1,4 @@
-module Bill::DeleteTransaction
+module Bill::DeleteTransaction # Transaction::DeleteOperation
   macro included
     before_delete do
       validate_not_finalized

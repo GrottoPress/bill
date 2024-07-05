@@ -1,4 +1,4 @@
-module Bill::UpdateFinalizedInvoiceItem
+module Bill::UpdateFinalizedInvoiceItem # InvoiceItem::SaveOperation
   macro included
     permit_columns :description
 

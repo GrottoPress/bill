@@ -1,4 +1,4 @@
-module Bill::DeleteInvoiceItem
+module Bill::DeleteInvoiceItem # InvoiceItem::DeleteOperation
   macro included
     include Bill::ValidateParentRecord
   end

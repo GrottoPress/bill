@@ -1,4 +1,4 @@
-module Bill::DeleteInvoice
+module Bill::DeleteInvoice # Invoice::DeleteOperation
   macro included
     before_delete do
       validate_not_finalized

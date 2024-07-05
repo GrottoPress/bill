@@ -1,4 +1,4 @@
-module Bill::UpdateCreditNoteTotals
+module Bill::UpdateCreditNoteTotals # CreditNote::SaveOperation
   macro included
     before_save do
       set_total_line_items

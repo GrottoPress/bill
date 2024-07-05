@@ -1,4 +1,4 @@
-module Bill::UpdateInvoiceItemForParent
+module Bill::UpdateInvoiceItemForParent # InvoiceItem::SaveOperation
   macro included
     permit_columns :description, :quantity, :price
 

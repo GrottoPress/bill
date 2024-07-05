@@ -1,4 +1,4 @@
-module Bill::UpdateCreditNote
+module Bill::UpdateCreditNote # CreditNote::SaveOperation
   macro included
     permit_columns :invoice_id, :description, :notes, :status
 

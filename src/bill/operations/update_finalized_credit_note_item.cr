@@ -1,4 +1,4 @@
-module Bill::UpdateFinalizedCreditNoteItem
+module Bill::UpdateFinalizedCreditNoteItem # CreditNoteItem::SaveOperation
   macro included
     permit_columns :description
 
