@@ -12,10 +12,10 @@ module Bill::ValidateTransaction
       validate_amount_not_zero
     end
 
-    include Lucille::ValidateUserExists
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
     include Bill::ValidateDescription
+    include Lucille::ValidateUserExists
 
     private def validate_user_id_required
       validate_required user_id,
