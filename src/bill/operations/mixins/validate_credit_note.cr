@@ -14,6 +14,7 @@ module Bill::ValidateCreditNote
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
     include Bill::ValidateDescription
+    include Bill::ValidateNotes
 
     private def validate_status_required
       validate_required status,

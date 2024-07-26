@@ -5,6 +5,7 @@ private class SaveReceipt < Receipt::SaveOperation
     :amount,
     :business_details,
     :description,
+    :notes,
     :reference,
     :status,
     :user_details
@@ -182,6 +183,24 @@ describe Bill::ValidateReceipt do
 
       operation.description
         .should(have_error "operation.error.description_too_long")
+    end
+  end
+
+  it "rejects long notes" do
+    user = UserFactory.create
+
+    SaveReceipt.create(params(
+      user_id: user.id,
+      business_details: "ACME Inc",
+      amount: 90,
+      notes: "n" * 5000,
+      reference: "123",
+      status: :open,
+      user_details: "Mary Smith"
+    )) do |operation, receipt|
+      receipt.should be_nil
+
+      operation.notes.should(have_error "operation.error.notes_too_long")
     end
   end
 end

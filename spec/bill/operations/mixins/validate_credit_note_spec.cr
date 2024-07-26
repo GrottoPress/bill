@@ -1,7 +1,7 @@
 require "../../../spec_helper"
 
 private class SaveCreditNote < CreditNote::SaveOperation
-  permit_columns :invoice_id, :description, :reference, :status
+  permit_columns :invoice_id, :description, :notes, :reference, :status
 
   include Bill::ValidateCreditNote
 end
@@ -113,6 +113,22 @@ describe Bill::ValidateCreditNote do
 
       operation.description
         .should(have_error "operation.error.description_too_long")
+    end
+  end
+
+  it "rejects long notes" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    SaveCreditNote.create(params(
+      invoice_id: invoice.id,
+      notes: "n" * 5000,
+      reference: "123",
+      status: :open
+    )) do |operation, credit_note|
+      credit_note.should be_nil
+
+      operation.notes.should(have_error "operation.error.notes_too_long")
     end
   end
 end

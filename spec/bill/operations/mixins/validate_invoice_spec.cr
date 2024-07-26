@@ -5,6 +5,7 @@ private class SaveInvoice < Invoice::SaveOperation
     :business_details,
     :description,
     :due_at,
+    :notes,
     :reference,
     :status,
     :user_details
@@ -148,6 +149,24 @@ describe Bill::ValidateInvoice do
 
       operation.description
         .should(have_error "operation.error.description_too_long")
+    end
+  end
+
+  it "rejects long notes" do
+    user = UserFactory.create
+
+    SaveInvoice.create(params(
+      user_id: user.id,
+      business_details: "ACME Inc",
+      due_at: 1.day.from_now,
+      notes: "n" * 5000,
+      reference: "123",
+      status: :open,
+      user_details: "Mary Smith"
+    )) do |operation, invoice|
+      invoice.should be_nil
+
+      operation.notes.should(have_error "operation.error.notes_too_long")
     end
   end
 end
