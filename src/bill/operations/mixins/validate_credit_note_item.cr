@@ -17,6 +17,8 @@ module Bill::ValidateCreditNoteItem
       validate_credit_lte_invoice
     end
 
+    include Bill::ValidateDescription
+
     private def validate_credit_note_id_required
       validate_required credit_note_id,
         message: Rex.t(:"operation.error.credit_note_id_required")

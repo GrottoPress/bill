@@ -12,6 +12,7 @@ module Bill::ValidateInvoice
 
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
+    include Bill::ValidateDescription
     include Lucille::ValidateUserExists
 
     private def validate_business_details_required

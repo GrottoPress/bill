@@ -14,6 +14,7 @@ module Bill::ValidateReceipt
 
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
+    include Bill::ValidateDescription
     include Lucille::ValidateUserExists
 
     private def validate_amount_required

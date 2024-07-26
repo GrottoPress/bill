@@ -92,4 +92,21 @@ describe Bill::ValidateInvoiceItem do
         .should have_error("operation.error.quantity_lte_zero")
     end
   end
+
+  it "rejects long description" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id)
+
+    SaveInvoiceItem.create(params(
+      invoice_id: invoice.id,
+      description: "d" * 600,
+      quantity: 0,
+      price: 222
+    )) do |operation, invoice_item|
+      invoice_item.should be_nil
+
+      operation.description
+        .should(have_error "operation.error.description_too_long")
+    end
+  end
 end

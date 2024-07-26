@@ -120,4 +120,22 @@ describe Bill::ValidateTransaction do
       operation.reference.should have_error("operation.error.reference_exists")
     end
   end
+
+  it "rejects long description" do
+    user = UserFactory.create
+
+    SaveTransaction.create(params(
+      user_id: user.id,
+      description: "d" * 600,
+      amount: 33,
+      reference: "123",
+      status: :open,
+      type: :invoice,
+    )) do |operation, transaction|
+      transaction.should be_nil
+
+      operation.description
+        .should(have_error "operation.error.description_too_long")
+    end
+  end
 end

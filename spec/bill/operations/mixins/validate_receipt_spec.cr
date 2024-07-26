@@ -165,4 +165,23 @@ describe Bill::ValidateReceipt do
       operation.reference.should have_error("operation.error.reference_exists")
     end
   end
+
+  it "rejects long description" do
+    user = UserFactory.create
+
+    SaveReceipt.create(params(
+      user_id: user.id,
+      business_details: "ACME Inc",
+      description: "d" * 600,
+      amount: 90,
+      reference: "123",
+      status: :open,
+      user_details: "Mary Smith"
+    )) do |operation, receipt|
+      receipt.should be_nil
+
+      operation.description
+        .should(have_error "operation.error.description_too_long")
+    end
+  end
 end

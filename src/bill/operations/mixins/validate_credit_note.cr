@@ -13,6 +13,7 @@ module Bill::ValidateCreditNote
 
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
+    include Bill::ValidateDescription
 
     private def validate_status_required
       validate_required status,

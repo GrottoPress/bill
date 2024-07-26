@@ -199,4 +199,33 @@ describe Bill::ValidateCreditNoteItem do
       operation.id.should_not have_error
     end
   end
+
+  it "rejects long description" do
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: UserFactory.create.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "999"
+      }]
+    )
+
+    credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
+
+    SaveCreditNoteItem.create(params(
+      description: "d" * 600,
+      credit_note_id: credit_note.id,
+      price: 1
+    )) do |operation, credit_note_item|
+      credit_note_item.should be_nil
+
+      operation.description
+        .should(have_error "operation.error.description_too_long")
+    end
+  end
 end

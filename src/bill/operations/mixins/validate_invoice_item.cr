@@ -15,6 +15,8 @@ module Bill::ValidateInvoiceItem
       validate_invoice_exists
     end
 
+    include Bill::ValidateDescription
+
     private def validate_invoice_id_required
       validate_required invoice_id,
         message: Rex.t(:"operation.error.invoice_id_required")

@@ -98,4 +98,21 @@ describe Bill::ValidateCreditNote do
       operation.reference.should have_error("operation.error.reference_exists")
     end
   end
+
+  it "rejects long description" do
+    user = UserFactory.create
+    invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
+
+    SaveCreditNote.create(params(
+      invoice_id: invoice.id,
+      description: "d" * 600,
+      reference: "123",
+      status: :open
+    )) do |operation, credit_note|
+      credit_note.should be_nil
+
+      operation.description
+        .should(have_error "operation.error.description_too_long")
+    end
+  end
 end

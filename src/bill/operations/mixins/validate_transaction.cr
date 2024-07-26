@@ -15,6 +15,7 @@ module Bill::ValidateTransaction
     include Lucille::ValidateUserExists
     include Bill::ValidateStatusTransition
     include Bill::ValidateReference
+    include Bill::ValidateDescription
 
     private def validate_user_id_required
       validate_required user_id,
