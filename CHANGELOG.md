@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add `Bill::User#billing_details` abstract method
+
 ### Changed
 - Upgrade GitHub actions
 - Limit description lengths to mitigate potential DoS

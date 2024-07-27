@@ -19,7 +19,7 @@ class User < BaseModel
     "User ##{id}"
   end
 
-  def billing_details
+  def billing_details : String
     <<-TEXT
     #{full_name}
     <#{email}>
