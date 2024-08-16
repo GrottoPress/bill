@@ -58,10 +58,6 @@ end
     include Bill::AutoMarkInvoicesAsPaid
   end
 
-  class CreateTransaction < Transaction::SaveOperation
-    include Bill::AutoMarkInvoicesAsPaid
-  end
-
   class UpdateTransactionReference < Transaction::SaveOperation
     include Bill::UpdateReference
   end
