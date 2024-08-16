@@ -3,9 +3,10 @@ module Bill::AutoMarkInvoicesAsPaid
     after_save mark_invoices_as_paid
 
     private def mark_invoices_as_paid(transaction : Bill::Transaction)
+      return unless TransactionStatus.now_finalized?(status)
+
       balance = Ledger.balance!(user_id = transaction.user_id)
-      return mark_all(user_id) unless balance.debit?
-      mark_for_debit(user_id, balance)
+      balance.debit? ? mark_for_debit(user_id, balance) : mark_all(user_id)
     end
 
     # A credit or zero balance means all invoices have been paid.
