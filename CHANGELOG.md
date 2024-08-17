@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Api::DirectReceipts::Edit` action
 - Add `Api::DirectReceipts::New` action
 - Add `Api::DirectReceipts::Update` action
+- Add `DirectReceipts::Create` action
+- Add `DirectReceipts::Edit` action
+- Add `DirectReceipts::New` action
+- Add `DirectReceipts::Update` action
 
 ### Changed
 - Allow `require`ing individual presets
