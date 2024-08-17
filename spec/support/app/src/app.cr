@@ -11,7 +11,7 @@ require "./models/**"
 
 require "../../../../src/presets"
 
-# require "./operations/**"
+require "./operations/**"
 require "./serializers/base_serializer"
 require "./serializers/success_serializer"
 require "./serializers/**"

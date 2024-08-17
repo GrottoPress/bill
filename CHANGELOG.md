@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add `Api::DirectReceipts::Create` action
+- Add `Api::DirectReceipts::Edit` action
+- Add `Api::DirectReceipts::New` action
+- Add `Api::DirectReceipts::Update` action
+
 ### Changed
 - Allow `require`ing individual presets
 - Allow manually setting `created_at` when finalizing documents
