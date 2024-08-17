@@ -39,6 +39,7 @@ module Bill::AutoMarkInvoicesAsPaid
         net_debit[_skip_index..]?.try { |_net_debit| selected += _net_debit }
       end
 
+      return if selected.empty?
       mark_as_paid InvoiceQuery.new.id.in(selected.map &.id)
     end
 
