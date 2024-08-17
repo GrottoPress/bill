@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - 
 
 ### Changed
-- Allowing manually setting `created_at` when finalizing documents
+- Allow manually setting `created_at` when finalizing documents
 
 ### Fixed
 - Auto mark invoices as paid only when transaction was newly finalized
