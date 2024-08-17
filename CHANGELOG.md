@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased] - 
 
 ### Changed
+- Allow `require`ing individual presets
 - Allow manually setting `created_at` when finalizing documents
 
 ### Fixed

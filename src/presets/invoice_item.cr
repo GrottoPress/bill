@@ -2,6 +2,8 @@
   .find(&.name.== :InvoiceItem.id)
 %}
 
+require "./invoice"
+
 class Invoice < BaseModel
   include Bill::HasManyInvoiceItems
 end

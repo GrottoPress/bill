@@ -2,6 +2,20 @@
   .find(&.name.== :Transaction.id)
 %}
 
+require "./common"
+
+{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+  require "./receipt"
+{% end %}
+
+{% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+  require "./invoice_item"
+{% end %}
+
+{% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+  require "./credit_note_item"
+{% end %}
+
 include Bill::TransactionStatus
 include Bill::TransactionType
 

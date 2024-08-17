@@ -2,6 +2,8 @@
   .find(&.name.== :CreditNoteItem.id)
 %}
 
+require "./credit_note"
+
 class CreditNote < BaseModel
   include Bill::HasManyCreditNoteItems
 end

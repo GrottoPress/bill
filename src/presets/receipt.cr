@@ -1,5 +1,7 @@
 {% skip_file unless Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
 
+require "./common"
+
 include Bill::ReceiptStatus
 
 class User < BaseModel

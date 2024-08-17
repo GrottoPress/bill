@@ -1,5 +1,7 @@
 {% skip_file unless Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
 
+require "./common"
+
 include Bill::InvoiceStatus
 
 class User < BaseModel

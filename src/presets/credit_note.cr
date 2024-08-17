@@ -2,6 +2,8 @@
   .find(&.name.== :CreditNote.id)
 %}
 
+require "./common"
+
 include Bill::CreditNoteStatus
 
 class User < BaseModel
