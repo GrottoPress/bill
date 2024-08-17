@@ -27,8 +27,11 @@ module Bill::AutoMarkInvoicesAsPaid
       net_zero, net_debit = invoices.partition(&.net_amount.zero?)
 
       skip_index = net_debit.accumulate(0) do |sum, invoice|
+        break if sum >= balance
         sum + invoice.net_amount
-      end.index(&.>= balance).try(&.+ 1)
+      end.try do |sums|
+        sums.size
+      end
 
       selected = net_zero
 
