@@ -3,12 +3,12 @@ require "../../../spec_helper"
 private class SaveTransaction < Transaction::SaveOperation
   permit_columns :user_id, :amount, :description, :reference, :status, :type
 
-  include Bill::SendDirectReceiptEmail
+  include Bill::SendFinalizedDirectReceiptEmail
 
   skip_default_validations
 end
 
-describe Bill::SendDirectReceiptEmail do
+describe Bill::SendFinalizedDirectReceiptEmail do
   it "sends email for new receipts" do
     SaveTransaction.create(params(
       user_id: UserFactory.create.id,

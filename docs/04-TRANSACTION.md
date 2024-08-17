@@ -119,7 +119,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    class ReceiveDirectPayment < Transaction::SaveOperation
      # ...
-     include Bill::SendDirectReceiptEmail
+     include Bill::SendFinalizedDirectReceiptEmail
      # ...
    end
    ```
@@ -132,7 +132,7 @@ The ledger is immutable -- once transactions are recorded, they are never update
 
    class UpdateDirectReceipt < Transaction::SaveOperation
      # ...
-     include Bill::SendDirectReceiptEmail
+     include Bill::SendFinalizedDirectReceiptEmail
      # ...
    end
    ```

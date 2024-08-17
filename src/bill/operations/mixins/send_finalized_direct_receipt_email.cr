@@ -1,4 +1,4 @@
-module Bill::SendDirectReceiptEmail
+module Bill::SendFinalizedDirectReceiptEmail
   macro included
     after_commit send_receipt_email
 

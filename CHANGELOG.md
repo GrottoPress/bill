@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Allow `require`ing individual presets
 - Allow manually setting `created_at` when finalizing documents
+- Rename `Bill::SendDirectReceiptEmail` to `Bill::SendFinalizedDirectReceiptEmail`
 
 ### Fixed
 - Auto mark invoices as paid only when transaction was newly finalized
