@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Bill::ReceivePayment do
+describe Bill::CreateReceipt do
   it "creates new receipt" do
     description = "New receipt"
     amount = 45
@@ -11,7 +11,7 @@ describe Bill::ReceivePayment do
 
     TransactionQuery.new.none?.should be_true
 
-    ReceivePayment.create(
+    CreateReceipt.create(
       params(
         user_id: user.id,
         description: description,

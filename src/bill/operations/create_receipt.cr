@@ -1,4 +1,4 @@
-module Bill::ReceivePayment # Receipt::SaveOperation
+module Bill::CreateReceipt # Receipt::SaveOperation
   macro included
     permit_columns :user_id, :amount, :description, :notes, :status
 

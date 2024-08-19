@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Allow manually setting `created_at` when finalizing documents
 - Rename `Bill::SendDirectReceiptEmail` to `Bill::SendFinalizedDirectReceiptEmail`
 - Merge mixin presets into their respective main modules
+- Rename `ReceivePayment` operation to `CreateReceipt`
 
 ### Fixed
 - Auto mark invoices as paid only when transaction was newly finalized

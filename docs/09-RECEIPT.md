@@ -93,9 +93,9 @@ See <https://en.wikipedia.org/wiki/Receipt>
    All operations are already set up. You may reopen an operation to add new functionality.
 
    ```crystal
-   # ->>> src/operations/receive_payment.cr
+   # ->>> src/operations/create_receipt.cr
 
-   class ReceivePayment < Receipt::SaveOperation
+   class CreateReceipt < Receipt::SaveOperation
      # ...
      include Bill::SendFinalizedReceiptEmail
      # ...
@@ -150,7 +150,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
      include Bill::Receipts::New
 
      get "/receipts/new" do
-       operation = ReceivePayment.new
+       operation = CreateReceipt.new
        html NewPage, operation: operation
      end
      # ...

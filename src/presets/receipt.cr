@@ -8,8 +8,8 @@ class ReceiptQuery < Receipt::BaseQuery
   include Bill::ReceiptQuery
 end
 
-class ReceivePayment < Receipt::SaveOperation
-  include Bill::ReceivePayment
+class CreateReceipt < Receipt::SaveOperation
+  include Bill::CreateReceipt
 end
 
 class UpdateReceipt < Receipt::SaveOperation

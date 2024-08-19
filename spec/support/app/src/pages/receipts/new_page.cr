@@ -1,5 +1,5 @@
 struct Receipts::NewPage < MainLayout
-  needs operation : ReceivePayment
+  needs operation : CreateReceipt
 
   def content
     text "Receipts::NewPage"

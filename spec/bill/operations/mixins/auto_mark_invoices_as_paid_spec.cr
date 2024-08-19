@@ -4,7 +4,7 @@ describe Bill::AutoMarkInvoicesAsPaid do
   it "marks invoices as paid" do
     user = UserFactory.create
 
-    ReceivePayment.create(params(
+    CreateReceipt.create(params(
       user_id: user.id,
       description: "New receipt",
       amount: 20,

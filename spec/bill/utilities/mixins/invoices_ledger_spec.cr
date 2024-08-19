@@ -93,7 +93,7 @@ describe Bill::InvoicesLedger do
         }]
       )
 
-      ReceivePayment.create(params(
+      CreateReceipt.create(params(
         user_id: user.id,
         description: "New receipt",
         amount: 200,
