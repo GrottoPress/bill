@@ -1,5 +1,5 @@
 struct DirectReceipts::NewPage < MainLayout
-  needs operation : ReceiveDirectPayment
+  needs operation : CreateDirectReceipt
 
   def content
     text "DirectReceipts::NewPage"

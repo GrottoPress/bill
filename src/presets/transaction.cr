@@ -44,8 +44,8 @@ end
     include Bill::RefundPayment
   end
 {% else %}
-  class ReceiveDirectPayment < Transaction::SaveOperation
-    include Bill::ReceiveDirectPayment
+  class CreateDirectReceipt < Transaction::SaveOperation
+    include Bill::CreateDirectReceipt
   end
 
   class UpdateDirectReceipt < Transaction::SaveOperation

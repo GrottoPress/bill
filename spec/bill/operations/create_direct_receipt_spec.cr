@@ -3,10 +3,10 @@ require "../../spec_helper"
 private class SaveTransaction < Transaction::SaveOperation
   permit_columns :reference
 
-  include Bill::ReceiveDirectPayment
+  include Bill::CreateDirectReceipt
 end
 
-describe Bill::ReceiveDirectPayment do
+describe Bill::CreateDirectReceipt do
   it "creates receipt transaction" do
     description = "New receipt"
     amount = 45
