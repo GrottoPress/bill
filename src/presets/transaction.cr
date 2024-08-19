@@ -76,6 +76,10 @@ end
     include Bill::AutoMarkInvoicesAsPaid
   end
 
+  class UpdateTransaction < Transaction::SaveOperation
+    include Bill::AutoMarkInvoicesAsPaid
+  end
+
   struct Ledger
     include Bill::InvoicesLedger
   end
