@@ -43,6 +43,10 @@ class DeleteTransaction < Transaction::DeleteOperation
   include Bill::DeleteTransaction
 end
 
+class UpdateTransactionReference < Transaction::SaveOperation
+  include Bill::UpdateReference
+end
+
 struct TransactionState
   include Bill::TransactionState
 end
@@ -70,10 +74,6 @@ end
 
   class CreateTransaction < Transaction::SaveOperation
     include Bill::AutoMarkInvoicesAsPaid
-  end
-
-  class UpdateTransactionReference < Transaction::SaveOperation
-    include Bill::UpdateReference
   end
 
   struct Ledger
