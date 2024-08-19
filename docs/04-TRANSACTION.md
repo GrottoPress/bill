@@ -14,6 +14,9 @@ The ledger is immutable -- once transactions are recorded, they are never update
    class Transaction < BaseModel
      # ...
      include Bill::Transaction
+     include Bill::CreditNoteTransactionSource
+     include Bill::InvoiceTransactionSource
+     include Bill::ReceiptTransactionSource
 
      skip_default_columns
      primary_key id : Int64

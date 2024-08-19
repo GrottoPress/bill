@@ -35,7 +35,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
 
    class User < BaseModel
      # ...
-     include Bill::HasManyCreditNotes
+     include Bill::HasManyCreditNotesThroughInvoices
      # ...
    end
    ```
