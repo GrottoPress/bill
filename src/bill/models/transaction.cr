@@ -1,7 +1,22 @@
 module Bill::Transaction
   macro included
-    include Bill::BelongsToUser
     include Bill::ReferenceColumns
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+      include Bill::CreditNoteTransactionSource
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::InvoiceTransactionSource
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+      include Bill::ReceiptTransactionSource
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :User.id) %}
+      include Bill::BelongsToUser
+    {% end %}
 
     column amount : Amount
     column description : String

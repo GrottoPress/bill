@@ -1,18 +1,10 @@
-{% skip_file unless Avram::Model.all_subclasses
-  .find(&.name.== :CreditNote.id)
-%}
+{% unless Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+  {% skip_file %}
+{% end %}
 
 require "./common"
 
 include Bill::CreditNoteStatus
-
-class User < BaseModel
-  include Bill::HasManyCreditNotesThroughInvoices
-end
-
-class Invoice < BaseModel
-  include Bill::HasManyCreditNotes
-end
 
 class CreditNoteQuery < CreditNote::BaseQuery
   include Bill::CreditNoteQuery
@@ -36,10 +28,6 @@ end
 
 class UpdateCreditNoteReference < CreditNote::SaveOperation
   include Bill::UpdateReference
-end
-
-class UpdateInvoiceTotalCreditNotes < Invoice::SaveOperation
-  include Bill::UpdateInvoiceTotalCreditNotes
 end
 
 class DeleteCreditNote < CreditNote::DeleteOperation

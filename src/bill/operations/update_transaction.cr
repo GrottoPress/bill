@@ -13,6 +13,10 @@ module Bill::UpdateTransaction # Transaction::SaveOperation
 
     include Bill::ValidateTransaction
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::AutoMarkInvoicesAsPaid
+    {% end %}
+
     private def validate_not_finalized
       record.try do |transaction|
         return unless transaction.finalized?

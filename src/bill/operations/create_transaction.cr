@@ -13,6 +13,10 @@ module Bill::CreateTransaction # Transaction::SaveOperation
 
     include Bill::ValidateTransaction
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::AutoMarkInvoicesAsPaid
+    {% end %}
+
     private def validate_credit_required
       validate_required credit,
         message: Rex.t(:"operation.error.credit_or_debit_required")

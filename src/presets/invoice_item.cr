@@ -1,29 +1,11 @@
-{% skip_file unless Avram::Model.all_subclasses
-  .find(&.name.== :InvoiceItem.id)
-%}
+{% unless Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+  {% skip_file %}
+{% end %}
 
-require "./invoice"
-
-class Invoice < BaseModel
-  include Bill::HasManyInvoiceItems
-end
+require "./common"
 
 class InvoiceItemQuery < InvoiceItem::BaseQuery
   include Bill::InvoiceItemQuery
-end
-
-class CreateInvoice < Invoice::SaveOperation
-  include Bill::CreateInvoiceLineItems
-  include Bill::FinalizeInvoiceTotals
-end
-
-class UpdateInvoice < Invoice::SaveOperation
-  include Bill::UpdateInvoiceLineItems
-  include Bill::FinalizeInvoiceTotals
-end
-
-class UpdateFinalizedInvoice < Invoice::SaveOperation
-  include Bill::UpdateFinalizedInvoiceLineItems
 end
 
 class CreateInvoiceItem < InvoiceItem::SaveOperation

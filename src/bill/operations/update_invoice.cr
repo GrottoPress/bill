@@ -13,6 +13,15 @@ module Bill::UpdateInvoice # Invoice::SaveOperation
     include Bill::SetReference
     include Bill::ValidateInvoice
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+      include Bill::UpdateInvoiceLineItems
+      include Bill::FinalizeInvoiceTotals
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+      include Bill::CreateFinalizedInvoiceTransaction
+    {% end %}
+
     private def validate_not_finalized
       record.try do |invoice|
         return unless invoice.finalized?

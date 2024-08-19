@@ -1,8 +1,15 @@
 module Bill::CreditNote
   macro included
-    include Bill::BelongsToInvoice
     include Bill::ParentAmount
     include Bill::ReferenceColumns
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::BelongsToInvoice
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+      include Bill::HasManyCreditNoteItems
+    {% end %}
 
     column description : String?
     column notes : String?

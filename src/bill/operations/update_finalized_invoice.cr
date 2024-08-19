@@ -9,6 +9,10 @@ module Bill::UpdateFinalizedInvoice # Invoice::SaveOperation
     include Bill::EnsureDueAtGteCreatedAt
     include Bill::ValidateInvoice
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+      include Bill::UpdateFinalizedInvoiceLineItems
+    {% end %}
+
     private def validate_finalized
       record.try do |invoice|
         return if invoice.finalized?

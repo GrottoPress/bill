@@ -8,5 +8,14 @@ module Bill::CreateInvoice # Invoice::SaveOperation
     include Bill::SetUserDetails
     include Bill::SetReference
     include Bill::ValidateInvoice
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+      include Bill::CreateInvoiceLineItems
+      include Bill::FinalizeInvoiceTotals
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+      include Bill::CreateFinalizedInvoiceTransaction
+    {% end %}
   end
 end

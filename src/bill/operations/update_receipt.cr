@@ -13,6 +13,10 @@ module Bill::UpdateReceipt # Receipt::SaveOperation
     include Bill::SetReference
     include Bill::ValidateReceipt
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+      include Bill::CreateFinalizedReceiptTransaction
+    {% end %}
+
     private def validate_not_finalized
       record.try do |receipt|
         return unless receipt.finalized?

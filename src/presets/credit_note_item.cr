@@ -1,29 +1,11 @@
-{% skip_file unless Avram::Model.all_subclasses
-  .find(&.name.== :CreditNoteItem.id)
-%}
+{% unless Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+  {% skip_file %}
+{% end %}
 
-require "./credit_note"
-
-class CreditNote < BaseModel
-  include Bill::HasManyCreditNoteItems
-end
+require "./common"
 
 class CreditNoteItemQuery < CreditNoteItem::BaseQuery
   include Bill::CreditNoteItemQuery
-end
-
-class CreateCreditNote < CreditNote::SaveOperation
-  include Bill::CreateCreditNoteLineItems
-  include Bill::FinalizeCreditNoteTotals
-end
-
-class UpdateCreditNote < CreditNote::SaveOperation
-  include Bill::UpdateCreditNoteLineItems
-  include Bill::FinalizeCreditNoteTotals
-end
-
-class UpdateFinalizedCreditNote < CreditNote::SaveOperation
-  include Bill::UpdateFinalizedCreditNoteLineItems
 end
 
 class CreateCreditNoteItem < CreditNoteItem::SaveOperation

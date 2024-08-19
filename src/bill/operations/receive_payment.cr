@@ -8,5 +8,9 @@ module Bill::ReceivePayment # Receipt::SaveOperation
     include Bill::SetUserDetails
     include Bill::SetReference
     include Bill::ValidateReceipt
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+      include Bill::CreateFinalizedReceiptTransaction
+    {% end %}
   end
 end

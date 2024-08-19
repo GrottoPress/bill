@@ -8,6 +8,10 @@ module Bill::UpdateFinalizedCreditNote # CreditNote::SaveOperation
 
     include Bill::ValidateCreditNote
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+      include Bill::UpdateFinalizedCreditNoteLineItems
+    {% end %}
+
     private def validate_finalized
       record.try do |credit_note|
         return if credit_note.finalized?

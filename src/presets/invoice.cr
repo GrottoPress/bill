@@ -4,10 +4,6 @@ require "./common"
 
 include Bill::InvoiceStatus
 
-class User < BaseModel
-  include Bill::HasManyInvoices
-end
-
 class InvoiceQuery < Invoice::BaseQuery
   include Bill::InvoiceQuery
 end
@@ -43,3 +39,9 @@ end
 struct InvoiceTotals
   include Bill::InvoiceTotals
 end
+
+{% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+  class UpdateInvoiceTotalCreditNotes < Invoice::SaveOperation
+    include Bill::UpdateInvoiceTotalCreditNotes
+  end
+{% end %}

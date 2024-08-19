@@ -4,10 +4,6 @@ require "./common"
 
 include Bill::ReceiptStatus
 
-class User < BaseModel
-  include Bill::HasManyReceipts
-end
-
 class ReceiptQuery < Receipt::BaseQuery
   include Bill::ReceiptQuery
 end

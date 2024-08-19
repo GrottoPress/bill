@@ -10,6 +10,15 @@ module Bill::UpdateCreditNote # CreditNote::SaveOperation
     include Bill::SetReference
     include Bill::ValidateCreditNote
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+      include Bill::UpdateCreditNoteLineItems
+      include Bill::FinalizeCreditNoteTotals
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+      include Bill::CreateFinalizedCreditNoteTransaction
+    {% end %}
+
     private def validate_not_finalized
       record.try do |credit_note|
         return unless credit_note.finalized?

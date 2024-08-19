@@ -1,5 +1,17 @@
 module Bill::Ledger
   macro included
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+      include Bill::CreditNotesLedger
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::InvoicesLedger
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+      include Bill::ReceiptsLedger
+    {% end %}
+
     def balance(
       transactions : Array(Bill::Transaction),
       type : TransactionType,

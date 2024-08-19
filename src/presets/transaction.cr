@@ -1,27 +1,11 @@
-{% skip_file unless Avram::Model.all_subclasses
-  .find(&.name.== :Transaction.id)
-%}
+{% unless Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+  {% skip_file %}
+{% end %}
 
 require "./common"
 
-{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
-  require "./receipt"
-{% end %}
-
-{% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
-  require "./invoice_item"
-{% end %}
-
-{% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
-  require "./credit_note_item"
-{% end %}
-
 include Bill::TransactionStatus
 include Bill::TransactionType
-
-class User < BaseModel
-  include Bill::HasManyTransactions
-end
 
 class TransactionQuery < Transaction::BaseQuery
   include Bill::TransactionQuery
@@ -55,81 +39,9 @@ struct Ledger
   include Bill::Ledger
 end
 
-{% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
-  class Transaction < BaseModel
-    include Bill::InvoiceTransactionSource
-  end
-
-  class User < BaseModel
-    include Bill::InvoicesAmount
-  end
-
-  class CreateInvoice < Invoice::SaveOperation
-    include Bill::CreateFinalizedInvoiceTransaction
-  end
-
-  class UpdateInvoice < Invoice::SaveOperation
-    include Bill::CreateFinalizedInvoiceTransaction
-  end
-
-  class CreateTransaction < Transaction::SaveOperation
-    include Bill::AutoMarkInvoicesAsPaid
-  end
-
-  class UpdateTransaction < Transaction::SaveOperation
-    include Bill::AutoMarkInvoicesAsPaid
-  end
-
-  struct Ledger
-    include Bill::InvoicesLedger
-  end
-{% end %}
-
-{% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
-  class Transaction < BaseModel
-    include Bill::CreditNoteTransactionSource
-  end
-
-  class User < BaseModel
-    include Bill::CreditNotesAmount
-  end
-
-  class CreateCreditNote < CreditNote::SaveOperation
-    include Bill::CreateFinalizedCreditNoteTransaction
-  end
-
-  class UpdateCreditNote < CreditNote::SaveOperation
-    include Bill::CreateFinalizedCreditNoteTransaction
-  end
-
-  struct Ledger
-    include Bill::CreditNotesLedger
-  end
-{% end %}
-
 {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
-  class Transaction < BaseModel
-    include Bill::ReceiptTransactionSource
-  end
-
-  class User < BaseModel
-    include Bill::ReceiptsAmount
-  end
-
-  class ReceivePayment < Receipt::SaveOperation
-    include Bill::CreateFinalizedReceiptTransaction
-  end
-
   class RefundPayment < Transaction::SaveOperation
     include Bill::RefundPayment
-  end
-
-  class UpdateReceipt < Receipt::SaveOperation
-    include Bill::CreateFinalizedReceiptTransaction
-  end
-
-  struct Ledger
-    include Bill::ReceiptsLedger
   end
 {% else %}
   class ReceiveDirectPayment < Transaction::SaveOperation

@@ -1,6 +1,8 @@
 module Bill::CreditNoteItem
   macro included
-    include Bill::BelongsToCreditNote
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+      include Bill::BelongsToCreditNote
+    {% end %}
 
     column description : String
     column quantity : Quantity
