@@ -70,7 +70,7 @@ module Bill::RefundPayment # Transaction::SaveOperation
       receipt.try do |receipt|
         return if receipt.finalized?
 
-        type.add_error Rex.t(
+        status.add_error Rex.t(
           :"operation.error.receipt_not_finalized",
           receipt_id: receipt.id
         )

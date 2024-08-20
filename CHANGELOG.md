@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Auto mark invoices as paid only when transaction was newly finalized
 - Auto mark invoices as paid in `UpdateTransaction` operation
+- Assign finalized receipt validation error in `RefundPayment` to `status` attribute
 
 ## [0.18.0] - 2024-07-27
 

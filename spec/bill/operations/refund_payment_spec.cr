@@ -56,7 +56,7 @@ describe Bill::RefundPayment do
       RefundPayment.create(receipt: receipt) do |operation, _|
         operation.saved?.should be_false
 
-        operation.type
+        operation.status
           .should have_error("operation.error.receipt_not_finalized")
       end
     end
