@@ -8,6 +8,7 @@ module Bill::CreateFinalizedCreditNoteTransaction
 
       description = credit_note.description || Rex.t(
         :"operation.misc.credit_note_description",
+        credit_note_id: credit_note.id,
         reference: credit_note.reference
       )
 

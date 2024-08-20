@@ -29,6 +29,7 @@ module Bill::UpdateInvoice # Invoice::SaveOperation
         status.add_error Rex.t(
           :"operation.error.invoice_finalized",
           id: invoice.id,
+          reference: invoice.reference,
           status: invoice.status.to_s
         )
       end

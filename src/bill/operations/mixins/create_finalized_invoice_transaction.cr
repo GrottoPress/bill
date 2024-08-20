@@ -8,6 +8,7 @@ module Bill::CreateFinalizedInvoiceTransaction
 
       description = invoice.description || Rex.t(
         :"operation.misc.invoice_description",
+        invoice_id: invoice.id,
         reference: invoice.reference
       )
 

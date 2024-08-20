@@ -58,8 +58,12 @@ module Bill::RefundPayment # Transaction::SaveOperation
           amount.add_error Rex.t(
             :"operation.error.refund_exceeds_receipt",
             amount: value,
+            amount_fmt: FractionalMoney.new(value).to_s,
             amount_mu: FractionalMoney.new(value).amount_mu,
+            currency_code: Bill.settings.currency.code,
+            currency_sign: Bill.settings.currency.sign,
             receipt_amount: receipt.amount,
+            receipt_amount_fmt: receipt.amount_fm.to_s,
             receipt_amount_mu: receipt.amount_fm.amount_mu
           )
         end

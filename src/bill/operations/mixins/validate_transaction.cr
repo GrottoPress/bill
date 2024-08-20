@@ -44,7 +44,15 @@ module Bill::ValidateTransaction
     private def validate_amount_not_zero
       amount.value.try do |value|
         return unless value.zero?
-        amount.add_error Rex.t(:"operation.error.amount_zero", amount: value)
+
+        amount.add_error Rex.t(
+          :"operation.error.amount_zero",
+          amount: value,
+          amount_fmt: FractionalMoney.new(value).to_s,
+          amount_mu: FractionalMoney.new(value).amount_mu,
+          currency_code: Bill.settings.currency.code,
+          currency_sign: Bill.settings.currency.sign
+        )
       end
     end
   end

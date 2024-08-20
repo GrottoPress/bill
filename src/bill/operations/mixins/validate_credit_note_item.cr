@@ -84,9 +84,13 @@ module Bill::ValidateCreditNoteItem
               id.add_error Rex.t(
                 :"operation.error.credit_exceeds_invoice",
                 amount: current_item_amount,
+                amount_fmt: FractionalMoney.new(current_item_amount).to_s,
                 amount_mu: FractionalMoney.new(current_item_amount).amount_mu,
                 balance: balance,
-                balance_mu: FractionalMoney.new(balance).amount_mu
+                balance_fmt: FractionalMoney.new(balance).to_s,
+                balance_mu: FractionalMoney.new(balance).amount_mu,
+                currency_code: Bill.settings.currency.code,
+                currency_sign: Bill.settings.currency.sign
               )
             end
           end

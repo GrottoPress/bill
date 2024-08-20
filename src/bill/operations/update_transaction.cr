@@ -24,6 +24,7 @@ module Bill::UpdateTransaction # Transaction::SaveOperation
         status.add_error Rex.t(
           :"operation.error.transaction_finalized",
           id: transaction.id,
+          reference: transaction.reference,
           status: transaction.status.to_s
         )
       end

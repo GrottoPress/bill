@@ -28,6 +28,7 @@ module Bill::UpdateReceipt # Receipt::SaveOperation
         status.add_error Rex.t(
           :"operation.error.receipt_finalized",
           id: receipt.id,
+          reference: receipt.reference,
           status: receipt.status.to_s
         )
       end

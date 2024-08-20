@@ -54,7 +54,11 @@ module Bill::ValidateReceipt
 
         amount.add_error Rex.t(
           :"operation.error.amount_lte_zero",
-          amount: value
+          amount: value,
+          amount_fmt: FractionalMoney.new(value).to_s,
+          amount_mu: FractionalMoney.new(value).amount_mu,
+          currency_code: Bill.settings.currency.code,
+          currency_sign: Bill.settings.currency.sign
         )
       end
     end
