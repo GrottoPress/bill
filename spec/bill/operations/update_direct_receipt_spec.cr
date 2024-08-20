@@ -1,11 +1,5 @@
 require "../../spec_helper"
 
-private class SaveTransaction < Transaction::SaveOperation
-  permit_columns :reference
-
-  include Bill::UpdateDirectReceipt
-end
-
 describe Bill::UpdateDirectReceipt do
   it "updates receipt transaction" do
     user = UserFactory.create
@@ -21,7 +15,7 @@ describe Bill::UpdateDirectReceipt do
     new_amount = 45
     new_status = TransactionStatus.new(:open)
 
-    SaveTransaction.update(transaction, params(
+    UpdateDirectReceipt.update(transaction, params(
       user_id: new_user.id,
       amount: new_amount,
       credit: false,

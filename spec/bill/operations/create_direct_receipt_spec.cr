@@ -1,18 +1,12 @@
 require "../../spec_helper"
 
-private class SaveTransaction < Transaction::SaveOperation
-  permit_columns :reference
-
-  include Bill::CreateDirectReceipt
-end
-
 describe Bill::CreateDirectReceipt do
   it "creates receipt transaction" do
     description = "New receipt"
     amount = 45
     user = UserFactory.create
 
-    SaveTransaction.create(params(
+    CreateDirectReceipt.create(params(
       user_id: user.id,
       description: description,
       amount: amount,
