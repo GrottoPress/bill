@@ -161,6 +161,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    The form should be `POST`ed to `Receipts::Create`, with the following parameters:
 
+   - `invoice_id` (if payment for specific invoice supported)
    - `user_id`
    - `amount : Amount`
    - `description : String`
@@ -216,6 +217,7 @@ See <https://en.wikipedia.org/wiki/Receipt>
 
    The form should be `POST`ed to `Receipts::Update`, with the following parameters:
 
+   - `invoice_id` (if payment for specific invoice supported)
    - `user_id`
    - `amount : Amount`
    - `description : String`

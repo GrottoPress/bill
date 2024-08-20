@@ -6,6 +6,10 @@ module Bill::UpdateDirectReceipt # Transaction::SaveOperation
       set_credit
     end
 
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::ReceiveDirectInvoicePayment
+    {% end %}
+
     include Bill::UpdateTransaction
 
     private def set_type

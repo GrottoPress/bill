@@ -32,4 +32,54 @@ describe Bill::UpdateDirectReceipt do
       updated_transaction.user_id.should eq(new_user.id)
     end
   end
+
+  it "pays for a given invoice" do
+    amount = 90
+    user = UserFactory.create
+
+    transaction = TransactionFactory.create &.user_id(user.id)
+      .amount(-amount)
+      .type(:receipt)
+
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "#{amount}"
+      }]
+    )
+
+    invoice_2 = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "Another invoice",
+        due_at: 2.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "#{amount}"
+      }]
+    )
+
+    invoice.status.paid?.should be_false
+    invoice_2.status.open?.should be_true
+
+    UpdateDirectReceipt.update(transaction, params(
+      invoice_id: invoice.id,
+      status: :open,
+    )) do |operation, _|
+      operation.saved?.should be_true
+    end
+
+    invoice.reload.status.paid?.should be_true
+    invoice_2.reload.status.open?.should be_true
+  end
 end

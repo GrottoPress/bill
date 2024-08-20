@@ -57,4 +57,52 @@ describe Bill::UpdateReceipt do
       operation.status.should have_error("operation.error.receipt_finalized")
     end
   end
+
+  it "pays for a given invoice" do
+    amount = 90
+
+    user = UserFactory.create
+    receipt = ReceiptFactory.create &.user_id(user.id).amount(amount)
+
+    invoice = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "New invoice",
+        due_at: 3.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "#{amount}"
+      }]
+    )
+
+    invoice_2 = CreateInvoice.create!(
+      params(
+        user_id: user.id,
+        description: "Another invoice",
+        due_at: 2.days.from_now,
+        status: :open
+      ),
+      line_items: [{
+        "description" => "Item 1",
+        "quantity" => "1",
+        "price" => "#{amount}"
+      }]
+    )
+
+    invoice.status.paid?.should be_false
+    invoice_2.status.open?.should be_true
+
+    UpdateReceipt.update(receipt, params(
+      invoice_id: invoice.id,
+      status: :open
+    )) do |operation, _|
+      operation.saved?.should be_true
+    end
+
+    invoice.reload.status.paid?.should be_true
+    invoice_2.reload.status.open?.should be_true
+  end
 end
