@@ -1,21 +1,17 @@
 module Bill::CreateFinalizedInvoiceTransaction
   macro included
+    include Bill::InvoiceDescription
+
     after_save create_transaction
 
     private def create_transaction(invoice : Bill::Invoice)
       return unless InvoiceStatus.now_finalized?(status)
       return if (amount = invoice.amount!).zero?
 
-      description = invoice.description || Rex.t(
-        :"operation.misc.invoice_description",
-        invoice_id: invoice.id,
-        reference: invoice.reference
-      )
-
       CreateTransaction.create!(
         user_id: invoice.user_id,
         credit: false,
-        description: description,
+        description: invoice_description(invoice),
         type: TransactionType.new(:invoice),
         status: TransactionStatus.new(:open),
         amount: amount,
