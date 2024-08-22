@@ -45,3 +45,21 @@ end
     include Bill::UpdateInvoiceTotalCreditNotes
   end
 {% end %}
+
+{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+  class CreateSalesReceipt < Invoice::SaveOperation
+    include Bill::CreateSalesReceipt
+  end
+
+  class UpdateSalesReceipt < Invoice::SaveOperation
+    include Bill::UpdateSalesReceipt
+  end
+{% elsif Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+  class CreateDirectSalesReceipt < Invoice::SaveOperation
+    include Bill::CreateDirectSalesReceipt
+  end
+
+  class UpdateDirectSalesReceipt < Invoice::SaveOperation
+    include Bill::UpdateDirectSalesReceipt
+  end
+{% end %}

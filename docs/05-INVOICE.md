@@ -145,6 +145,26 @@ See <https://en.wikipedia.org/wiki/Invoice>
    end
    ```
 
+   ```crystal
+   # ->>> src/operations/create_sales_receipt.cr
+
+   class CreateSalesReceipt < Invoice::SaveOperation
+     # ...
+   end
+   ```
+
+   A sales receipt is an invoice paid for on the spot. This operation creates an invoice and a corresponding receipt, and marks the invoice as paid. It is available only if `Receipt` model exists. If there is no `Receipt` model but `Transaction` exists, `CreateDirectSalesReceipt` is used instead.
+
+   ```crystal
+   # ->>> src/operations/update_sales_receipt.cr
+
+   class UpdateSalesReceipt < Invoice::SaveOperation
+     # ...
+   end
+   ```
+
+   This operation is available only if `Receipt` model exists. If there is no `Receipt` model but `Transaction` exists, `UpdateDirectSalesReceipt` is used instead.
+
 1. Set up actions:
 
    ```crystal
@@ -152,9 +172,14 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    class Invoices::New < BrowserAction
      # ...
+
+     # Use `Bill::DirectReceipts::New` instead if invoices
+     # are paid for on the spot.
      include Bill::Invoices::New
 
      get "/invoices/new" do
+       # Use `CreateDirectReceipt` instead if invoices
+       # are paid for on the spot.
        operation = CreateInvoice.new(
          # Uncomment after setting up invoice items
          #line_items: Array(Hash(String, String)).new
@@ -184,6 +209,9 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    class Invoices::Create < BrowserAction
      # ...
+
+     # Use `Bill::DirectReceipts::Create` instead if invoices
+     # are paid for on the spot.
      include Bill::Invoices::Create
 
      post "/invoices" do
@@ -211,9 +239,14 @@ See <https://en.wikipedia.org/wiki/Invoice>
 
    class Invoices::Edit < BrowserAction
      # ...
+
+     # Use `Bill::DirectReceipts::Edit` instead if invoices
+     # are paid for on the spot.
      include Bill::Invoices::Edit
 
      get "/invoices/:invoice_id/edit" do
+       # Use `UpdateDirectReceipt` instead if invoices
+       # are paid for on the spot.
        operation = UpdateInvoice.new(
          invoice,
          # Uncomment after setting up invoice items

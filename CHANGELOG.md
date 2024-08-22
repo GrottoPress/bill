@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Allow paying for a given invoice
+- Add sales receipts (invoices paid for on the spot)
 - Add `Api::DirectReceipts::Create` action
 - Add `Api::DirectReceipts::Edit` action
 - Add `Api::DirectReceipts::New` action
