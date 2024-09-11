@@ -3,9 +3,18 @@ module Bill::Transaction
     include Bill::ReferenceColumns
 
     # include Bill::BelongsToUser
-    # include Bill::CreditNoteTransactionSource
-    # include Bill::InvoiceTransactionSource
-    # include Bill::ReceiptTransactionSource
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+      include Bill::CreditNoteTransactionSource
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+      include Bill::InvoiceTransactionSource
+    {% end %}
+
+    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+      include Bill::ReceiptTransactionSource
+    {% end %}
 
     column amount : Amount
     column description : String
