@@ -3,17 +3,9 @@ module Bill::Invoice
     include Bill::ReferenceColumns
     include Bill::ParentNetAmount
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
-      include Bill::HasManyCreditNotes
-    {% end %}
-
-    {% if Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
-      include Bill::HasManyInvoiceItems
-    {% end %}
-
-    {% if Avram::Model.all_subclasses.find(&.name.== :User.id) %}
-      include Bill::BelongsToUser
-    {% end %}
+    # include Bill::BelongsToUser
+    # include Bill::HasManyCreditNotes
+    # include Bill::HasManyInvoiceItems
 
     column business_details : String
     column description : String?

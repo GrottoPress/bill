@@ -2,21 +2,11 @@ module Bill::User
   abstract def billing_details : String
 
   macro included
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
-      include Bill::HasManyCreditNotesThroughInvoices
-    {% end %}
-
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
-      include Bill::HasManyInvoices
-    {% end %}
-
-    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
-      include Bill::HasManyReceipts
-    {% end %}
+    # include Bill::HasManyCreditNotesThroughInvoices
+    # include Bill::HasManyInvoices
+    # include Bill::HasManyReceipts
 
     {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
-      include Bill::HasManyTransactions
-
       {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
         include Bill::CreditNotesAmount
       {% end %}

@@ -3,13 +3,8 @@ module Bill::CreditNote
     include Bill::ParentAmount
     include Bill::ReferenceColumns
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
-      include Bill::BelongsToInvoice
-    {% end %}
-
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
-      include Bill::HasManyCreditNoteItems
-    {% end %}
+    # include Bill::BelongsToInvoice
+    # include Bill::HasManyCreditNoteItems
 
     column description : String?
     column notes : String?

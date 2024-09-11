@@ -2,9 +2,7 @@ module Bill::Receipt
   macro included
     include Bill::ReferenceColumns
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :User.id) %}
-      include Bill::BelongsToUser
-    {% end %}
+    #include Bill::BelongsToUser
 
     column amount : Amount
     column business_details : String

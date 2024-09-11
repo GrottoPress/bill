@@ -1,8 +1,6 @@
 module Bill::InvoiceItem
   macro included
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
-      include Bill::BelongsToInvoice
-    {% end %}
+    # include Bill::BelongsToInvoice
 
     column description : String
     column quantity : Quantity
