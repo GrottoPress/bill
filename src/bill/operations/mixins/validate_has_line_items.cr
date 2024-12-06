@@ -9,12 +9,12 @@ module Bill::ValidateHasLineItems
     private def validate_has_line_items
       return unless {{ T }}Status.now_finalized?(status)
 
-      unless record
+      unless record # If creating
         return unless responds_to?(:line_items_to_create) &&
           self.line_items_to_create.empty?
       end
 
-      record.try do |record|
+      record.try do |record| # If updating
         return unless record.line_items.empty?
 
         return unless responds_to?(:line_items_to_save) &&
