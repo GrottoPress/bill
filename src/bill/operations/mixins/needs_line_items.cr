@@ -3,7 +3,7 @@ module Bill::NeedsLineItems
     needs line_items : Array(Hash(String, String))
 
     def line_items
-      previous_def.reject do |line_item|
+      previous_def.reject! do |line_item|
         line_item.empty? ||
         line_item["quantity"]?.try { |quantity| Quantity.new(quantity) < 0 } ||
         line_item["price"]?.try { |price| Amount.new(price) < 0 } ||
