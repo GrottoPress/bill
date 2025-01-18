@@ -2,30 +2,21 @@ module Bill::ValidateHasLineItems
   macro included
     skip_default_validations
 
-    before_save do
-      validate_has_line_items
-    end
+    after_save validate_has_line_items
 
-    private def validate_has_line_items
+    private def validate_has_line_items(record : {{ T }})
       return unless {{ T }}Status.now_finalized?(status)
 
-      unless record # If creating
-        return unless responds_to?(:line_items_to_create) &&
-          self.line_items_to_create.empty?
-      end
-
-      record.try do |record| # If updating
-        return unless record.line_items.empty?
-
-        return unless responds_to?(:line_items_to_save) &&
-          self.line_items_to_save.empty?
-      end
+      record = {{ T }}Query.preload_line_items(record)
+      return unless record.line_items.empty?
 
       id.add_error Rex.t(:"operation.error.{{ T.name
         .split("::")
         .last
         .underscore
         .id }}_items_empty")
+
+      database.rollback
     end
   end
 end
