@@ -57,7 +57,7 @@ describe Bill::UpdateInvoice do
     new_status = InvoiceStatus.new(:open)
 
     UpdateInvoice.update(
-      InvoiceQuery.preload_line_items(invoice),
+      invoice,
       params(
         user_id: new_user.id,
         description: new_description,

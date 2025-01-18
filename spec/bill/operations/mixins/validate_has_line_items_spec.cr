@@ -36,7 +36,7 @@ describe Bill::ValidateHasLineItems do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
 
     SaveInvoice.update(
-      InvoiceQuery.preload_line_items(invoice),
+      invoice,
       params(status: :open),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
@@ -51,7 +51,7 @@ describe Bill::ValidateHasLineItems do
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
     SaveInvoice.update(
-      InvoiceQuery.preload_line_items(invoice),
+      invoice,
       params(status: :open),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|

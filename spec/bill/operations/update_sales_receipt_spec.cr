@@ -35,7 +35,7 @@ describe Bill::UpdateSalesReceipt do
     ReceiptQuery.new.none?.should be_true
 
     UpdateSalesReceipt.update(
-      InvoiceQuery.preload_line_items(invoice),
+      invoice,
       params(status: :open),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_invoice|

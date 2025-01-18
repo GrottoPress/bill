@@ -9,7 +9,7 @@ describe Bill::UpdateFinalizedInvoice do
     InvoiceItemFactory.create &.invoice_id(invoice.id)
 
     UpdateFinalizedInvoice.update(
-      InvoiceQuery.preload_line_items(invoice),
+      invoice,
       params(description: new_description),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_invoice|

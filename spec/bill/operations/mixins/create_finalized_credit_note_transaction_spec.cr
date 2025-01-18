@@ -44,7 +44,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
     UpdateCreditNote.update(
-      CreditNoteQuery.preload_line_items(credit_note),
+      credit_note,
       params(status: :open),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|

@@ -84,7 +84,7 @@ describe Bill::UpdateCreditNote do
     new_status = CreditNoteStatus.new(:open)
 
     UpdateCreditNote.update(
-      CreditNoteQuery.preload_line_items(credit_note),
+      credit_note,
       params(
         invoice_id: new_invoice.id,
         description: new_description,

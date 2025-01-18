@@ -13,7 +13,7 @@ describe Bill::UpdateFinalizedCreditNote do
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
     UpdateFinalizedCreditNote.update(
-      CreditNoteQuery.preload_line_items(credit_note),
+      credit_note,
       params(description: new_description),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_credit_note|
@@ -30,7 +30,7 @@ describe Bill::UpdateFinalizedCreditNote do
     CreditNoteItemFactory.create &.credit_note_id(credit_note.id)
 
     UpdateFinalizedCreditNote.update(
-      CreditNoteQuery.preload_line_items(credit_note),
+      credit_note,
       params(description: "Another credit note"),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
