@@ -1,7 +1,5 @@
 module Bill::ValidateParentFinalized
   macro included
-    skip_default_validations
-
     {% parent_model = T.name.gsub(/Item$/, "") %}
 
     {% assoc = T.constant(:ASSOCIATIONS).find do |assoc|
@@ -14,6 +12,8 @@ module Bill::ValidateParentFinalized
         validate_parent_finalized
       end
     {% else %}
+      skip_default_validations
+
       before_save do
         validate_parent_finalized
       end
