@@ -35,6 +35,7 @@ module Bill::Api::FinalizedCreditNotes::Update
     def do_run_operation_failed(operation)
       json FailureSerializer.new(
         errors: operation.errors,
+        many_nested_errors: operation.many_nested_errors,
         message: Rex.t(:"action.credit_note.update.failure")
       )
     end

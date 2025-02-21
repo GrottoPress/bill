@@ -9,6 +9,10 @@ module Bill::UpdateCreditNoteLineItems
       delete_items(credit_note)
       update_items(credit_note)
       create_items(credit_note)
+
+      rollback_failed_delete
+      rollback_failed_update
+      rollback_failed_create
     end
 
     private def delete_items(credit_note)
@@ -17,7 +21,16 @@ module Bill::UpdateCreditNoteLineItems
           line_item,
           credit_note
         ).try do |credit_note_item|
-          DeleteCreditNoteItemForParent.delete!(credit_note_item, parent: self)
+          save_line_items[line_item["key"].to_i] =
+            DeleteCreditNoteItemForParent.new(
+              credit_note_item,
+              Avram::Params.new(line_item),
+              parent: self
+            )
+
+          save_line_items[line_item["key"].to_i]
+            .as(CreditNoteItem::DeleteOperation)
+            .delete
         end
       end
     end
@@ -28,21 +41,55 @@ module Bill::UpdateCreditNoteLineItems
           line_item,
           credit_note
         ).try do |credit_note_item|
-          UpdateCreditNoteItemForParent.update!(
-            credit_note_item,
-            Avram::Params.new(line_item),
-            parent: self
-          )
+          save_line_items[line_item["key"].to_i] =
+            UpdateCreditNoteItemForParent.new(
+              credit_note_item,
+              Avram::Params.new(line_item),
+              parent: self
+            )
+
+          save_line_items[line_item["key"].to_i]
+            .as(CreditNoteItem::SaveOperation)
+            .save
         end
       end
     end
 
     private def create_items(credit_note)
       line_items_to_create.each do |line_item|
-        CreateCreditNoteItemForParent.create!(
-          Avram::Params.new(line_item),
-          parent: self
-        )
+        save_line_items[line_item["key"].to_i] =
+          CreateCreditNoteItemForParent.new(
+            Avram::Params.new(line_item),
+            parent: self
+          )
+
+        save_line_items[line_item["key"].to_i]
+          .as(CreditNoteItem::SaveOperation)
+          .save
+      end
+    end
+
+    private def rollback_failed_delete
+      line_items_to_delete.each do |line_item|
+        database.rollback unless save_line_items[line_item["key"].to_i]
+          .as(CreditNoteItem::DeleteOperation)
+          .deleted?
+      end
+    end
+
+    private def rollback_failed_update
+      line_items_to_update.each do |line_item|
+        database.rollback unless save_line_items[line_item["key"].to_i]
+          .as(CreditNoteItem::SaveOperation)
+          .saved?
+      end
+    end
+
+    private def rollback_failed_create
+      line_items_to_create.each do |line_item|
+        database.rollback unless save_line_items[line_item["key"].to_i]
+          .as(CreditNoteItem::SaveOperation)
+          .saved?
       end
     end
 

@@ -33,6 +33,7 @@ module Bill::Api::Invoices::Update
     def do_run_operation_failed(operation)
       json FailureSerializer.new(
         errors: operation.errors,
+        many_nested_errors: operation.many_nested_errors,
         message: Rex.t(:"action.invoice.update.failure")
       )
     end

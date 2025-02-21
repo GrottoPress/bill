@@ -28,6 +28,7 @@ module Bill::Api::CreditNotes::Create
     def do_run_operation_failed(operation)
       json FailureSerializer.new(
         errors: operation.errors,
+        many_nested_errors: operation.many_nested_errors,
         message: Rex.t(:"action.credit_note.create.failure")
       )
     end
