@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 describe Bill::CreateCreditNoteItem do
-  it "creates new invoice item" do
+  it "creates new credit note item" do
     description = "New invoice item"
     quantity = 2
 
