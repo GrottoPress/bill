@@ -14,8 +14,9 @@ module Bill::ValidateCreditNoteItem
       validate_quantity_gt_zero
 
       validate_credit_note_exists
-      validate_credit_lte_invoice
     end
+
+    after_save validate_credit_lte_invoice
 
     include Bill::ValidateDescription
 
@@ -65,37 +66,38 @@ module Bill::ValidateCreditNoteItem
       end
     end
 
-    private def validate_credit_lte_invoice
-      quantity.value.try do |_quantity|
-        price.value.try do |_price|
-          return unless quantity.changed? || price.changed?
+    private def validate_credit_lte_invoice(
+      credit_note_item : Bill::CreditNoteItem
+    )
+      return unless quantity.changed? || price.changed?
 
-          credit_note.try do |credit_note|
-            credit_note = CreditNoteQuery.preload_invoice(credit_note)
+      credit_note_item = CreditNoteItemQuery.preload_credit_note(
+        credit_note_item,
+        CreditNoteQuery.new.preload_invoice
+      )
 
-            invoice_amount = credit_note.invoice.net_amount
-            current_credits = credit_note.amount!
-            record.try { |record| current_credits -= record.amount }
+      credit_note = credit_note_item.credit_note
+      invoice_amount = credit_note.invoice.net_amount
+      credit_amount = credit_note.amount!
 
-            current_item_amount = _quantity * _price
-            balance = invoice_amount - current_credits
+      return if credit_amount <= invoice_amount
 
-            if current_item_amount > balance
-              id.add_error Rex.t(
-                :"operation.error.credit_exceeds_invoice",
-                amount: current_item_amount,
-                amount_fmt: FractionalMoney.new(current_item_amount).to_s,
-                amount_mu: FractionalMoney.new(current_item_amount).amount_mu,
-                balance: balance,
-                balance_fmt: FractionalMoney.new(balance).to_s,
-                balance_mu: FractionalMoney.new(balance).amount_mu,
-                currency_code: Bill.settings.currency.code,
-                currency_sign: Bill.settings.currency.sign
-              )
-            end
-          end
-        end
-      end
+      balance = invoice_amount - credit_amount
+      current_amount = credit_note_item.amount
+
+      id.add_error Rex.t(
+        :"operation.error.credit_exceeds_invoice",
+        amount: current_amount,
+        amount_fmt: FractionalMoney.new(current_amount).to_s,
+        amount_mu: FractionalMoney.new(current_amount).amount_mu,
+        balance: balance,
+        balance_fmt: FractionalMoney.new(balance).to_s,
+        balance_mu: FractionalMoney.new(balance).amount_mu,
+        currency_code: Bill.settings.currency.code,
+        currency_sign: Bill.settings.currency.sign
+      )
+
+      database.rollback
     end
   end
 end
