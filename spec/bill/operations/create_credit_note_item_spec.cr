@@ -20,7 +20,6 @@ describe Bill::CreateCreditNoteItem do
     )
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
-      .status(:open)
 
     CreateCreditNoteItem.create(params(
       credit_note_id: credit_note.id,

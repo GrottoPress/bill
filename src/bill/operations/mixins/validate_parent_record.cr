@@ -13,25 +13,33 @@ module Bill::ValidateParentRecord
       end
     {% else %}
       skip_default_validations
-
-      before_save do
-        validate_parent_not_finalized
-      end
+      after_save validate_parent_not_finalized
     {% end %}
 
     private def validate_parent_not_finalized
-      record.try do |record|
-        return unless record.{{ assoc[:assoc_name].id }}.finalized?
+      parent_record = record.{{ assoc[:assoc_name].id }}
+      return unless parent_record.finalized?
 
-        {{ assoc[:foreign_key].id }}.add_error Rex.t(
-          :"operation.error.{{ parent_model.split("::")
-            .last
-            .underscore
-            .id }}_finalized",
-          {{ assoc[:foreign_key].id }}: record.id,
-          status: record.{{ assoc[:assoc_name].id }}.status.to_s
-        )
-      end
+      add_assoc_error(record, parent_record)
+    end
+
+    private def validate_parent_not_finalized(saved_record)
+      parent_record = saved_record.{{ assoc[:assoc_name].id }}!
+      return unless parent_record.finalized?
+
+      add_assoc_error(saved_record, parent_record)
+      database.rollback
+    end
+
+    private def add_assoc_error(record, parent_record)
+      {{ assoc[:foreign_key].id }}.add_error Rex.t(
+        :"operation.error.{{ parent_model.split("::")
+          .last
+          .underscore
+          .id }}_finalized",
+        {{ assoc[:foreign_key].id }}: record.id,
+        status: parent_record.status.to_s
+      )
     end
   end
 end

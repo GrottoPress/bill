@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Bill::NeedsLineItems#many_nested_errors`
 - Add `Bill::NeedsLineItems#save_line_items`
 
+### Fixed
+- Ensure parent record validation is applied for create operations
+
 ## [0.19.3] - 2024-10-23
 
 ### Fixed
