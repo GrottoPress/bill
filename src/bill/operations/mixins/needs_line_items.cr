@@ -18,7 +18,7 @@ module Bill::NeedsLineItems
     # This should help us send back errors in the same order, so the
     # frontend can know which errors belong to which item.
     def line_items
-      self.line_items = previous_def.map_with_index! do |line_item, i|
+      previous_def.map_with_index! do |line_item, i|
         line_item.tap  { |item| item["key"] = i.to_s }
       end
     end
