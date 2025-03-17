@@ -6,16 +6,16 @@ module Bill::UpdateCreditNoteLineItems
     include Bill::ValidateHasLineItems
 
     private def update_line_items(credit_note : Bill::CreditNote)
-      delete_items(credit_note)
-      update_items(credit_note)
-      create_items(credit_note)
+      delete_credit_note_items(credit_note)
+      update_credit_note_items(credit_note)
+      create_credit_note_items(credit_note)
 
-      rollback_failed_delete_items
-      rollback_failed_update_items
-      rollback_failed_create_items
+      rollback_failed_delete_credit_note_items
+      rollback_failed_update_credit_note_items
+      rollback_failed_create_credit_note_items
     end
 
-    private def delete_items(credit_note)
+    private def delete_credit_note_items(credit_note)
       line_items_to_delete.each do |line_item|
         credit_note_item_from_hash(
           line_item,
@@ -35,7 +35,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def update_items(credit_note)
+    private def update_credit_note_items(credit_note)
       line_items_to_update.each do |line_item|
         credit_note_item_from_hash(
           line_item,
@@ -55,7 +55,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def create_items(credit_note)
+    private def create_credit_note_items(credit_note)
       line_items_to_create.each do |line_item|
         save_line_items[line_item["key"].to_i] =
           CreateCreditNoteItemForParent.new(
@@ -69,7 +69,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_delete_items
+    private def rollback_failed_delete_credit_note_items
       line_items_to_delete.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::DeleteOperation)
@@ -77,7 +77,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_update_items
+    private def rollback_failed_update_credit_note_items
       line_items_to_update.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::SaveOperation)
@@ -85,7 +85,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_create_items
+    private def rollback_failed_create_credit_note_items
       line_items_to_create.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::SaveOperation)

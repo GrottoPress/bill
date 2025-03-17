@@ -6,16 +6,16 @@ module Bill::UpdateInvoiceLineItems
     include Bill::ValidateHasLineItems
 
     private def update_line_items(invoice : Bill::Invoice)
-      delete_items(invoice)
-      update_items(invoice)
-      create_items(invoice)
+      delete_invoice_items(invoice)
+      update_invoice_items(invoice)
+      create_invoice_items(invoice)
 
-      rollback_failed_delete_items
-      rollback_failed_update_items
-      rollback_failed_create_items
+      rollback_failed_delete_invoice_items
+      rollback_failed_update_invoice_items
+      rollback_failed_create_invoice_items
     end
 
-    private def delete_items(invoice)
+    private def delete_invoice_items(invoice)
       line_items_to_delete.each do |line_item|
         invoice_item_from_hash(line_item, invoice).try do |invoice_item|
           save_line_items[line_item["key"].to_i] =
@@ -32,7 +32,7 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def update_items(invoice)
+    private def update_invoice_items(invoice)
       line_items_to_update.each do |line_item|
         invoice_item_from_hash(line_item, invoice).try do |invoice_item|
           save_line_items[line_item["key"].to_i] =
@@ -49,7 +49,7 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def create_items(invoice)
+    private def create_invoice_items(invoice)
       line_items_to_create.each do |line_item|
         save_line_items[line_item["key"].to_i] =
           CreateInvoiceItemForParent.new(
@@ -63,7 +63,7 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def rollback_failed_delete_items
+    private def rollback_failed_delete_invoice_items
       line_items_to_delete.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(InvoiceItem::DeleteOperation)
@@ -71,7 +71,7 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def rollback_failed_update_items
+    private def rollback_failed_update_invoice_items
       line_items_to_update.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(InvoiceItem::SaveOperation)
@@ -79,7 +79,7 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def rollback_failed_create_items
+    private def rollback_failed_create_invoice_items
       line_items_to_create.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(InvoiceItem::SaveOperation)
