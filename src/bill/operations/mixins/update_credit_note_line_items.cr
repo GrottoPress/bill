@@ -10,9 +10,9 @@ module Bill::UpdateCreditNoteLineItems
       update_items(credit_note)
       create_items(credit_note)
 
-      rollback_failed_delete
-      rollback_failed_update
-      rollback_failed_create
+      rollback_failed_delete_items
+      rollback_failed_update_items
+      rollback_failed_create_items
     end
 
     private def delete_items(credit_note)
@@ -69,7 +69,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_delete
+    private def rollback_failed_delete_items
       line_items_to_delete.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::DeleteOperation)
@@ -77,7 +77,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_update
+    private def rollback_failed_update_items
       line_items_to_update.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::SaveOperation)
@@ -85,7 +85,7 @@ module Bill::UpdateCreditNoteLineItems
       end
     end
 
-    private def rollback_failed_create
+    private def rollback_failed_create_items
       line_items_to_create.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
           .as(CreditNoteItem::SaveOperation)
