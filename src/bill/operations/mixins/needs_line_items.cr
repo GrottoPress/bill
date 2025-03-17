@@ -5,20 +5,20 @@ module Bill::NeedsLineItems
         {{ T }}Item::SaveOperation,
         {{ T }}Item::DeleteOperation
       )).new(
-        line_items.size,
+        keyed_line_items.size,
         {{ T }}Item::SaveOperation.new
       )
     end
 
     needs line_items : Array(Hash(String, String))
 
-    # Redefining to add the order in which the items were received from
+    # Adds the order in which the line items were received from
     # the request to each item.
     #
     # This should help us send back errors in the same order, so the
     # frontend can know which errors belong to which item.
-    def line_items
-      previous_def.map_with_index! do |line_item, i|
+    getter keyed_line_items : Array(Hash(String, String)) do
+      line_items.map_with_index do |line_item, i|
         line_item.tap  { |item| item["key"] = i.to_s }
       end
     end
@@ -32,11 +32,11 @@ module Bill::NeedsLineItems
     end
 
     def line_items_to_delete
-      line_items - line_items_to_save
+      keyed_line_items - line_items_to_save
     end
 
     def line_items_to_save
-      line_items.reject do |line_item|
+      keyed_line_items.reject do |line_item|
         line_item["quantity"]?.try { |quantity| Quantity.new(quantity) == 0 } ||
         line_item["price"]?.try { |price| Amount.new(price) == 0 } ||
         line_item["price_mu"]?.try(&.to_f.== 0)
