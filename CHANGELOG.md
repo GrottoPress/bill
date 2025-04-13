@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 
+
+### Fixed
+- Fix `TypeCastError` in `Bill::UpdateCreditNoteLineItems#rollback_failed_delete_credit_note_items`
+- Fix `TypeCastError` in `Bill::UpdateInvoiceLineItems#rollback_failed_delete_credit_note_items`
+
 ## [0.20.0] - 2025-02-22
 
 ### Added

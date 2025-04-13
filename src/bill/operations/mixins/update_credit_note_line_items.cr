@@ -72,8 +72,10 @@ module Bill::UpdateCreditNoteLineItems
     private def rollback_failed_delete_credit_note_items
       line_items_to_delete.each do |line_item|
         database.rollback unless save_line_items[line_item["key"].to_i]
-          .as(CreditNoteItem::DeleteOperation)
-          .deleted?
+          # If no record was found, this would still be a SaveOperation,
+          # hence the nilable `#as?` call
+          .as?(CreditNoteItem::DeleteOperation)
+          .try(&.deleted?)
       end
     end
 
