@@ -17,7 +17,7 @@ module Bill::NeedsLineItems
     #
     # This should help us send back errors in the same order, so the
     # frontend can know which errors belong to which item.
-    getter keyed_line_items : Array(Hash(String, String)) do
+    private getter keyed_line_items : Array(Hash(String, String)) do
       line_items.map_with_index do |line_item, i|
         line_item.tap  { |item| item["key"] = i.to_s }
       end
