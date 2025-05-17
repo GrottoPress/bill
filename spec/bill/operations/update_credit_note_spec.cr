@@ -107,7 +107,10 @@ describe Bill::UpdateCreditNote do
 
       credit_note_items = updated_credit_note.line_items!
       credit_note_items.size.should eq(3)
-      credit_note_items[0].price.should eq(12)
+
+      credit_note_items.find(&.id.== credit_note_item.id)
+        .try(&.price)
+        .should(eq 12)
     end
   end
 

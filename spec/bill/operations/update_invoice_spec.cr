@@ -82,7 +82,7 @@ describe Bill::UpdateInvoice do
 
       invoice_items = updated_invoice.line_items!
       invoice_items.size.should eq(3)
-      invoice_items[0].price.should eq(12)
+      invoice_items.find(&.id.== invoice_item.id).try(&.price).should eq(12)
     end
   end
 
