@@ -11,7 +11,8 @@ module Bill::ValidateNotes
 
       validate_size_of notes,
         max: max,
-        message: Rex.t(:"operation.error.notes_too_long", max: max)
+        message: Rex.t(:"operation.error.notes_too_long", max: max),
+        allow_nil: true
     end
   end
 end

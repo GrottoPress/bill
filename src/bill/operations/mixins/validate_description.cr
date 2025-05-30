@@ -11,7 +11,8 @@ module Bill::ValidateDescription
 
       validate_size_of description,
         max: max,
-        message: Rex.t(:"operation.error.description_too_long", max: max)
+        message: Rex.t(:"operation.error.description_too_long", max: max),
+        allow_nil: true
     end
   end
 end
