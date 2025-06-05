@@ -25,15 +25,16 @@ module Bill::UpdateFinalizedCreditNoteLineItems
       end
 
       line_items_to_update.each do |line_item|
-        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
-          write_database.rollback unless save_line_items[line_item["key"].to_i]
-            .as(CreditNoteItem::SaveOperation)
-            .saved?
-        {% else %}
-          database.rollback unless save_line_items[line_item["key"].to_i]
-            .as(CreditNoteItem::SaveOperation)
-            .saved?
-        {% end %}
+        unless save_line_items[line_item["key"].to_i]
+          .as(CreditNoteItem::SaveOperation)
+          .saved?
+
+          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+            write_database.rollback
+          {% else %}
+            database.rollback
+          {% end %}
+        end
       end
     end
 
