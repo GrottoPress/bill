@@ -70,24 +70,40 @@ module Bill::UpdateInvoiceLineItems
         save_line_items[line_item["key"].to_i].as?(InvoiceItem::DeleteOperation)
           .try do |operation|
 
-          database.rollback unless operation.deleted?
+          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+            write_database.rollback unless operation.deleted?
+          {% else %}
+            database.rollback unless operation.deleted?
+          {% end %}
         end
       end
     end
 
     private def rollback_failed_update_invoice_items
       line_items_to_update.each do |line_item|
-        database.rollback unless save_line_items[line_item["key"].to_i]
-          .as(InvoiceItem::SaveOperation)
-          .saved?
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(InvoiceItem::SaveOperation)
+            .saved?
+        {% else %}
+          database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(InvoiceItem::SaveOperation)
+            .saved?
+        {% end %}
       end
     end
 
     private def rollback_failed_create_invoice_items
       line_items_to_create.each do |line_item|
-        database.rollback unless save_line_items[line_item["key"].to_i]
-          .as(InvoiceItem::SaveOperation)
-          .saved?
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(InvoiceItem::SaveOperation)
+            .saved?
+        {% else %}
+          database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(InvoiceItem::SaveOperation)
+            .saved?
+        {% end %}
       end
     end
 

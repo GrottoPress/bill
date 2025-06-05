@@ -28,7 +28,12 @@ module Bill::ValidateParentFinalized
       return if parent_record.finalized?
 
       add_assoc_error(saved_record, parent_record)
-      database.rollback
+
+      {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+        write_database.rollback
+      {% else %}
+        database.rollback
+      {% end %}
     end
 
     private def add_assoc_error(record, parent_record)

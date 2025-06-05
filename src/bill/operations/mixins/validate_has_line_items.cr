@@ -16,7 +16,11 @@ module Bill::ValidateHasLineItems
         .underscore
         .id }}_items_empty")
 
-      database.rollback
+      {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+        write_database.rollback
+      {% else %}
+        database.rollback
+      {% end %}
     end
   end
 end

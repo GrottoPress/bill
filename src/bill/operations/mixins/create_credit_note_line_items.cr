@@ -27,9 +27,15 @@ module Bill::CreateCreditNoteLineItems
 
     private def rollback_failed_create_credit_note_items
       line_items_to_create.each do |line_item|
-        database.rollback unless save_line_items[line_item["key"].to_i]
-          .as(CreditNoteItem::SaveOperation)
-          .saved?
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(CreditNoteItem::SaveOperation)
+            .saved?
+        {% else %}
+          database.rollback unless save_line_items[line_item["key"].to_i]
+            .as(CreditNoteItem::SaveOperation)
+            .saved?
+        {% end %}
       end
     end
   end
