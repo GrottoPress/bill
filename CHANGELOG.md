@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Add support for Lucky v1.4
+
 ### Fixed
 - Fix `TypeCastError` in `Bill::UpdateCreditNoteLineItems#rollback_failed_delete_credit_note_items`
 - Fix `TypeCastError` in `Bill::UpdateInvoiceLineItems#rollback_failed_delete_credit_note_items`
