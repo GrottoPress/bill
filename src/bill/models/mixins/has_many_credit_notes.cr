@@ -17,9 +17,15 @@ module Bill::HasManyCreditNotes
         .{{ @type.name.split("::").last.underscore.id }}_id(id)
         .is_finalized
 
-      sum = CreditNoteItemQuery.new
-        .where_credit_note(join_query)
-        .exec_scalar(&.select_sum "price * quantity")
+      {% begin %}
+        sum = CreditNoteItemQuery.new
+          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+            .join_credit_note(join_query)
+          {% else %}
+            .where_credit_note(join_query)
+          {% end %}
+          .exec_scalar(&.select_sum "price * quantity")
+      {% end %}
 
       case sum
       when PG::Numeric then Amount.new(sum.to_f)
