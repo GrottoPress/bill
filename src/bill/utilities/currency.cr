@@ -1,5 +1,7 @@
 module Bill::Currency
   macro included
+    include JSON::Serializable
+
     getter :code,
       :sign,
       :mu_factor,
