@@ -56,7 +56,12 @@ module Bill::InvoicesLedger
 
       # :ditto:
       def over_owing!(user)
-        balance = @ledger.balance!(user) - amount_not_overdue!(user)
+        balance = Amount.new(0)
+
+        user.class.database.transaction do
+          balance += @ledger.balance!(user) - amount_not_overdue!(user)
+        end
+
         balance if balance.debit?
       end
 

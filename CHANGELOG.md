@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Make `Currency` JSON-serializable
 
+### Fixed
+- Wrap balance calculations in a database transaction
+
 ## [0.21.0] - 2025-06-05
 
 ### Added

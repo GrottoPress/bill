@@ -9,8 +9,13 @@ module Bill::ParentNetAmount
     end
 
     def net_amount! : Amount
-      sum = amount!
-      sum -= self.credit_notes_amount! if responds_to?(:credit_notes_amount!)
+      sum = Amount.new(0)
+
+      self.class.database.transaction do
+        sum += amount!
+        sum -= self.credit_notes_amount! if responds_to?(:credit_notes_amount!)
+      end
+
       sum
     end
 
