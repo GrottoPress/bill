@@ -24,11 +24,11 @@ module Bill::NeedsLineItems
     end
 
     def line_items_to_create
-      line_items_to_save.reject(&.["id"]?)
+      line_items_to_save.reject(&.["id"]?.presence)
     end
 
     def line_items_to_update
-      line_items_to_save.select(&.["id"]?)
+      line_items_to_save.select(&.["id"]?.presence)
     end
 
     def line_items_to_delete
