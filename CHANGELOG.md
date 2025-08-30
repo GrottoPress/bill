@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.21.2] - 2025-08-30
 
 ### Fixed
-- Fix `TypeCastError` when many nested params contains an empty `id`
+- Fix `TypeCastError` when many nested params contain an empty `id`
 
 ## [0.21.1] - 2025-08-22
 
