@@ -36,7 +36,7 @@ module Bill::UpdateFinalizedInvoiceLineItems
     end
 
     private def invoice_item_from_hash(hash, invoice)
-      hash["id"]?.try do |id|
+      hash["id"]?.presence.try do |id|
         InvoiceItemQuery.new
           .id(id)
           .invoice_id(invoice.id)
