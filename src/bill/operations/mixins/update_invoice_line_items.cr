@@ -17,7 +17,7 @@ module Bill::UpdateInvoiceLineItems
 
     private def delete_invoice_items(invoice)
       line_items_to_delete.each do |line_item|
-        invoice_item_from_hash(line_item, invoice).try do |invoice_item|
+        invoice_item_from_params(line_item, invoice).try do |invoice_item|
           save_line_items[line_item["key"].to_i] =
             DeleteInvoiceItemForParent.new(
               invoice_item,
@@ -34,7 +34,7 @@ module Bill::UpdateInvoiceLineItems
 
     private def update_invoice_items(invoice)
       line_items_to_update.each do |line_item|
-        invoice_item_from_hash(line_item, invoice).try do |invoice_item|
+        invoice_item_from_params(line_item, invoice).try do |invoice_item|
           save_line_items[line_item["key"].to_i] =
             UpdateInvoiceItemForParent.new(
               invoice_item,
@@ -111,8 +111,8 @@ module Bill::UpdateInvoiceLineItems
       end
     end
 
-    private def invoice_item_from_hash(hash, invoice)
-      hash["id"]?.presence.try do |id|
+    private def invoice_item_from_params(params, invoice)
+      params["id"]?.presence.try do |id|
         InvoiceItemQuery.new
           .id(id)
           .invoice_id(invoice.id)

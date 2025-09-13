@@ -7,7 +7,7 @@ module Bill::UpdateFinalizedCreditNoteLineItems
 
     private def update_line_items(credit_note : Bill::CreditNote)
       line_items_to_update.each do |line_item|
-        credit_note_item_from_hash(
+        credit_note_item_from_params(
           line_item,
           credit_note
         ).try do |credit_note_item|
@@ -38,8 +38,8 @@ module Bill::UpdateFinalizedCreditNoteLineItems
       end
     end
 
-    private def credit_note_item_from_hash(hash, credit_note)
-      hash["id"]?.presence.try do |id|
+    private def credit_note_item_from_params(params, credit_note)
+      params["id"]?.presence.try do |id|
         CreditNoteItemQuery.new
           .id(id)
           .credit_note_id(credit_note.id)
