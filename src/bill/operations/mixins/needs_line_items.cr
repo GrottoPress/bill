@@ -32,7 +32,7 @@ module Bill::NeedsLineItems
     end
 
     def line_items_to_delete
-      keyed_line_items - line_items_to_save
+      (keyed_line_items - line_items_to_save).select(&.["id"]?.presence)
     end
 
     def line_items_to_save
