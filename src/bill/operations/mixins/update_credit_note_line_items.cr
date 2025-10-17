@@ -16,19 +16,19 @@ module Bill::UpdateCreditNoteLineItems
     end
 
     private def delete_credit_note_items(credit_note)
-      line_items_to_delete.each do |line_item|
+      line_items_to_delete.each do |params|
         credit_note_item_from_params(
-          line_item,
+          params,
           credit_note
         ).try do |credit_note_item|
-          save_line_items[line_item["key"].to_i] =
+          save_line_items[params["key"].to_i] =
             DeleteCreditNoteItemForParent.new(
               credit_note_item,
-              Avram::Params.new(line_item),
+              Avram::Params.new(params),
               parent: self
             )
 
-          save_line_items[line_item["key"].to_i]
+          save_line_items[params["key"].to_i]
             .as(CreditNoteItem::DeleteOperation)
             .delete
         end
@@ -36,19 +36,19 @@ module Bill::UpdateCreditNoteLineItems
     end
 
     private def update_credit_note_items(credit_note)
-      line_items_to_update.each do |line_item|
+      line_items_to_update.each do |params|
         credit_note_item_from_params(
-          line_item,
+          params,
           credit_note
         ).try do |credit_note_item|
-          save_line_items[line_item["key"].to_i] =
+          save_line_items[params["key"].to_i] =
             UpdateCreditNoteItemForParent.new(
               credit_note_item,
-              Avram::Params.new(line_item),
+              Avram::Params.new(params),
               parent: self
             )
 
-          save_line_items[line_item["key"].to_i]
+          save_line_items[params["key"].to_i]
             .as(CreditNoteItem::SaveOperation)
             .save
         end
@@ -56,64 +56,34 @@ module Bill::UpdateCreditNoteLineItems
     end
 
     private def create_credit_note_items(credit_note)
-      line_items_to_create.each do |line_item|
-        save_line_items[line_item["key"].to_i] =
+      line_items_to_create.each do |params|
+        save_line_items[params["key"].to_i] =
           CreateCreditNoteItemForParent.new(
-            Avram::Params.new(line_item),
+            Avram::Params.new(params),
             parent: self
           )
 
-        save_line_items[line_item["key"].to_i]
+        save_line_items[params["key"].to_i]
           .as(CreditNoteItem::SaveOperation)
           .save
       end
     end
 
     private def rollback_failed_delete_credit_note_items
-      line_items_to_delete.each do |line_item|
-        # If no record was found, this would still be a SaveOperation,
-        # hence the nilable `#as?` call
-        save_line_items[line_item["key"].to_i].as?(CreditNoteItem::DeleteOperation)
-          .try do |operation|
-
-          unless operation.deleted?
-            {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
-              write_database.rollback
-            {% else %}
-              database.rollback
-            {% end %}
-          end
-        end
+      line_items_to_delete.each do |params|
+        rollback_failed_delete_line_items(params)
       end
     end
 
     private def rollback_failed_update_credit_note_items
-      line_items_to_update.each do |line_item|
-        unless save_line_items[line_item["key"].to_i]
-          .as(CreditNoteItem::SaveOperation)
-          .saved?
-
-          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
-            write_database.rollback
-          {% else %}
-            database.rollback
-          {% end %}
-        end
+      line_items_to_update.each do |params|
+        rollback_failed_save_line_items(params)
       end
     end
 
     private def rollback_failed_create_credit_note_items
-      line_items_to_create.each do |line_item|
-        unless save_line_items[line_item["key"].to_i]
-          .as(CreditNoteItem::SaveOperation)
-          .saved?
-
-          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
-            write_database.rollback
-          {% else %}
-            database.rollback
-          {% end %}
-        end
+      line_items_to_create.each do |params|
+        rollback_failed_save_line_items(params)
       end
     end
 
@@ -124,6 +94,34 @@ module Bill::UpdateCreditNoteLineItems
           .credit_note_id(credit_note.id)
           .preload_credit_note
           .first?
+      end
+    end
+
+    private def rollback_failed_delete_line_items(params)
+      if save_line_items[params["key"].to_i]
+        # If no record was found, this would still be a SaveOperation,
+        # hence the nilable `#as?` call
+        .as?(CreditNoteItem::DeleteOperation)
+        .try(&.delete_status.delete_failed?)
+
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback
+        {% else %}
+          database.rollback
+        {% end %}
+      end
+    end
+
+    private def rollback_failed_save_line_items(params)
+      if save_line_items[params["key"].to_i]
+        .as(CreditNoteItem::SaveOperation)
+        .save_failed?
+
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback
+        {% else %}
+          database.rollback
+        {% end %}
       end
     end
   end

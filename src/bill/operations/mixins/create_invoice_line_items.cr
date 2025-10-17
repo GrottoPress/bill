@@ -12,30 +12,34 @@ module Bill::CreateInvoiceLineItems
     end
 
     private def create_invoice_items(invoice)
-      line_items_to_create.each do |line_item|
-        save_line_items[line_item["key"].to_i] = CreateInvoiceItemForParent.new(
-          Avram::Params.new(line_item),
+      line_items_to_create.each do |params|
+        save_line_items[params["key"].to_i] = CreateInvoiceItemForParent.new(
+          Avram::Params.new(params),
           parent: self
         )
 
-        save_line_items[line_item["key"].to_i]
+        save_line_items[params["key"].to_i]
           .as(InvoiceItem::SaveOperation)
           .save
       end
     end
 
     private def rollback_failed_create_invoice_items
-      line_items_to_create.each do |line_item|
-        unless save_line_items[line_item["key"].to_i]
-          .as(InvoiceItem::SaveOperation)
-          .saved?
+      line_items_to_create.each do |params|
+        rollback_failed_save_line_items(params)
+      end
+    end
 
-          {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
-            write_database.rollback
-          {% else %}
-            database.rollback
-          {% end %}
-        end
+    private def rollback_failed_save_line_items(params)
+      if save_line_items[params["key"].to_i]
+        .as(InvoiceItem::SaveOperation)
+        .save_failed?
+
+        {%if compare_versions(Avram::VERSION, "1.4.0") >= 0 %}
+          write_database.rollback
+        {% else %}
+          database.rollback
+        {% end %}
       end
     end
   end
