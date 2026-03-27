@@ -13,7 +13,7 @@ module Bill::UpdateTransaction # Transaction::SaveOperation
 
     include Bill::ValidateTransaction
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
       include Bill::AutoMarkInvoicesAsPaid
     {% end %}
 

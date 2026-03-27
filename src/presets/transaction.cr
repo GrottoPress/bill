@@ -1,4 +1,4 @@
-{% unless Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+{% unless Avram::Model.all_subclasses.any?(&.name.== :Transaction.id) %}
   {% skip_file %}
 {% end %}
 
@@ -39,7 +39,7 @@ struct Ledger
   include Bill::Ledger
 end
 
-{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+{% if Avram::Model.all_subclasses.any?(&.name.== :Receipt.id) %}
   class RefundPayment < Transaction::SaveOperation
     include Bill::RefundPayment
   end

@@ -10,12 +10,12 @@ module Bill::UpdateCreditNote # CreditNote::SaveOperation
     include Bill::SetReference
     include Bill::ValidateCreditNote
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :CreditNoteItem.id) %}
       include Bill::UpdateCreditNoteLineItems
       include Bill::FinalizeCreditNoteTotals
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Transaction.id) %}
       include Bill::CreateFinalizedCreditNoteTransaction
     {% end %}
 

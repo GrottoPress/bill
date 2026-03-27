@@ -1,4 +1,4 @@
-{% unless Avram::Model.all_subclasses.find(&.name.== :InvoiceItem.id) %}
+{% unless Avram::Model.all_subclasses.any?(&.name.== :InvoiceItem.id) %}
   {% skip_file %}
 {% end %}
 

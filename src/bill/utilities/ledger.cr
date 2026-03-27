@@ -1,14 +1,14 @@
 module Bill::Ledger
   macro included
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :CreditNote.id) %}
       include Bill::CreditNotesLedger
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
       include Bill::InvoicesLedger
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Receipt.id) %}
       include Bill::ReceiptsLedger
     {% end %}
 

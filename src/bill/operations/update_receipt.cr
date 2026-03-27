@@ -13,11 +13,11 @@ module Bill::UpdateReceipt # Receipt::SaveOperation
     include Bill::SetReference
     include Bill::ValidateReceipt
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
       include Bill::ReceiveInvoicePayment
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Transaction.id) %}
       include Bill::CreateFinalizedReceiptTransaction
     {% end %}
 

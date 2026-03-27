@@ -8,7 +8,7 @@ module Bill::UpdateFinalizedCreditNote # CreditNote::SaveOperation
 
     include Bill::ValidateCreditNote
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNoteItem.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :CreditNoteItem.id) %}
       include Bill::UpdateFinalizedCreditNoteLineItems
     {% end %}
 

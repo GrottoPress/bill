@@ -6,7 +6,7 @@ module Bill::CreateDirectReceipt # Transaction::SaveOperation
       set_credit
     end
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
       include Bill::ReceiveDirectInvoicePayment
     {% end %}
 

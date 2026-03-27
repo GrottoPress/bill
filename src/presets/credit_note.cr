@@ -1,4 +1,4 @@
-{% unless Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+{% unless Avram::Model.all_subclasses.any?(&.name.== :CreditNote.id) %}
   {% skip_file %}
 {% end %}
 

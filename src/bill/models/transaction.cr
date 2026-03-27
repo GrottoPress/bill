@@ -4,15 +4,15 @@ module Bill::Transaction
 
     # include Bill::BelongsToUser
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :CreditNote.id) %}
       include Bill::CreditNoteTransactionSource
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
       include Bill::InvoiceTransactionSource
     {% end %}
 
-    {% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+    {% if Avram::Model.all_subclasses.any?(&.name.== :Receipt.id) %}
       include Bill::ReceiptTransactionSource
     {% end %}
 

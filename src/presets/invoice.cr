@@ -1,4 +1,4 @@
-{% skip_file unless Avram::Model.all_subclasses.find(&.name.== :Invoice.id) %}
+{% skip_file unless Avram::Model.all_subclasses.any?(&.name.== :Invoice.id) %}
 
 require "./common"
 
@@ -40,13 +40,13 @@ struct InvoiceTotals
   include Bill::InvoiceTotals
 end
 
-{% if Avram::Model.all_subclasses.find(&.name.== :CreditNote.id) %}
+{% if Avram::Model.all_subclasses.any?(&.name.== :CreditNote.id) %}
   class UpdateInvoiceTotalCreditNotes < Invoice::SaveOperation
     include Bill::UpdateInvoiceTotalCreditNotes
   end
 {% end %}
 
-{% if Avram::Model.all_subclasses.find(&.name.== :Receipt.id) %}
+{% if Avram::Model.all_subclasses.any?(&.name.== :Receipt.id) %}
   class CreateSalesReceipt < Invoice::SaveOperation
     include Bill::CreateSalesReceipt
   end
@@ -54,7 +54,7 @@ end
   class UpdateSalesReceipt < Invoice::SaveOperation
     include Bill::UpdateSalesReceipt
   end
-{% elsif Avram::Model.all_subclasses.find(&.name.== :Transaction.id) %}
+{% elsif Avram::Model.all_subclasses.any?(&.name.== :Transaction.id) %}
   class CreateDirectSalesReceipt < Invoice::SaveOperation
     include Bill::CreateDirectSalesReceipt
   end
