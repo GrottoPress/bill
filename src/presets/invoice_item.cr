@@ -4,8 +4,11 @@
 
 require "./common"
 
-class InvoiceItemQuery < InvoiceItem::BaseQuery
+class InvoiceItem::BaseQuery
   include Bill::InvoiceItemQuery
+end
+
+class InvoiceItemQuery < InvoiceItem::BaseQuery
 end
 
 class CreateInvoiceItem < InvoiceItem::SaveOperation

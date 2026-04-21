@@ -72,12 +72,7 @@ module Bill::InvoicesLedger
       end
 
       private def amount_not_overdue!(user)
-        InvoiceQuery.new
-          .where("#{@ledger.foreign_key(user)} = ?", user.id.to_s)
-          .is_open
-          .is_not_overdue
-          .results
-          .sum(&.net_amount)
+        user.invoices_query.is_open.is_not_overdue.results.sum(&.net_amount)
       end
     end
   end

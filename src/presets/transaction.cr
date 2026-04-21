@@ -7,8 +7,11 @@ require "./common"
 include Bill::TransactionStatus
 include Bill::TransactionType
 
-class TransactionQuery < Transaction::BaseQuery
+class Transaction::BaseQuery
   include Bill::TransactionQuery
+end
+
+class TransactionQuery < Transaction::BaseQuery
 end
 
 class CreateTransaction < Transaction::SaveOperation

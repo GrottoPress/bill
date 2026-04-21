@@ -4,8 +4,11 @@
 
 require "./common"
 
-class CreditNoteItemQuery < CreditNoteItem::BaseQuery
+class CreditNoteItem::BaseQuery
   include Bill::CreditNoteItemQuery
+end
+
+class CreditNoteItemQuery < CreditNoteItem::BaseQuery
 end
 
 class CreateCreditNoteItem < CreditNoteItem::SaveOperation

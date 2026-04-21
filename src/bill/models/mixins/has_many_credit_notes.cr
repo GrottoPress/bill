@@ -13,9 +13,7 @@ module Bill::HasManyCreditNotes
     end
 
     def credit_notes_amount! : Amount
-      join_query = CreditNoteQuery.new
-        .{{ @type.name.split("::").last.underscore.id }}_id(id)
-        .is_finalized
+      join_query = credit_notes_query.is_finalized
 
       {% begin %}
         sum = CreditNoteItemQuery.new

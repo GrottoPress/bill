@@ -13,9 +13,7 @@ module Bill::HasManyInvoiceItems
     end
 
     def line_items_amount! : Amount
-      sum = InvoiceItemQuery.new
-        .{{ @type.name.split("::").last.underscore.id }}_id(id)
-        .exec_scalar(&.select_sum "price * quantity")
+      sum = line_items_query.exec_scalar(&.select_sum "price * quantity")
 
       case sum
       when PG::Numeric then Amount.new(sum.to_f)

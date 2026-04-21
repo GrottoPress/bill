@@ -6,8 +6,11 @@ require "./common"
 
 include Bill::CreditNoteStatus
 
-class CreditNoteQuery < CreditNote::BaseQuery
+class CreditNote::BaseQuery
   include Bill::CreditNoteQuery
+end
+
+class CreditNoteQuery < CreditNote::BaseQuery
 end
 
 class CreateCreditNote < CreditNote::SaveOperation

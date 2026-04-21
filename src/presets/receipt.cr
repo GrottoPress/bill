@@ -4,8 +4,11 @@ require "./common"
 
 include Bill::ReceiptStatus
 
-class ReceiptQuery < Receipt::BaseQuery
+class Receipt::BaseQuery
   include Bill::ReceiptQuery
+end
+
+class ReceiptQuery < Receipt::BaseQuery
 end
 
 class CreateReceipt < Receipt::SaveOperation

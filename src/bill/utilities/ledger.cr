@@ -80,8 +80,8 @@ module Bill::Ledger
     )
       raise_if_start_gt_end(from, till)
 
-      query = TransactionQuery.new.is_finalized
-      query = query.where("#{foreign_key(user)} = ?", user.id.to_s) if user
+      query = user ? user.transactions_query : TransactionQuery.new
+      query = query.is_finalized
       query = query.type.in(types.to_a) if types
       query = query.created_at.gte(from) if from
       query = query.created_at.lte(till) if till
@@ -124,10 +124,6 @@ module Bill::Ledger
 
     def self.balance_fm(balance : Int)
       FractionalMoney.new(balance)
-    end
-
-    protected def foreign_key(record)
-      "#{record.class.name.split("::").last.underscore}_id"
     end
 
     private def raise_if_start_gt_end(from, till)
