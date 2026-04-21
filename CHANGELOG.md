@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 
 
+### Added
+- Allow redefining `TransactionType` to add more members
+
 ### Fixed
 - Replace static foreign key methods with auto-generated association query methods
 
