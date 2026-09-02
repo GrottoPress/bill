@@ -10,8 +10,7 @@ describe Bill::UpdateFinalizedInvoice do
 
     UpdateFinalizedInvoice.update(
       invoice,
-      fake_params(invoice: {description: new_description}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: new_description})
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
       updated_invoice.description.should eq(new_description)
@@ -25,8 +24,7 @@ describe Bill::UpdateFinalizedInvoice do
 
     UpdateFinalizedInvoice.update(
       invoice,
-      fake_params(invoice: {description: "Another invoice"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_false
 

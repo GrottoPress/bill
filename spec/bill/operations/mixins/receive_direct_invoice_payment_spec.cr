@@ -5,19 +5,19 @@ describe Bill::ReceiveDirectInvoicePayment do
     amount = 90
     user = UserFactory.create
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :draft
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "#{amount}"
       }]
-    )
+    ))
 
     CreateDirectReceipt.create(fake_params(transaction: {
       invoice_id: invoice.id,
@@ -34,19 +34,19 @@ describe Bill::ReceiveDirectInvoicePayment do
   it "ensures receipt amount equals invoice amount" do
     user = UserFactory.create
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "90"
       }]
-    )
+    ))
 
     CreateDirectReceipt.create(fake_params(transaction: {
       invoice_id: invoice.id,

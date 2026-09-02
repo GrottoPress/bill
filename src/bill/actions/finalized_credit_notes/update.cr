@@ -7,8 +7,7 @@ module Bill::FinalizedCreditNotes::Update
     def run_operation
       UpdateFinalizedCreditNote.update(
         credit_note,
-        params,
-        line_items: params.many_nested?(:line_items)
+        params
       ) do |operation, updated_credit_note|
         if operation.saved?
           do_run_operation_succeeded(operation, updated_credit_note)

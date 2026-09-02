@@ -135,11 +135,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
      include Bill::CreditNotes::New
 
      get "/credit-notes/new" do
-       operation = CreateCreditNote.new(
-         # Uncomment after setting up credit note items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = CreateCreditNote.new
        html NewPage, operation: operation
      end
      # ...
@@ -193,12 +189,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
      include Bill::CreditNotes::Edit
 
      get "/credit-notes/:credit_note_id/edit" do
-       operation = UpdateCreditNote.new(
-         credit_note,
-         # Uncomment after setting up credit note items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = UpdateCreditNote.new(credit_note)
        html EditPage, operation: operation
      end
      # ...
@@ -252,12 +243,7 @@ See <https://en.wikipedia.org/wiki/Credit_note>
      include Bill::FinalizedCreditNotes::Edit
 
      get "/credit-notes/:credit_note_id/finalized/edit" do
-       operation = UpdateFinalizedCreditNote.new(
-         credit_note,
-         # Uncomment after setting up credit note items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = UpdateFinalizedCreditNote.new(credit_note)
        html EditPage, operation: operation
      end
      # ...

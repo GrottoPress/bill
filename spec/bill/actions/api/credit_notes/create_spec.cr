@@ -2,19 +2,19 @@ require "../../../../spec_helper"
 
 describe Bill::Api::CreditNotes::Create do
   it "creates credit note" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     response = ApiClient.exec(
       Api::CreditNotes::Create,

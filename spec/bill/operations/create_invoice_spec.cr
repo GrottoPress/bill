@@ -17,8 +17,7 @@ describe Bill::CreateInvoice do
         notes: notes,
         status: status
       }),
-      counter: 34567,
-      line_items: Array(Hash(String, String)).new
+      counter: 34567
     ) do |_, invoice|
       invoice.should be_a(Invoice)
 
@@ -42,20 +41,20 @@ describe Bill::CreateInvoice do
 
     user = UserFactory.create
 
-    CreateInvoice.create(
-      fake_params(invoice: {
+    CreateInvoice.create(fake_params(
+      invoice: {
         user_id: user.id,
         description: description,
         due_at: due_at,
         notes: notes,
         status: status
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "12"
       }]
-    ) do |_, invoice|
+    )) do |_, invoice|
       invoice.should be_a(Invoice)
 
       # ameba:disable Lint/ShadowingOuterLocalVar

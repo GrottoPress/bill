@@ -14,8 +14,7 @@ describe Bill::UpdateFinalizedCreditNote do
 
     UpdateFinalizedCreditNote.update(
       credit_note,
-      fake_params(credit_note: {description: new_description}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {description: new_description})
     ) do |operation, updated_credit_note|
       operation.saved?.should be_true
       updated_credit_note.description.should eq(new_description)
@@ -31,8 +30,7 @@ describe Bill::UpdateFinalizedCreditNote do
 
     UpdateFinalizedCreditNote.update(
       credit_note,
-      fake_params(credit_note: {description: "Another credit note"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {description: "Another credit note"})
     ) do |operation, _|
       operation.saved?.should be_false
 

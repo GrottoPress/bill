@@ -9,22 +9,21 @@ private class SaveInvoice < Invoice::SaveOperation
     :status,
     :user_details
 
-  include Bill::NeedsLineItems
+  include Bill::HasManySaveLineItems
   include Bill::ValidateHasLineItems
 end
 
 describe Bill::ValidateHasLineItems do
   it "requires new invoice has line items" do
-    SaveInvoice.create(
-      fake_params(invoice: {
+    SaveInvoice.create(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
-      line_items: Array(Hash(String, String)).new
-    ) do |operation, invoice|
+      }
+    )) do |operation, invoice|
       invoice.should be_nil
 
       operation.id.should have_error("operation.error.invoice_items_empty")
@@ -37,8 +36,7 @@ describe Bill::ValidateHasLineItems do
 
     SaveInvoice.update(
       invoice,
-      fake_params(invoice: {status: :open}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {status: :open})
     ) do |operation, _|
       operation.saved?.should be_false
       operation.id.should have_error("operation.error.invoice_items_empty")
@@ -52,25 +50,23 @@ describe Bill::ValidateHasLineItems do
 
     SaveInvoice.update(
       invoice,
-      fake_params(invoice: {status: :open}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {status: :open})
     ) do |operation, _|
       operation.saved?.should be_true
     end
   end
 
   it "skips unfinalized new invoice" do
-    SaveInvoice.create(
-      fake_params(invoice: {
+    SaveInvoice.create(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
         status: :draft,
         user_details: "Mary Smith"
-      }),
-      line_items: Array(Hash(String, String)).new
-    ) do |_, invoice|
+      }
+    )) do |_, invoice|
       invoice.should be_a(Invoice)
     end
   end
@@ -81,8 +77,7 @@ describe Bill::ValidateHasLineItems do
 
     SaveInvoice.update(
       invoice,
-      fake_params(invoice: {description: "Another Invoice"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: "Another Invoice"})
     ) do |operation, _|
       operation.saved?.should be_true
     end

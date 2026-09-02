@@ -79,19 +79,19 @@ describe Bill::InvoicesLedger do
     it "returns amount owing" do
       user = UserFactory.create
 
-      invoice = CreateInvoice.create!(
-        fake_params(invoice: {
+      invoice = CreateInvoice.create!(fake_params(
+        invoice: {
           user_id: user.id,
           description: "New invoice",
           due_at: 3.days.from_now,
           status: :open
-        }),
+        },
         line_items: [{
           "description" => "Item 1",
           "quantity" => "1",
           "price" => "500"
         }]
-      )
+      ))
 
       CreateReceipt.create(fake_params(receipt: {
         user_id: user.id,
@@ -111,18 +111,18 @@ describe Bill::InvoicesLedger do
       user.over_owes?.should be_nil
       user.over_owes!.should be_nil
 
-      CreateCreditNote.create(
-        fake_params(credit_note: {
+      CreateCreditNote.create(fake_params(
+        credit_note: {
           invoice_id: invoice.id,
           description: "New credit note",
           status: :open
-        }),
+        },
         line_items: [{
           "description" => "Item 1",
           "quantity" => "1",
           "price" => "100"
         }]
-      ) do |_, credit_note|
+      )) do |_, credit_note|
         credit_note.should be_a(CreditNote)
       end
 
@@ -136,18 +136,20 @@ describe Bill::InvoicesLedger do
       user.over_owes!.should be_nil
 
       CreateInvoice.create(
-        fake_params(invoice: {
-          user_id: user.id,
-          description: "New invoice",
-          due_at: 2.days.ago,
-          status: :open
-        }),
-        created_at: 3.days.ago,
-        line_items: [{
-          "description" => "Item 1",
-          "quantity" => "1",
-          "price" => "700"
-        }]
+        fake_params(
+          invoice: {
+            user_id: user.id,
+            description: "New invoice",
+            due_at: 2.days.ago,
+            status: :open
+          },
+          line_items: [{
+            "description" => "Item 1",
+            "quantity" => "1",
+            "price" => "700"
+          }]
+        ),
+        created_at: 3.days.ago
       ) do |_, _invoice|
         _invoice.should be_a(Invoice)
       end

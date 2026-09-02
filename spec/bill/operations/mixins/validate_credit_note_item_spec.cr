@@ -33,19 +33,19 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires description" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
@@ -76,19 +76,19 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires price to be greater than 0" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
@@ -104,19 +104,19 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires quantity to be greater than 0" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
@@ -134,19 +134,19 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "ensures total credit would not exceed invoice amount" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "2"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
@@ -201,19 +201,19 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "rejects long description" do
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 

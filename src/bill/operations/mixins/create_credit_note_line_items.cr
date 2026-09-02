@@ -2,7 +2,7 @@ module Bill::CreateCreditNoteLineItems
   macro included
     after_save create_line_items
 
-    include Bill::NeedsLineItems
+    include Bill::HasManySaveLineItems
     include Bill::ValidateHasLineItems
 
     private def create_line_items(credit_note : Bill::CreditNote)

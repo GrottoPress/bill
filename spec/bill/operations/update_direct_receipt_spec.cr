@@ -41,33 +41,33 @@ describe Bill::UpdateDirectReceipt do
       .amount(-amount)
       .type(:receipt)
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "#{amount}"
       }]
-    )
+    ))
 
-    invoice_2 = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice_2 = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: 2.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "#{amount}"
       }]
-    )
+    ))
 
     invoice.status.paid?.should be_false
     invoice_2.status.open?.should be_true

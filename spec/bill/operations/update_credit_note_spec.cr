@@ -25,8 +25,7 @@ describe Bill::UpdateCreditNote do
         invoice_id: new_invoice.id,
         description: new_description,
         notes: new_notes
-      }),
-      line_items: Array(Hash(String, String)).new
+      })
     ) do |operation, updated_credit_note|
       operation.saved?.should be_true
 
@@ -40,19 +39,19 @@ describe Bill::UpdateCreditNote do
   it "updates credit note with line items" do
     user = UserFactory.create
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .description("New credit note")
@@ -65,19 +64,19 @@ describe Bill::UpdateCreditNote do
     credit_note_item_2 =
       CreditNoteItemFactory.create &.credit_note_id(credit_note.id).price(6)
 
-    new_invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    new_invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
     new_description = "Another credit note"
     new_notes = "Another note"
@@ -90,13 +89,13 @@ describe Bill::UpdateCreditNote do
         description: new_description,
         notes: new_notes,
         status: new_status
-      }),
-      line_items: [
-        {"id" => credit_note_item.id.to_s, "price" => "12"},
-        {"id" => credit_note_item_2.id.to_s, "quantity" => "0"},
-        {"description" => "Item 3", "quantity" => "2", "price" => "8"},
-        {"description" => "Item 4", "quantity" => "2", "price" => "6"}
-      ]
+      },
+        line_items: [
+          {"id" => credit_note_item.id.to_s, "price" => "12"},
+          {"id" => credit_note_item_2.id.to_s, "quantity" => "0"},
+          {"description" => "Item 3", "quantity" => "2", "price" => "8"},
+          {"description" => "Item 4", "quantity" => "2", "price" => "6"}
+        ])
     ) do |operation, updated_credit_note|
       operation.saved?.should be_true
 
@@ -123,8 +122,7 @@ describe Bill::UpdateCreditNote do
 
     UpdateCreditNote.update(
       credit_note,
-      fake_params(credit_note: {description: "Another credit note"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {description: "Another credit note"})
     ) do |operation, _|
       operation.saved?.should be_false
 

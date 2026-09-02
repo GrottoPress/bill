@@ -2,7 +2,7 @@ module Bill::UpdateFinalizedCreditNoteLineItems
   macro included
     after_save update_line_items
 
-    include Bill::NeedsLineItems
+    include Bill::HasManySaveLineItems
     include Bill::ValidateHasLineItems
 
     private def update_line_items(credit_note : Bill::CreditNote)

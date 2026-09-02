@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Bump minimum `lucille` shard version to 1.5
+- Rename `Mixins::NeedsLineItems` to `Mixins::HasManySaveLineItems`
+- Derive `line_items` from params instead of explicitly passing it in
 
 ## [0.21.5] - 2025-10-18
 

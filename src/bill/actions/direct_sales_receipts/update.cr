@@ -7,8 +7,7 @@ module Bill::DirectSalesReceipts::Update
     def run_operation
       UpdateDirectSalesReceipt.update(
         invoice,
-        params,
-        line_items: params.many_nested?(:line_items)
+        params
       ) do |operation, updated_invoice|
         if operation.saved?
           do_run_operation_succeeded(operation, updated_invoice)

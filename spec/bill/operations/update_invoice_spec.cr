@@ -25,8 +25,7 @@ describe Bill::UpdateInvoice do
         description: new_description,
         due_at: new_due_at,
         notes: new_notes
-      }),
-      line_items: Array(Hash(String, String)).new
+      })
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
 
@@ -64,13 +63,13 @@ describe Bill::UpdateInvoice do
         due_at: new_due_at,
         notes: new_notes,
         status: new_status
-      }),
-      line_items: [
-        {"id" => invoice_item.id.to_s, "price" => "12"},
-        {"id" => invoice_item_2.id.to_s, "price" => "0"},
-        {"description" => "Item 3", "quantity" => "2", "price" => "8"},
-        {"description" => "Item 4", "quantity" => "2", "price" => "6"}
-      ]
+      },
+        line_items: [
+          {"id" => invoice_item.id.to_s, "price" => "12"},
+          {"id" => invoice_item_2.id.to_s, "price" => "0"},
+          {"description" => "Item 3", "quantity" => "2", "price" => "8"},
+          {"description" => "Item 4", "quantity" => "2", "price" => "6"}
+        ])
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
 
@@ -92,8 +91,7 @@ describe Bill::UpdateInvoice do
 
     UpdateInvoice.update(
       invoice,
-      fake_params(invoice: {description: "Another invoice"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_false
 

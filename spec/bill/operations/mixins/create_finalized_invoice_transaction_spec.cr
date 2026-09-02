@@ -4,21 +4,21 @@ describe Bill::CreateFinalizedInvoiceTransaction do
   it "creates transaction for new invoice" do
     user = UserFactory.create
 
-    CreateInvoice.create(
-      fake_params(invoice: {
+    CreateInvoice.create(fake_params(
+      invoice: {
         user_id: user.id,
         business_details: "ACME Inc",
         description: "New invoice",
         due_at: 3.days.from_now.to_utc,
         status: :open,
         user_details: "Mary Smith"
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "12"
       }]
-    ) do |_, invoice|
+    )) do |_, invoice|
       invoice.should be_a(Invoice)
     end
 
@@ -33,8 +33,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateInvoice.update(
       invoice,
-      fake_params(invoice: {status: :open}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {status: :open})
     ) do |operation, _|
       operation.saved?.should be_true
     end
@@ -50,8 +49,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateInvoice.update(
       invoice,
-      fake_params(invoice: {description: "Another invoice"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_true
     end
@@ -67,8 +65,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateFinalizedInvoice.update(
       invoice,
-      fake_params(invoice: {description: "Another invoice"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_true
     end

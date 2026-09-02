@@ -180,11 +180,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
      get "/invoices/new" do
        # Use `CreateDirectReceipt` instead if invoices
        # are paid for on the spot.
-       operation = CreateInvoice.new(
-         # Uncomment after setting up invoice items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = CreateInvoice.new
        html NewPage, operation: operation
      end
      # ...
@@ -247,12 +243,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
      get "/invoices/:invoice_id/edit" do
        # Use `UpdateDirectReceipt` instead if invoices
        # are paid for on the spot.
-       operation = UpdateInvoice.new(
-         invoice,
-         # Uncomment after setting up invoice items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = UpdateInvoice.new(invoice)
        html EditPage, operation: operation
      end
      # ...
@@ -306,12 +297,7 @@ See <https://en.wikipedia.org/wiki/Invoice>
      include Bill::FinalizedInvoices::Edit
 
      get "/invoices/:invoice_id/finalized/edit" do
-       operation = UpdateFinalizedInvoice.new(
-         invoice,
-         # Uncomment after setting up invoice items
-         #line_items: Array(Hash(String, String)).new
-       )
-
+       operation = UpdateFinalizedInvoice.new(invoice)
        html EditPage, operation: operation
      end
      # ...

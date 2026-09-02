@@ -1,4 +1,4 @@
-module Bill::NeedsLineItems
+module Bill::HasManySaveLineItems
   macro included
     getter save_line_items do
       Array(Union(
@@ -10,7 +10,9 @@ module Bill::NeedsLineItems
       )
     end
 
-    needs line_items : Array(Hash(String, String))
+    getter line_items : Array(Hash(String, String)) do
+      params.many_nested?("line_items")
+    end
 
     # Adds the order in which the line items were received from
     # the request to each item.

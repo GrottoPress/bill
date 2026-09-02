@@ -17,8 +17,7 @@ describe Bill::CreateCreditNote do
         notes: notes,
         status: status
       }),
-      counter: 15,
-      line_items: Array(Hash(String, String)).new
+      counter: 15
     ) do |_, credit_note|
       credit_note.should be_a(CreditNote)
 
@@ -38,33 +37,33 @@ describe Bill::CreateCreditNote do
     notes = "A note"
     status = CreditNoteStatus.new(:open)
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
-    CreateCreditNote.create(
-      fake_params(credit_note: {
+    CreateCreditNote.create(fake_params(
+      credit_note: {
         invoice_id: invoice.id,
         description: description,
         notes: notes,
         status: status
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "12"
       }]
-    ) do |_, credit_note|
+    )) do |_, credit_note|
       credit_note.should be_a(CreditNote)
 
       # ameba:disable Lint/ShadowingOuterLocalVar

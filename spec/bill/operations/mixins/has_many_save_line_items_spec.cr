@@ -12,24 +12,24 @@ private class SaveInvoice < Invoice::SaveOperation
   include Bill::CreateInvoiceLineItems
 end
 
-describe Bill::NeedsLineItems do
+describe Bill::HasManySaveLineItems do
   it "collects many nested operation errors" do
     user = UserFactory.create
 
-    SaveInvoice.create(
-      fake_params(invoice: {
+    SaveInvoice.create(fake_params(
+      invoice: {
         user_id: user.id,
         business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "-1"
       }]
-    ) do |operation, invoice|
+    )) do |operation, invoice|
       invoice.should be_nil
 
       operation.save_line_items.first?.should be_a(CreateInvoiceItemForParent)

@@ -5,10 +5,7 @@ module Bill::CreditNotes::Create
     # end
 
     def run_operation
-      CreateCreditNote.create(
-        params,
-        line_items: params.many_nested?(:line_items)
-      ) do |operation, credit_note|
+      CreateCreditNote.create(params) do |operation, credit_note|
         if operation.saved?
           do_run_operation_succeeded(operation, credit_note.not_nil!)
         else

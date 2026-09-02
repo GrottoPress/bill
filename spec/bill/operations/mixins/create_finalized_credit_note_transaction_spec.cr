@@ -4,32 +4,32 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
   it "creates transaction for new credit note" do
     user = UserFactory.create
 
-    invoice = CreateInvoice.create!(
-      fake_params(invoice: {
+    invoice = CreateInvoice.create!(fake_params(
+      invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
         "price" => "999"
       }]
-    )
+    ))
 
-    CreateCreditNote.create(
-      fake_params(credit_note: {
+    CreateCreditNote.create(fake_params(
+      credit_note: {
         invoice_id: invoice.id,
         description: "New credit note",
         status: :open
-      }),
+      },
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
         "price" => "12"
       }]
-    ) do |_, credit_note|
+    )) do |_, credit_note|
       credit_note.should be_a(CreditNote)
     end
 
@@ -45,8 +45,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
 
     UpdateCreditNote.update(
       credit_note,
-      fake_params(credit_note: {status: :open}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {status: :open})
     ) do |operation, _|
       operation.saved?.should be_true
     end
@@ -65,8 +64,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
 
     UpdateCreditNote.update(
       credit_note,
-      fake_params(credit_note: {description: "Another credit note"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {description: "Another credit note"})
     ) do |operation, _|
       operation.saved?.should be_true
     end
@@ -86,8 +84,7 @@ describe Bill::CreateFinalizedCreditNoteTransaction do
 
     UpdateFinalizedCreditNote.update(
       credit_note,
-      fake_params(credit_note: {description: "Another credit note"}),
-      line_items: Array(Hash(String, String)).new
+      fake_params(credit_note: {description: "Another credit note"})
     ) do |operation, _|
       operation.saved?.should be_true
     end
