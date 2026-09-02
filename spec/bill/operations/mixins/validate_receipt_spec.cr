@@ -15,13 +15,13 @@ end
 
 describe Bill::ValidateReceipt do
   it "requires user id" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.user_id.should have_error("operation.error.user_id_required")
@@ -29,13 +29,13 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires description" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       amount: 90,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.description
@@ -44,13 +44,13 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires amount" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New receipt",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.amount.should have_error("operation.error.amount_required")
@@ -58,14 +58,14 @@ describe Bill::ValidateReceipt do
   end
 
   it "ensures amount is greater than zero" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 0,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.amount.should have_error("operation.error.amount_lte_zero")
@@ -73,13 +73,13 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires status" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.status.should have_error("operation.error.status_required")
@@ -87,13 +87,13 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires business details" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       description: "New receipt",
       amount: 90,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.business_details
@@ -102,13 +102,13 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires user details" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
       status: :draft
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.user_details
@@ -117,14 +117,14 @@ describe Bill::ValidateReceipt do
   end
 
   it "requires existing user" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: 2_i64,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 90,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.user_id.should have_error("operation.error.user_not_found")
@@ -137,7 +137,7 @@ describe Bill::ValidateReceipt do
 
     SaveReceipt.update(
       receipt,
-      params(status: :draft)
+      fake_params(receipt: {status: :draft})
     ) do |operation, _|
       operation.saved?.should be_false
 
@@ -152,7 +152,7 @@ describe Bill::ValidateReceipt do
     user = UserFactory.create
     ReceiptFactory.create &.user_id(user.id).reference(reference)
 
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: user.id,
       business_details: "ACME Inc",
       description: "New receipt",
@@ -160,7 +160,7 @@ describe Bill::ValidateReceipt do
       reference: reference.upcase,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.reference.should have_error("operation.error.reference_exists")
@@ -170,7 +170,7 @@ describe Bill::ValidateReceipt do
   it "rejects long description" do
     user = UserFactory.create
 
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: user.id,
       business_details: "ACME Inc",
       description: "d" * 600,
@@ -178,7 +178,7 @@ describe Bill::ValidateReceipt do
       reference: "123",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.description
@@ -189,7 +189,7 @@ describe Bill::ValidateReceipt do
   it "rejects long notes" do
     user = UserFactory.create
 
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: user.id,
       business_details: "ACME Inc",
       amount: 90,
@@ -197,7 +197,7 @@ describe Bill::ValidateReceipt do
       reference: "123",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.notes.should(have_error "operation.error.notes_too_long")

@@ -14,7 +14,7 @@ describe Bill::ValidateParentRecord do
 
     SaveInvoiceItem.update(
       InvoiceItemQuery.preload_invoice(invoice_item),
-      params(description: "Another invoice item")
+      fake_params(invoice_item: {description: "Another invoice item"})
     ) do |operation, _|
       operation.saved?.should be_false
 

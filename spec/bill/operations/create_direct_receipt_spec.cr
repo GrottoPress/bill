@@ -6,13 +6,13 @@ describe Bill::CreateDirectReceipt do
     amount = 45
     user = UserFactory.create
 
-    CreateDirectReceipt.create(params(
+    CreateDirectReceipt.create(fake_params(transaction: {
       user_id: user.id,
       description: description,
       amount: amount,
       type: :invoice,
       status: :open
-    )) do |_, transaction|
+    })) do |_, transaction|
       transaction.should be_a(Transaction)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -31,12 +31,12 @@ describe Bill::CreateDirectReceipt do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -45,12 +45,12 @@ describe Bill::CreateDirectReceipt do
     )
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: 2.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -61,13 +61,13 @@ describe Bill::CreateDirectReceipt do
     invoice.status.paid?.should be_false
     invoice_2.status.open?.should be_true
 
-    CreateDirectReceipt.create(params(
+    CreateDirectReceipt.create(fake_params(transaction: {
       invoice_id: invoice.id,
       user_id: user.id,
       description: "New receipt",
       amount: amount,
       status: :open
-    )) do |_, transaction|
+    })) do |_, transaction|
       transaction.should be_a(Transaction)
     end
 

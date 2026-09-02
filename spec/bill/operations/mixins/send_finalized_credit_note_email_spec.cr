@@ -11,11 +11,11 @@ describe Bill::SendFinalizedCreditNoteEmail do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       description: "New credit note",
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_a(CreditNote)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -35,10 +35,10 @@ describe Bill::SendFinalizedCreditNoteEmail do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNote.update(credit_note, params(
+    SaveCreditNote.update(credit_note, fake_params(credit_note: {
       description: "New credit note",
       status: :open
-    )) do |operation, updated_credit_note|
+    })) do |operation, updated_credit_note|
       operation.saved?.should be_true
 
       updated_credit_note = CreditNoteQuery.preload_invoice(
@@ -57,9 +57,9 @@ describe Bill::SendFinalizedCreditNoteEmail do
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .status(:draft)
 
-    SaveCreditNote.update(credit_note, params(
+    SaveCreditNote.update(credit_note, fake_params(credit_note: {
       description: "Another credit note",
-    )) do |operation, updated_credit_note|
+    })) do |operation, updated_credit_note|
       operation.saved?.should be_true
 
       updated_credit_note = CreditNoteQuery.preload_invoice(
@@ -79,9 +79,9 @@ describe Bill::SendFinalizedCreditNoteEmail do
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
       .status(:open)
 
-    SaveCreditNote.update(credit_note, params(
+    SaveCreditNote.update(credit_note, fake_params(credit_note: {
       description: "Another credit note",
-    )) do |operation, updated_credit_note|
+    })) do |operation, updated_credit_note|
       operation.saved?.should be_true
 
       updated_credit_note = CreditNoteQuery.preload_invoice(

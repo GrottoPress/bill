@@ -23,7 +23,7 @@ describe Bill::SetFinalizedCreatedAt do
 
     SaveInvoice.update(
       invoice,
-      params(status: :open)
+      fake_params(invoice: {status: :open})
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
       updated_invoice.created_at.should be_close(Time.utc, 2.seconds)
@@ -41,7 +41,7 @@ describe Bill::SetFinalizedCreatedAt do
 
     SaveInvoice.update(
       invoice,
-      params(status: :open, created_at: new_created_at)
+      fake_params(invoice: {status: :open, created_at: new_created_at})
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
       updated_invoice.created_at.should eq(new_created_at)
@@ -59,7 +59,7 @@ describe Bill::SetFinalizedCreatedAt do
 
     SaveInvoice.update(
       invoice,
-      params(description: "Another invoice")
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
       updated_invoice.created_at.should eq(created_at)

@@ -8,10 +8,10 @@ end
 
 describe Bill::ValidateInvoiceItem do
   it "requires invoice id" do
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       description: "New invoice item",
       price: 222
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.invoice_id
@@ -20,11 +20,11 @@ describe Bill::ValidateInvoiceItem do
   end
 
   it "requires existing invoice" do
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: 1_i64,
       description: "New invoice item",
       price: 222
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.invoice_id
@@ -36,10 +36,10 @@ describe Bill::ValidateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       price: 222
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.description
@@ -51,10 +51,10 @@ describe Bill::ValidateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       description: "New invoice item"
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.price.should have_error("operation.error.price_required")
@@ -65,11 +65,11 @@ describe Bill::ValidateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       description: "New invoice item",
       price: 0
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.price.should have_error("operation.error.price_lte_zero")
@@ -80,12 +80,12 @@ describe Bill::ValidateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       description: "New invoice item",
       quantity: 0,
       price: 222
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.quantity
@@ -97,12 +97,12 @@ describe Bill::ValidateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    SaveInvoiceItem.create(params(
+    SaveInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       description: "d" * 600,
       quantity: 0,
       price: 222
-    )) do |operation, invoice_item|
+    })) do |operation, invoice_item|
       invoice_item.should be_nil
 
       operation.description

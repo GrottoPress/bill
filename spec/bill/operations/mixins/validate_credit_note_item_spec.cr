@@ -8,10 +8,10 @@ end
 
 describe Bill::ValidateCreditNoteItem do
   it "requires credit note id" do
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       description: "New credit note item",
       price: 1
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.credit_note_id
@@ -20,11 +20,11 @@ describe Bill::ValidateCreditNoteItem do
   end
 
   it "requires existing credit note" do
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: 1_i64,
       description: "New credit note item",
       price: 1
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.credit_note_id
@@ -34,12 +34,12 @@ describe Bill::ValidateCreditNoteItem do
 
   it "requires description" do
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -49,10 +49,10 @@ describe Bill::ValidateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       price: 1
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.description
@@ -65,10 +65,10 @@ describe Bill::ValidateCreditNoteItem do
     invoice = InvoiceFactory.create &.user_id(user.id)
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       description: "New credit note item"
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.price.should have_error("operation.error.price_required")
@@ -77,12 +77,12 @@ describe Bill::ValidateCreditNoteItem do
 
   it "requires price to be greater than 0" do
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -92,11 +92,11 @@ describe Bill::ValidateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       description: "New credit note item",
       price: 0
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.price.should have_error("operation.error.price_lte_zero")
@@ -105,12 +105,12 @@ describe Bill::ValidateCreditNoteItem do
 
   it "requires quantity to be greater than 0" do
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -120,12 +120,12 @@ describe Bill::ValidateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       description: "New credit note item",
       quantity: 0,
       price: 1
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.quantity
@@ -135,12 +135,12 @@ describe Bill::ValidateCreditNoteItem do
 
   it "ensures total credit would not exceed invoice amount" do
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
@@ -150,12 +150,12 @@ describe Bill::ValidateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       description: "New credit note item",
       quantity: 2,
       price: 3
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_false
 
       operation.id.should have_error("operation.error.credit_exceeds_invoice")
@@ -166,10 +166,10 @@ describe Bill::ValidateCreditNoteItem do
         .quantity(1)
         .price(2)
 
-    SaveCreditNoteItem.update(credit_note_item, params(
+    SaveCreditNoteItem.update(credit_note_item, fake_params(credit_note_item: {
       quantity: 2,
       price: 3
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_false
 
       operation.id.should have_error("operation.error.credit_exceeds_invoice")
@@ -181,19 +181,19 @@ describe Bill::ValidateCreditNoteItem do
       .quantity(1)
       .price(1)
 
-    SaveCreditNoteItem.update(credit_note_item, params(
+    SaveCreditNoteItem.update(credit_note_item, fake_params(credit_note_item: {
       quantity: 2,
       price: 2
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_false
 
       operation.id.should have_error("operation.error.credit_exceeds_invoice")
     end
 
-    SaveCreditNoteItem.update(credit_note_item, params(
+    SaveCreditNoteItem.update(credit_note_item, fake_params(credit_note_item: {
       quantity: 1,
       price: 3
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_true
 
       operation.id.should_not have_error
@@ -202,12 +202,12 @@ describe Bill::ValidateCreditNoteItem do
 
   it "rejects long description" do
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -217,11 +217,11 @@ describe Bill::ValidateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    SaveCreditNoteItem.create(params(
+    SaveCreditNoteItem.create(fake_params(credit_note_item: {
       description: "d" * 600,
       credit_note_id: credit_note.id,
       price: 1
-    )) do |operation, credit_note_item|
+    })) do |operation, credit_note_item|
       credit_note_item.should be_nil
 
       operation.description

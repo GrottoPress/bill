@@ -9,7 +9,7 @@ describe Bill::UpdateFinalizedReceipt do
 
     UpdateFinalizedReceipt.update(
       receipt,
-      params(description: new_description, amount: 40)
+      fake_params(receipt: {description: new_description, amount: 40})
     ) do |operation, updated_receipt|
       operation.saved?.should be_true
       updated_receipt.description.should eq(new_description)
@@ -23,7 +23,7 @@ describe Bill::UpdateFinalizedReceipt do
 
     UpdateFinalizedReceipt.update(
       receipt,
-      params(description: "Another receipt")
+      fake_params(receipt: {description: "Another receipt"})
     ) do |operation, _|
       operation.saved?.should be_false
 

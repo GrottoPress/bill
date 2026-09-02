@@ -1,6 +1,6 @@
 module Bill::ReceiptStatus
   macro included
-    __enum ReceiptStatus do
+    string_enum ReceiptStatus do
       Draft
       Open
 

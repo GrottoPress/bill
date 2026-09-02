@@ -6,12 +6,12 @@ describe Bill::CreateCreditNoteItem do
     quantity = 2
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -21,12 +21,12 @@ describe Bill::CreateCreditNoteItem do
 
     credit_note = CreditNoteFactory.create &.invoice_id(invoice.id)
 
-    CreateCreditNoteItem.create(params(
+    CreateCreditNoteItem.create(fake_params(credit_note_item: {
       credit_note_id: credit_note.id,
       description: description,
       quantity: quantity,
       price_mu: 3.33
-    )) do |_, credit_note_item|
+    })) do |_, credit_note_item|
       credit_note_item.should be_a(CreditNoteItem)
 
       # ameba:disable Lint/ShadowingOuterLocalVar

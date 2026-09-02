@@ -8,12 +8,12 @@ describe Bill::CreateInvoiceItem do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id)
 
-    CreateInvoiceItem.create(params(
+    CreateInvoiceItem.create(fake_params(invoice_item: {
       invoice_id: invoice.id,
       description: description,
       quantity: quantity,
       price_mu: 3.33
-    )) do |_, invoice_item|
+    })) do |_, invoice_item|
       invoice_item.should be_a(InvoiceItem)
 
       # ameba:disable Lint/ShadowingOuterLocalVar

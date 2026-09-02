@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Replace static foreign key methods with auto-generated association query methods
 
+### Changed
+- Bump minimum `lucille` shard version to 1.5
+
 ## [0.21.5] - 2025-10-18
 
 ### Fixed

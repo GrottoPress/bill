@@ -6,12 +6,12 @@ describe Bill::UpdateCreditNoteItem do
     new_quantity = 2
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -29,11 +29,11 @@ describe Bill::UpdateCreditNoteItem do
 
     UpdateCreditNoteItem.update(
       CreditNoteItemQuery.preload_credit_note(credit_note_item),
-      params(
+      fake_params(credit_note_item: {
         description: new_description,
         quantity: new_quantity,
         price_mu: 3.33
-      )
+      })
     ) do |operation, updated_credit_note_item|
       operation.saved?.should be_true
 

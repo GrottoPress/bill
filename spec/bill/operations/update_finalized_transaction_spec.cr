@@ -12,7 +12,7 @@ describe Bill::UpdateFinalizedTransaction do
 
     UpdateFinalizedTransaction.update(
       transaction,
-      params(description: new_description, amount: 40)
+      fake_params(transaction: {description: new_description, amount: 40})
     ) do |operation, updated_transaction|
       operation.saved?.should be_true
       updated_transaction.description.should eq(new_description)
@@ -26,7 +26,7 @@ describe Bill::UpdateFinalizedTransaction do
 
     UpdateFinalizedTransaction.update(
       transaction,
-      params(description: "Another transaction")
+      fake_params(transaction: {description: "Another transaction"})
     ) do |operation, _|
       operation.saved?.should be_false
 

@@ -8,10 +8,10 @@ end
 
 describe Bill::ValidateCreditNote do
   it "requires invoice id" do
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       description: "New credit note",
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.invoice_id
@@ -23,10 +23,10 @@ describe Bill::ValidateCreditNote do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       description: "New credit note"
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.status.should have_error("operation.error.status_required")
@@ -34,11 +34,11 @@ describe Bill::ValidateCreditNote do
   end
 
   it "requires existing invoice" do
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: 2_i64,
       description: "New credit note",
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.invoice_id
@@ -50,11 +50,11 @@ describe Bill::ValidateCreditNote do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       description: "New credit note",
       status: :draft
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.invoice_id
@@ -71,7 +71,7 @@ describe Bill::ValidateCreditNote do
 
     SaveCreditNote.update(
       credit_note,
-      params(status: :draft)
+      fake_params(credit_note: {status: :draft})
     ) do |operation, _|
       operation.saved?.should be_false
 
@@ -87,12 +87,12 @@ describe Bill::ValidateCreditNote do
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
     CreditNoteFactory.create &.invoice_id(invoice.id).reference(reference)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       description: "New credit note",
       reference: reference,
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.reference.should have_error("operation.error.reference_exists")
@@ -103,12 +103,12 @@ describe Bill::ValidateCreditNote do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       description: "d" * 600,
       reference: "123",
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.description
@@ -120,12 +120,12 @@ describe Bill::ValidateCreditNote do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    SaveCreditNote.create(params(
+    SaveCreditNote.create(fake_params(credit_note: {
       invoice_id: invoice.id,
       notes: "n" * 5000,
       reference: "123",
       status: :open
-    )) do |operation, credit_note|
+    })) do |operation, credit_note|
       credit_note.should be_nil
 
       operation.notes.should(have_error "operation.error.notes_too_long")

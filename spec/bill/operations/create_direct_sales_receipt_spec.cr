@@ -5,12 +5,12 @@ describe Bill::CreateDirectSalesReceipt do
     user = UserFactory.create
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: Time.utc,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -21,12 +21,12 @@ describe Bill::CreateDirectSalesReceipt do
     TransactionQuery.new.type(:receipt).none?.should be_true
 
     CreateDirectSalesReceipt.create(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 2.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",

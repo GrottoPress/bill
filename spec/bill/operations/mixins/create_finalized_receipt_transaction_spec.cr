@@ -26,14 +26,14 @@ describe Bill::CreateFinalizedReceiptTransaction do
   it "creates transaction for new receipt" do
     user = UserFactory.create
 
-    SpecCreateReceipt.create(params(
+    SpecCreateReceipt.create(fake_params(receipt: {
       user_id: user.id,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 65,
       status: :open,
       user_details: "Mary Smith",
-    )) do |_, receipt|
+    })) do |_, receipt|
       receipt.should be_a(Receipt)
     end
 
@@ -45,7 +45,9 @@ describe Bill::CreateFinalizedReceiptTransaction do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:draft)
 
-    SpecUpdateReceipt.update(receipt, params(status: :open)) do |operation, _|
+    SpecUpdateReceipt.update(receipt, fake_params(receipt: {
+      status: :open
+    })) do |operation, _|
       operation.saved?.should be_true
     end
 
@@ -57,9 +59,9 @@ describe Bill::CreateFinalizedReceiptTransaction do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:draft)
 
-    SpecUpdateReceipt.update(receipt, params(
+    SpecUpdateReceipt.update(receipt, fake_params(receipt: {
       description: "Another receipt",
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_true
     end
 
@@ -71,9 +73,9 @@ describe Bill::CreateFinalizedReceiptTransaction do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:open)
 
-    SpecUpdateReceipt.update(receipt, params(
+    SpecUpdateReceipt.update(receipt, fake_params(receipt: {
       description: "Another receipt",
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_true
     end
 

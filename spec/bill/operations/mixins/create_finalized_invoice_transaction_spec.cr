@@ -5,14 +5,14 @@ describe Bill::CreateFinalizedInvoiceTransaction do
     user = UserFactory.create
 
     CreateInvoice.create(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         business_details: "ACME Inc",
         description: "New invoice",
         due_at: 3.days.from_now.to_utc,
         status: :open,
         user_details: "Mary Smith"
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
@@ -33,7 +33,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateInvoice.update(
       invoice,
-      params(status: :open),
+      fake_params(invoice: {status: :open}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_true
@@ -50,7 +50,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateInvoice.update(
       invoice,
-      params(description: "Another invoice"),
+      fake_params(invoice: {description: "Another invoice"}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_true
@@ -67,7 +67,7 @@ describe Bill::CreateFinalizedInvoiceTransaction do
 
     UpdateFinalizedInvoice.update(
       invoice,
-      params(description: "Another invoice"),
+      fake_params(invoice: {description: "Another invoice"}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_true

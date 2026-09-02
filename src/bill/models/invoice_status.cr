@@ -1,6 +1,6 @@
 module Bill::InvoiceStatus
   macro included
-    __enum InvoiceStatus do
+    string_enum InvoiceStatus do
       Draft
       Open
       Paid

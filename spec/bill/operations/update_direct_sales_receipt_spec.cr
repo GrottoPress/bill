@@ -5,12 +5,12 @@ describe Bill::UpdateDirectSalesReceipt do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 2.days.from_now,
         status: :draft
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",
@@ -19,12 +19,12 @@ describe Bill::UpdateDirectSalesReceipt do
     )
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: Time.utc,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -36,7 +36,7 @@ describe Bill::UpdateDirectSalesReceipt do
 
     UpdateDirectSalesReceipt.update(
       invoice,
-      params(status: :open),
+      fake_params(invoice: {status: :open}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_invoice|
       operation.saved?.should be_true

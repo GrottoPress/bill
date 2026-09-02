@@ -21,11 +21,11 @@ describe Bill::UpdateCreditNote do
 
     UpdateCreditNote.update(
       credit_note,
-      params(
+      fake_params(credit_note: {
         invoice_id: new_invoice.id,
         description: new_description,
         notes: new_notes
-      ),
+      }),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_credit_note|
       operation.saved?.should be_true
@@ -41,12 +41,12 @@ describe Bill::UpdateCreditNote do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -66,12 +66,12 @@ describe Bill::UpdateCreditNote do
       CreditNoteItemFactory.create &.credit_note_id(credit_note.id).price(6)
 
     new_invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -85,12 +85,12 @@ describe Bill::UpdateCreditNote do
 
     UpdateCreditNote.update(
       credit_note,
-      params(
+      fake_params(credit_note: {
         invoice_id: new_invoice.id,
         description: new_description,
         notes: new_notes,
         status: new_status
-      ),
+      }),
       line_items: [
         {"id" => credit_note_item.id.to_s, "price" => "12"},
         {"id" => credit_note_item_2.id.to_s, "quantity" => "0"},
@@ -123,7 +123,7 @@ describe Bill::UpdateCreditNote do
 
     UpdateCreditNote.update(
       credit_note,
-      params(description: "Another credit note"),
+      fake_params(credit_note: {description: "Another credit note"}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_false

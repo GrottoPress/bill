@@ -12,13 +12,13 @@ describe Bill::CreateReceipt do
     TransactionQuery.new.none?.should be_true
 
     CreateReceipt.create(
-      params(
+      fake_params(receipt: {
         user_id: user.id,
         description: description,
         amount: amount,
         notes: notes,
         status: status
-      ),
+      }),
       reference: "1401"
     ) do |_, receipt|
       receipt.should be_a(Receipt)
@@ -46,12 +46,12 @@ describe Bill::CreateReceipt do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -60,12 +60,12 @@ describe Bill::CreateReceipt do
     )
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: 2.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -76,13 +76,13 @@ describe Bill::CreateReceipt do
     invoice.status.paid?.should be_false
     invoice_2.status.open?.should be_true
 
-    CreateReceipt.create(params(
+    CreateReceipt.create(fake_params(receipt: {
       invoice_id: invoice.id,
       user_id: user.id,
       description: "New receipt",
       amount: amount,
       status: :open
-    )) do |_, receipt|
+    })) do |_, receipt|
       receipt.should be_a(Receipt)
     end
 

@@ -14,14 +14,14 @@ end
 
 describe Bill::SendFinalizedReceiptEmail do
   it "sends email for new receipts" do
-    SaveReceipt.create(params(
+    SaveReceipt.create(fake_params(receipt: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New receipt",
       amount: 29,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_a(Receipt)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -36,10 +36,10 @@ describe Bill::SendFinalizedReceiptEmail do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:draft)
 
-    SaveReceipt.update(receipt, params(
+    SaveReceipt.update(receipt, fake_params(receipt: {
       description: "Another receipt",
       status: :open
-    )) do |operation, updated_receipt|
+    })) do |operation, updated_receipt|
       operation.saved?.should be_true
 
       updated_receipt = ReceiptQuery.preload_user(updated_receipt)
@@ -51,9 +51,9 @@ describe Bill::SendFinalizedReceiptEmail do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:draft)
 
-    SaveReceipt.update(receipt, params(
+    SaveReceipt.update(receipt, fake_params(receipt: {
       description: "Another receipt",
-    )) do |operation, updated_receipt|
+    })) do |operation, updated_receipt|
       operation.saved?.should be_true
 
       updated_receipt = ReceiptQuery.preload_user(updated_receipt)
@@ -65,9 +65,9 @@ describe Bill::SendFinalizedReceiptEmail do
     user = UserFactory.create
     receipt = ReceiptFactory.create &.user_id(user.id).status(:open)
 
-    SaveReceipt.update(receipt, params(
+    SaveReceipt.update(receipt, fake_params(receipt: {
       description: "Another receipt",
-    )) do |operation, updated_receipt|
+    })) do |operation, updated_receipt|
       operation.saved?.should be_true
 
       updated_receipt = ReceiptQuery.preload_user(updated_receipt)

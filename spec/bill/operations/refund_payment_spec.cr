@@ -8,7 +8,11 @@ describe Bill::RefundPayment do
     user = UserFactory.create
 
     RefundPayment.create(
-      params(user_id: user.id, description: description, amount: amount),
+      fake_params(transaction: {
+        user_id: user.id,
+        description: description,
+        amount: amount
+      }),
       receipt: nil
     ) do |_, transaction|
       transaction.should be_a(Transaction)
@@ -34,7 +38,7 @@ describe Bill::RefundPayment do
         .status(:open)
 
       RefundPayment.create(
-        params(description: description),
+        fake_params(transaction: {description: description}),
         receipt: receipt
       ) do |_, transaction|
         transaction.should be_a(Transaction)
@@ -69,7 +73,7 @@ describe Bill::RefundPayment do
         .status(:open)
 
       RefundPayment.create(
-        params(amount: 55),
+        fake_params(transaction: {amount: 55}),
         receipt: receipt
       ) do |operation, _|
         operation.saved?.should be_false

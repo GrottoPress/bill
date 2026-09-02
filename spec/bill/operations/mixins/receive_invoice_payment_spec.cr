@@ -6,12 +6,12 @@ describe Bill::ReceiveInvoicePayment do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :draft
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -19,13 +19,13 @@ describe Bill::ReceiveInvoicePayment do
       }]
     )
 
-    CreateReceipt.create(params(
+    CreateReceipt.create(fake_params(receipt: {
       invoice_id: invoice.id,
       user_id: user.id,
       description: "New invoice",
       amount: amount,
       status: :open
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
       operation.invoice_id.should have_error("operation.error.invoice_not_open")
     end
@@ -35,12 +35,12 @@ describe Bill::ReceiveInvoicePayment do
     user = UserFactory.create
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -48,13 +48,13 @@ describe Bill::ReceiveInvoicePayment do
       }]
     )
 
-    CreateReceipt.create(params(
+    CreateReceipt.create(fake_params(receipt: {
       invoice_id: invoice.id,
       user_id: user.id,
       description: "New invoice",
       amount: 100,
       status: :open
-    )) do |operation, receipt|
+    })) do |operation, receipt|
       receipt.should be_nil
 
       operation.amount

@@ -20,12 +20,12 @@ describe Bill::UpdateInvoice do
 
     UpdateInvoice.update(
       invoice,
-      params(
+      fake_params(invoice: {
         user_id: new_user.id,
         description: new_description,
         due_at: new_due_at,
         notes: new_notes
-      ),
+      }),
       line_items: Array(Hash(String, String)).new
     ) do |operation, updated_invoice|
       operation.saved?.should be_true
@@ -58,13 +58,13 @@ describe Bill::UpdateInvoice do
 
     UpdateInvoice.update(
       invoice,
-      params(
+      fake_params(invoice: {
         user_id: new_user.id,
         description: new_description,
         due_at: new_due_at,
         notes: new_notes,
         status: new_status
-      ),
+      }),
       line_items: [
         {"id" => invoice_item.id.to_s, "price" => "12"},
         {"id" => invoice_item_2.id.to_s, "price" => "0"},
@@ -92,7 +92,7 @@ describe Bill::UpdateInvoice do
 
     UpdateInvoice.update(
       invoice,
-      params(description: "Another invoice"),
+      fake_params(invoice: {description: "Another invoice"}),
       line_items: Array(Hash(String, String)).new
     ) do |operation, _|
       operation.saved?.should be_false

@@ -15,14 +15,14 @@ describe Bill::UpdateDirectReceipt do
     new_amount = 45
     new_status = TransactionStatus.new(:open)
 
-    UpdateDirectReceipt.update(transaction, params(
+    UpdateDirectReceipt.update(transaction, fake_params(transaction: {
       user_id: new_user.id,
       amount: new_amount,
       credit: false,
       description: new_description,
       status: new_status,
       type: :invoice
-    )) do |operation, updated_transaction|
+    })) do |operation, updated_transaction|
       operation.saved?.should be_true
 
       updated_transaction.amount.should eq(-new_amount)
@@ -42,12 +42,12 @@ describe Bill::UpdateDirectReceipt do
       .type(:receipt)
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -56,12 +56,12 @@ describe Bill::UpdateDirectReceipt do
     )
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: 2.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -72,10 +72,10 @@ describe Bill::UpdateDirectReceipt do
     invoice.status.paid?.should be_false
     invoice_2.status.open?.should be_true
 
-    UpdateDirectReceipt.update(transaction, params(
+    UpdateDirectReceipt.update(transaction, fake_params(transaction: {
       invoice_id: invoice.id,
       status: :open,
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_true
     end
 

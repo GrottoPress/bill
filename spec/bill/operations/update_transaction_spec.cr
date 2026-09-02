@@ -16,14 +16,14 @@ describe Bill::UpdateTransaction do
     new_status = TransactionStatus.new(:open)
     new_type = TransactionType.new(:receipt)
 
-    UpdateTransaction.update(transaction, params(
+    UpdateTransaction.update(transaction, fake_params(transaction: {
       user_id: new_user.id,
       amount: new_amount,
       credit: false,
       description: new_description,
       status: new_status,
       type: new_type
-    )) do |operation, updated_transaction|
+    })) do |operation, updated_transaction|
       operation.saved?.should be_true
 
       updated_transaction.amount.should eq(new_amount)
@@ -40,7 +40,7 @@ describe Bill::UpdateTransaction do
 
     UpdateTransaction.update(
       transaction,
-      params(description: "Another transaction")
+      fake_params(transaction: {description: "Another transaction"})
     ) do |operation, _|
       operation.saved?.should be_false
 

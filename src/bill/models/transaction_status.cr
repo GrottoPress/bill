@@ -1,6 +1,6 @@
 module Bill::TransactionStatus
   macro included
-    __enum TransactionStatus do
+    string_enum TransactionStatus do
       Draft
       Open
 

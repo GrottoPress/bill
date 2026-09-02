@@ -10,13 +10,13 @@ end
 
 describe Bill::SendFinalizedDirectReceiptEmail do
   it "sends email for new receipts" do
-    SaveTransaction.create(params(
+    SaveTransaction.create(fake_params(transaction: {
       user_id: UserFactory.create.id,
       description: "New receipt",
       amount: 65,
       type: :receipt,
       status: :open
-    )) do |operation, transaction|
+    })) do |operation, transaction|
       transaction.should be_a(Transaction)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -34,10 +34,10 @@ describe Bill::SendFinalizedDirectReceiptEmail do
       .type(:receipt)
       .status(:draft)
 
-    SaveTransaction.update(transaction, params(
+    SaveTransaction.update(transaction, fake_params(transaction: {
       description: "Another receipt",
       status: :open
-    )) do |operation, updated_transaction|
+    })) do |operation, updated_transaction|
       operation.saved?.should be_true
 
       updated_transaction = TransactionQuery.preload_user(updated_transaction)
@@ -48,13 +48,13 @@ describe Bill::SendFinalizedDirectReceiptEmail do
   end
 
   it "does not send email if transaction type is not receipt" do
-    SaveTransaction.create(params(
+    SaveTransaction.create(fake_params(transaction: {
       user_id: UserFactory.create.id,
       description: "New credit note",
       amount: 65,
       type: :credit_note,
       status: :open
-    )) do |operation, transaction|
+    })) do |operation, transaction|
       transaction.should be_a(Transaction)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -71,9 +71,9 @@ describe Bill::SendFinalizedDirectReceiptEmail do
     user = UserFactory.create
     transaction = TransactionFactory.create &.user_id(user.id).status(:draft)
 
-    SaveTransaction.update(transaction, params(
+    SaveTransaction.update(transaction, fake_params(transaction: {
       description: "Another receipt",
-    )) do |operation, updated_transaction|
+    })) do |operation, updated_transaction|
       operation.saved?.should be_true
 
       updated_transaction = TransactionQuery.preload_user(updated_transaction)
@@ -87,9 +87,9 @@ describe Bill::SendFinalizedDirectReceiptEmail do
     user = UserFactory.create
     transaction = TransactionFactory.create &.user_id(user.id).status(:open)
 
-    SaveTransaction.update(transaction, params(
+    SaveTransaction.update(transaction, fake_params(transaction: {
       description: "Another receipt",
-    )) do |operation, updated_transaction|
+    })) do |operation, updated_transaction|
       operation.saved?.should be_true
 
       updated_transaction = TransactionQuery.preload_user(updated_transaction)

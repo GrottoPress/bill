@@ -10,13 +10,13 @@ describe Bill::CreateInvoice do
     user = UserFactory.create
 
     CreateInvoice.create(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: description,
         due_at: due_at,
         notes: notes,
         status: status
-      ),
+      }),
       counter: 34567,
       line_items: Array(Hash(String, String)).new
     ) do |_, invoice|
@@ -43,13 +43,13 @@ describe Bill::CreateInvoice do
     user = UserFactory.create
 
     CreateInvoice.create(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: description,
         due_at: due_at,
         notes: notes,
         status: status
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",

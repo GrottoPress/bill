@@ -1,6 +1,6 @@
 module Bill::CreditNoteStatus
   macro included
-    __enum CreditNoteStatus do
+    string_enum CreditNoteStatus do
       Draft
       Open
 

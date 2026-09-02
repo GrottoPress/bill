@@ -24,13 +24,13 @@ describe Bill::ValidateParentOperation do
 
     SaveInvoice.update(
       invoice,
-      params(description: "Another invoice")
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_true
 
       SaveInvoiceItem.update(
         invoice_item,
-        params(description: "Another invoice item"),
+        fake_params(invoice_item: {description: "Another invoice item"}),
         parent: operation
       ) do |_operation, _|
         _operation.saved?.should be_false
@@ -49,13 +49,13 @@ describe Bill::ValidateParentOperation do
 
     SaveInvoice.update(
       invoice,
-      params(description: "Another invoice")
+      fake_params(invoice: {description: "Another invoice"})
     ) do |operation, _|
       operation.saved?.should be_true
 
       SaveInvoiceItem.update(
         invoice_item,
-        params(description: "Another invoice item"),
+        fake_params(invoice_item: {description: "Another invoice item"}),
         parent: operation
       ) do |_operation, _|
         _operation.saved?.should be_false

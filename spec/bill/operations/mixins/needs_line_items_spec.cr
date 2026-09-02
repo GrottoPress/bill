@@ -17,13 +17,13 @@ describe Bill::NeedsLineItems do
     user = UserFactory.create
 
     SaveInvoice.create(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         business_details: "ACME Inc",
         description: "New Invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",

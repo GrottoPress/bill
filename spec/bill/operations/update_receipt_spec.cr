@@ -19,13 +19,13 @@ describe Bill::UpdateReceipt do
 
     TransactionQuery.new.none?.should be_true
 
-    UpdateReceipt.update(receipt, params(
+    UpdateReceipt.update(receipt, fake_params(receipt: {
       user_id: new_user.id,
       description: new_description,
       amount: new_amount,
       notes: new_notes,
       status: new_status
-    )) do |operation, updated_receipt|
+    })) do |operation, updated_receipt|
       operation.saved?.should be_true
 
       updated_receipt.user_id.should eq(new_user.id)
@@ -50,7 +50,7 @@ describe Bill::UpdateReceipt do
 
     UpdateReceipt.update(
       receipt,
-      params(description: "Another receipt")
+      fake_params(receipt: {description: "Another receipt"})
     ) do |operation, _|
       operation.saved?.should be_false
 
@@ -65,12 +65,12 @@ describe Bill::UpdateReceipt do
     receipt = ReceiptFactory.create &.user_id(user.id).amount(amount)
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -79,12 +79,12 @@ describe Bill::UpdateReceipt do
     )
 
     invoice_2 = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: user.id,
         description: "Another invoice",
         due_at: 2.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -95,10 +95,10 @@ describe Bill::UpdateReceipt do
     invoice.status.paid?.should be_false
     invoice_2.status.open?.should be_true
 
-    UpdateReceipt.update(receipt, params(
+    UpdateReceipt.update(receipt, fake_params(receipt: {
       invoice_id: invoice.id,
       status: :open
-    )) do |operation, _|
+    })) do |operation, _|
       operation.saved?.should be_true
     end
 

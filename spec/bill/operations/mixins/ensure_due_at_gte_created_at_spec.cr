@@ -14,14 +14,14 @@ end
 
 describe Bill::EnsureDueAtGteCreatedAt do
   it "ensures due date is never earlier than created date" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New Invoice",
       due_at: 10.days.ago,
       status: :draft,
       user_details: "Mary Smith"
-    )) do |_, invoice|
+    })) do |_, invoice|
       invoice.should be_a(Invoice)
 
       # ameba:disable Lint/ShadowingOuterLocalVar

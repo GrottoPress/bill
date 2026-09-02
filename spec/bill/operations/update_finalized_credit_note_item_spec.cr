@@ -19,11 +19,11 @@ describe Bill::UpdateFinalizedCreditNoteItem do
 
     UpdateFinalizedCreditNoteItem.update(
       CreditNoteItemQuery.preload_credit_note(credit_note_item),
-      params(
+      fake_params(credit_note_item: {
         description: new_description,
         quantity: 2,
         price_mu: 3.33
-      )
+      })
     ) do |operation, updated_credit_note_item|
       operation.saved?.should be_true
 

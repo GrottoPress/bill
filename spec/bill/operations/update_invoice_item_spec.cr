@@ -15,11 +15,11 @@ describe Bill::UpdateInvoiceItem do
 
     UpdateInvoiceItem.update(
       InvoiceItemQuery.preload_invoice(invoice_item),
-      params(
+      fake_params(invoice_item: {
         description: new_description,
         quantity: new_quantity,
         price_mu: 3.33
-      )
+      })
     ) do |operation, updated_invoice_item|
       operation.saved?.should be_true
 

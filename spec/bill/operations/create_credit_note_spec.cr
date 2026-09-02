@@ -11,12 +11,12 @@ describe Bill::CreateCreditNote do
     InvoiceItemFactory.create &.invoice_id(invoice.id).price(999)
 
     CreateCreditNote.create(
-      params(
+      fake_params(credit_note: {
         invoice_id: invoice.id,
         description: description,
         notes: notes,
         status: status
-      ),
+      }),
       counter: 15,
       line_items: Array(Hash(String, String)).new
     ) do |_, credit_note|
@@ -39,12 +39,12 @@ describe Bill::CreateCreditNote do
     status = CreditNoteStatus.new(:open)
 
     invoice = CreateInvoice.create!(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "1",
@@ -53,12 +53,12 @@ describe Bill::CreateCreditNote do
     )
 
     CreateCreditNote.create(
-      params(
+      fake_params(credit_note: {
         invoice_id: invoice.id,
         description: description,
         notes: notes,
         status: status
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",

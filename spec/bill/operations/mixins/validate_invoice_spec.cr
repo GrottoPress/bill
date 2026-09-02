@@ -15,13 +15,13 @@ end
 
 describe Bill::ValidateInvoice do
   it "requires user id" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       business_details: "ACME Inc",
       description: "New invoice",
       due_at: 1.day.from_now,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.user_id.should have_error("operation.error.user_id_required")
@@ -29,12 +29,12 @@ describe Bill::ValidateInvoice do
   end
 
   it "requires due date" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.due_at.should have_error("operation.error.due_at_required")
@@ -42,12 +42,12 @@ describe Bill::ValidateInvoice do
   end
 
   it "requires status" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New invoice",
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.status.should have_error("operation.error.status_required")
@@ -55,12 +55,12 @@ describe Bill::ValidateInvoice do
   end
 
   it "requires business details" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       description: "New invoice",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.business_details
@@ -69,12 +69,12 @@ describe Bill::ValidateInvoice do
   end
 
   it "requires user details" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New invoice",
       status: :draft
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.user_details
@@ -83,14 +83,14 @@ describe Bill::ValidateInvoice do
   end
 
   it "requires existing user" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: 2_i64,
       business_details: "ACME Inc",
       description: "New invoice",
       due_at: 1.day.from_now,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.user_id.should have_error("operation.error.user_not_found")
@@ -103,7 +103,7 @@ describe Bill::ValidateInvoice do
 
     SaveInvoice.update(
       invoice,
-      params(status: :draft)
+      fake_params(invoice: {status: :draft})
     ) do |operation, _|
       operation.saved?.should be_false
 
@@ -118,7 +118,7 @@ describe Bill::ValidateInvoice do
     user = UserFactory.create
     InvoiceFactory.create &.user_id(user.id).reference(reference)
 
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: user.id,
       business_details: "ACME Inc",
       description: "New invoice",
@@ -126,7 +126,7 @@ describe Bill::ValidateInvoice do
       reference: reference,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.reference.should have_error("operation.error.reference_exists")
@@ -136,7 +136,7 @@ describe Bill::ValidateInvoice do
   it "rejects long description" do
     user = UserFactory.create
 
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: user.id,
       business_details: "ACME Inc",
       description: "d" * 600,
@@ -144,7 +144,7 @@ describe Bill::ValidateInvoice do
       reference: "123",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.description
@@ -155,7 +155,7 @@ describe Bill::ValidateInvoice do
   it "rejects long notes" do
     user = UserFactory.create
 
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: user.id,
       business_details: "ACME Inc",
       due_at: 1.day.from_now,
@@ -163,7 +163,7 @@ describe Bill::ValidateInvoice do
       reference: "123",
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_nil
 
       operation.notes.should(have_error "operation.error.notes_too_long")

@@ -3,12 +3,12 @@ require "../../../spec_helper"
 describe Bill::FinalizeInvoiceTotals do
   it "updates totals" do
     CreateInvoice.create(
-      params(
+      fake_params(invoice: {
         user_id: UserFactory.create.id,
         description: "New invoice",
         due_at: 3.days.from_now,
         status: :open
-      ),
+      }),
       line_items: [{
         "description" => "Item 1",
         "quantity" => "2",

@@ -14,14 +14,14 @@ end
 
 describe Bill::SendFinalizedInvoiceEmail do
   it "sends email for new invoices" do
-    SaveInvoice.create(params(
+    SaveInvoice.create(fake_params(invoice: {
       user_id: UserFactory.create.id,
       business_details: "ACME Inc",
       description: "New Invoice",
       due_at: 2.days.from_now,
       status: :open,
       user_details: "Mary Smith"
-    )) do |operation, invoice|
+    })) do |operation, invoice|
       invoice.should be_a(Invoice)
 
       # ameba:disable Lint/ShadowingOuterLocalVar
@@ -36,10 +36,10 @@ describe Bill::SendFinalizedInvoiceEmail do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
 
-    SaveInvoice.update(invoice, params(
+    SaveInvoice.update(invoice, fake_params(invoice: {
       description: "New Invoice",
       status: :open
-    )) do |operation, updated_invoice|
+    })) do |operation, updated_invoice|
       operation.saved?.should be_true
 
       updated_invoice = InvoiceQuery.preload_user(updated_invoice)
@@ -51,9 +51,9 @@ describe Bill::SendFinalizedInvoiceEmail do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:draft)
 
-    SaveInvoice.update(invoice, params(
+    SaveInvoice.update(invoice, fake_params(invoice: {
       description: "New Invoice",
-    )) do |operation, updated_invoice|
+    })) do |operation, updated_invoice|
       operation.saved?.should be_true
 
       updated_invoice = InvoiceQuery.preload_user(updated_invoice)
@@ -65,9 +65,9 @@ describe Bill::SendFinalizedInvoiceEmail do
     user = UserFactory.create
     invoice = InvoiceFactory.create &.user_id(user.id).status(:open)
 
-    SaveInvoice.update(invoice, params(
+    SaveInvoice.update(invoice, fake_params(invoice: {
       description: "Another invoice"
-    )) do |operation, updated_invoice|
+    })) do |operation, updated_invoice|
       operation.saved?.should be_true
 
       updated_invoice = InvoiceQuery.preload_user(updated_invoice)

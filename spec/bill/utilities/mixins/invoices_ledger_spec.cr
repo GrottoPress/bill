@@ -80,12 +80,12 @@ describe Bill::InvoicesLedger do
       user = UserFactory.create
 
       invoice = CreateInvoice.create!(
-        params(
+        fake_params(invoice: {
           user_id: user.id,
           description: "New invoice",
           due_at: 3.days.from_now,
           status: :open
-        ),
+        }),
         line_items: [{
           "description" => "Item 1",
           "quantity" => "1",
@@ -93,12 +93,12 @@ describe Bill::InvoicesLedger do
         }]
       )
 
-      CreateReceipt.create(params(
+      CreateReceipt.create(fake_params(receipt: {
         user_id: user.id,
         description: "New receipt",
         amount: 200,
         status: :open
-      )) do |_, receipt|
+      })) do |_, receipt|
         receipt.should be_a(Receipt)
       end
 
@@ -112,11 +112,11 @@ describe Bill::InvoicesLedger do
       user.over_owes!.should be_nil
 
       CreateCreditNote.create(
-        params(
+        fake_params(credit_note: {
           invoice_id: invoice.id,
           description: "New credit note",
           status: :open
-        ),
+        }),
         line_items: [{
           "description" => "Item 1",
           "quantity" => "1",
@@ -136,12 +136,12 @@ describe Bill::InvoicesLedger do
       user.over_owes!.should be_nil
 
       CreateInvoice.create(
-        params(
+        fake_params(invoice: {
           user_id: user.id,
           description: "New invoice",
           due_at: 2.days.ago,
           status: :open
-        ),
+        }),
         created_at: 3.days.ago,
         line_items: [{
           "description" => "Item 1",

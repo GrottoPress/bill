@@ -9,14 +9,14 @@ describe Bill::CreateTransaction do
     receipt_id = 4
 
     CreateTransaction.create(
-      params(
+      fake_params(transaction: {
         user_id: user.id,
         credit: true,
         description: description,
         amount: amount,
         source: receipt_id,
         type: :receipt
-      ),
+      }),
       counter: 467
     ) do |_, transaction|
       transaction.should be_a(Transaction)
@@ -41,14 +41,14 @@ describe Bill::CreateTransaction do
     invoice_id = 4
 
     CreateTransaction.create(
-      params(
+      fake_params(transaction: {
         user_id: user.id,
         credit: false,
         description: description,
         amount: amount,
         source: invoice_id,
         type: :invoice
-      ),
+      }),
       counter: 467
     ) do |_, transaction|
       transaction.should be_a(Transaction)
